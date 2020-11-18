@@ -5,6 +5,21 @@
          version="4.0">
     <display-name>Webapp template</display-name>
 
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Cupcake</web-resource-name>
+            <url-pattern>/cupcake/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+
+        <user-data-constraint>
+            <!--      <transport-guarantee>CONFIDENTIAL</transport-guarantee>-->
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+
+    </security-constraint>
+
     <jsp-config>
         <jsp-property-group>
             <url-pattern>*.jsp</url-pattern>
