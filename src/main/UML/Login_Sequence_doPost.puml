@@ -1,0 +1,47 @@
+@startuml
+
+autonumber
+Title Login Sequence POST
+actor customer
+
+boundary Tomcat
+
+customer -> Tomcat:POST /Login
+
+box entries (UI)
+Tomcat -> Login: doPost()
+end box
+
+
+
+box api (logic)
+Login -> api:login(email, password)
+end box
+
+'box domain (interface)
+'api -> userServices:login(email)
+'end box
+
+box infrastructure
+api -> DBUserServices:login(email)
+database DB
+DBUserServices -> DB:executeQuery()
+end box
+
+
+
+
+
+DB --> DBUserServices:result (User)
+DBUserServices --> api:result
+'DBUserServices --> userServices:result
+'userServices --> api:result
+api -> api: validate User
+api -> api: validate Password
+api --> Login: result
+Login --> customer:OK Session=User + redirect
+
+
+
+
+@enduml

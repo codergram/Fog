@@ -1,0 +1,33 @@
+@startuml
+Title Use Case
+left to right direction
+
+actor customer
+actor admin
+
+rectangle webshop {
+    customer -- (Choose product)
+    customer -- (Edit cart)
+    customer -- (View cart)
+    customer -- (Buy product)
+    customer -- (Login)
+    customer -- (Logout)
+    (Buy product) -- (Choose payment)
+    (Buy product) -- (Choose delivery)
+    (Buy product) -- (Choose extra info)
+
+    customer -- (View order)
+    customer -- (View customer profile)
+
+    admin -- (View customer profile)
+    admin -- (Edit customer)
+    admin -- (Delete customer)
+    admin -- (View order)
+    admin -- (View orders)
+    admin -- (Edit order)
+    admin -- (Delete order)
+    admin -- (Login)
+    admin -- (Logout)
+}
+
+@enduml

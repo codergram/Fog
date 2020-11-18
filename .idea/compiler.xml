@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="WebApp Template" />
         <module name="fog" />
+        <module name="webapptemplate" />
       </profile>
     </annotationProcessing>
   </component>
@@ -15,6 +16,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="WebApp Template" options="-endorseddirs &quot;$PROJECT_DIR$/target/endorsed&quot;" />
       <module name="fog" options="-endorseddirs $PROJECT_DIR$/target/endorsed" />
+      <module name="webapptemplate" options="-endorseddirs $PROJECT_DIR$/target/endorsed" />
     </option>
   </component>
 </project>

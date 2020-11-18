@@ -1,0 +1,87 @@
+@startuml
+Title Navigation Diagram
+
+state index.jsp
+state login.jsp
+state register.jsp
+
+note top of login.jsp
+Username, role and credit
+stored in session
+end note
+
+note top of register.jsp
+Username, role and credit
+stored in session
+end note
+
+[*] --> index.jsp: Start position
+index.jsp -right-> product_view.jsp
+index.jsp -right-> show_cart.jsp:Checkout if cart > 0
+index.jsp -left-> login.jsp
+index.jsp -left-> register.jsp
+login.jsp --> login.jsp:error
+
+register.jsp -> register.jsp:error
+
+
+
+
+
+product_view.jsp --> product_page.jsp
+product_page.jsp --> product_view.jsp:Choose more
+product_page.jsp --> index.jsp
+product_page.jsp --> show_cart.jsp
+
+show_cart.jsp --> login_register.jsp:If not logged in
+login_register.jsp --> login_register.jsp:error
+
+
+'index.jsp --> login.jsp: log på
+'login.jsp --> LoggedOn: log på  [ok]
+'login.jsp --> login.jsp: log på [fejl]
+'
+state LoggedOn {
+'    state adminpage.jsp
+'    state profilepage.jsp
+'    state checkout.jsp
+'    [*]-->admin.jsp
+  login.jsp --> adminpage.jsp
+  login.jsp --> profilepage.jsp
+  register.jsp --> profilepage.jsp
+  login_register.jsp --> checkout.jsp
+  show_cart.jsp --> checkout.jsp:If logged in
+
+  checkout.jsp --> thank_you_for_your_order.jsp:Choose credit & shipping
+  thank_you_for_your_order.jsp --> profilepage.jsp
+
+
+    state customerArea{
+        profilepage.jsp ---> view_Profile.jsp
+        profilepage.jsp ---> allorderscustomer.jsp
+        allorderscustomer.jsp --> view_order.jsp
+    }
+
+    state adminArea{
+    '    state createUser.jsp
+
+        adminpage.jsp -----> addCustomer.jsp
+        adminpage.jsp -----> allCustomers.jsp
+        adminpage.jsp -----> allOrders.jsp
+
+        allCustomers.jsp ---> viewCustomer.jsp
+        allCustomers.jsp ---> editCustomer.jsp
+        allCustomers.jsp ---> deleteCustomer.jsp
+
+        viewCustomer.jsp --> allordersfromcustomeradminpage.jsp
+
+        allordersfromcustomeradminpage.jsp --> viewOrder.jsp
+        allOrders.jsp --> viewOrder.jsp
+    }
+
+}
+
+
+
+
+@enduml

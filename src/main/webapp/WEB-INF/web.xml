@@ -46,6 +46,13 @@
         <location>/WEB-INF/errorpages/error.jsp</location>
     </error-page>
 
+<!--    Error 404-->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/404.jsp</location>
+    </error-page>
+<!--    Error 404-->
+
     <session-config>
         <session-timeout>
             30

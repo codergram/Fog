@@ -1,0 +1,80 @@
+@startuml
+Title Domian Model
+
+hide circle
+hide methods
+
+class User {
+    id
+    email
+    role
+    credit
+    salt
+    secret
+}
+
+class Item {
+    id
+    name
+    description
+    price
+    image
+}
+
+class Topping {
+    id
+    name
+    price
+}
+
+class Bottom {
+    id
+    name
+    price
+}
+
+class Cart_item {
+    Item
+    Topping
+    Bottom
+    qty
+    subtotal
+}
+
+class Cart {
+    Cart_item
+}
+
+
+class Shipping {
+    address
+    zip
+    city
+}
+
+class Order {
+    id
+    payment_option
+    info
+    time
+    total
+    shipping_option
+    status
+    active
+    User
+    Shipping
+    Cart
+}
+
+Order "*" -- "1" Shipping
+Order "*" -- "1" User
+Order "*" -- "1" Cart
+Cart "1" -- "*" Cart_item
+Cart_item "*" -- "1" Topping
+Cart_item "*" -- "1" Bottom
+Cart_item "*" -- "1" Item
+
+
+
+
+@enduml

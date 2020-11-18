@@ -1,14 +1,12 @@
 package api;
 
 public class Utils {
-    /**
-     * @param src String to be stripped
-     * @return String without HTML tags
-     */
-    public static String removeHtml(String src) {
-        /*
-         * Tak https://www.tutorialspoint.com/how-to-remove-the-html-tags-from-a-given-string-in-java
-         */
-        return src.replaceAll("\\<.*?\\>", "");
+    public static String encodeHtml(String src) {
+        return src.replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace("\"", "&quot;")
+                .replace("'", "&#x27;")
+                .replace("/", "&#x2F;");
     }
 }

@@ -1,0 +1,22 @@
+@startuml
+
+autonumber
+Title Login Sequence GET
+actor customer
+
+boundary Tomcat
+
+customer -> Tomcat:GET /
+
+
+box entries (UI)
+Tomcat -> Login:doGet()
+
+Login -> BaseServlet:render()
+
+BaseServlet -> login.jsp:forward()
+end box
+
+login.jsp --> customer:result
+
+@enduml

@@ -1,0 +1,47 @@
+@startuml
+
+autonumber
+Title Login Sequence
+actor customer
+
+boundary index.jsp
+
+customer -> index.jsp: start
+'== Initialization ==
+
+box entries/UI (servlet)
+index.jsp -> login.jsp:doGet()
+
+login.jsp -> Login: doPost()
+end box
+
+
+box api (logic)
+Login -> api:login(email, password)
+end box
+
+box domain (interface)
+api -> userServices:login(email)
+end box
+
+box infrastructure
+userServices -> DBUserServices:login(email)
+end box
+
+database DB
+'== Validation user ==
+DBUserServices -> DB:executeQuery()
+
+
+
+DB --> DBUserServices:Result
+DBUserServices --> userServices:Result
+userServices --> api:Result
+'== Exception og keep validating user ==
+api --> Login
+Login --> login.jsp:Return User object if OK (Get)
+'== Validation complete, return User and redirect ==
+login.jsp -> customer:Redirect to profilepage (user session) (Get)
+
+
+@enduml

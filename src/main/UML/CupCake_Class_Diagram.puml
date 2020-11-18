@@ -1,0 +1,120 @@
+@startuml
+Title Mini Class Diagram (Onion)
+
+hide circle
+
+package core <<Rectangle>> {
+    class User {
+        int id
+        String email
+        String role
+        double credit
+        byte[] salt
+        byte[] secret
+        User withId(user_id)
+        int getId()
+        String getUserEmail()
+        String getUserRole()
+        double getUser_credit()
+        byte[] getSalt()
+        byte[] getSecret()
+        void setUser_credit()
+        void generateSalt()
+        byte[] calculateSecret(byte[] salt, String password)
+        boolean isPasswordCorrect(String password)
+        String byteArrayToHex(byte[] a)
+    }
+}
+
+package domain <<Rectangle>> {
+    interface UserFactory {
+        interface
+    }
+
+    interface UserRepository {
+        interface
+    }
+
+    interface UserServices {
+        interface
+    }
+}
+
+package api <<Rectangle>> {
+    class Api {
+        User createUser(String user_email, String password1, String password2)
+        User login(String email, String password)
+        ArrayList<User> getAllUsersFromDB()
+        User createUserFromAdminPage(String user_email, String password, String user_role, double user_credit)
+        User getUserById(int user_id)
+        updateUserById(int user_id, String user_role, double user_credit)
+        void deleteUserById(int user_id)
+        void changeUserRoleToCustomer(int user_id)
+        void changeUserRoleToAdmin(int user_id)
+    }
+}
+
+package entries/UI <<Rectangle>> {
+    class BaseServlet {
+        Login
+        Register
+        AddCustomer
+        AdminPage
+        BulkHandlerUsers
+        DeleteCustomer
+        EditCustomer
+    }
+}
+
+package infrastructure <<Rectangle>> {
+    class Database {
+
+    }
+
+    class DBUserFactory {
+        implements UserFactory
+
+        User createUser(User user)
+    }
+
+    class DBUserRepository {
+        implements UserRepository
+
+        ArrayList<User> getAllUsersFromDB()
+        User getUserById(int user_id)
+    }
+
+    class DBUserServices {
+        implements UserServices
+
+        void pdateUserById(int user_id, String user_role, double user_credit)
+        void deleteUserById(int user_id)
+        void changeUserRoleToCustomer(int user_id)
+        void changeUserRoleToAdmin(int user_id)
+        boolean userAldreadyExistsInDB(String email)
+        User login(String user_email )
+        void updateUserCreditBalance(int user_id, double newCreditBalance)
+    }
+}
+
+
+User <-- UserFactory
+User <-- UserRepository
+User <-- UserServices
+
+UserFactory <-- Api
+UserRepository <-- Api
+UserServices <-- Api
+
+Api <.. DBUserFactory
+Api <.. DBUserRepository
+Api <.. DBUserServices
+
+
+DBUserFactory <-- Database
+DBUserRepository <-- Database
+DBUserServices <-- Database
+
+Database <-- BaseServlet
+
+@enduml
