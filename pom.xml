@@ -2,12 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>team.lortebil</groupId>
-    <artifactId>webapptemplate</artifactId>
+    <groupId>me.codergram</groupId>
+    <artifactId>Fog</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>webapptemplate</name>
+    <name>Fog</name>
 
 
     <properties>
@@ -83,9 +83,9 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
-                    <url>http://serverip:8080/manager/text</url>
-                    <server>serverconfigname</server>
-                    <path>/applicationpath</path>
+                    <url>http://codergram.me:8080/manager/text</url>
+                    <server>DO</server>
+                    <path>/fog</path>
                 </configuration>
             </plugin>
             <plugin>
