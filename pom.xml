@@ -109,7 +109,7 @@
                 <version>2.2</version>
                 <configuration>
                     <url>http://codergram.me:8080/manager/text</url>
-                    <server>DO</server>
+                    <server>CodergramFog</server>
                     <path>/fog</path>
                 </configuration>
             </plugin>
