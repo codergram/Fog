@@ -19,7 +19,7 @@
                 <a class="nav-link whiteLink" href="Login">Log Ind</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link whiteLink" href="Register">Opret Kunde</a>
+                <a class="nav-link whiteLink" href="Register">Opret Profil</a>
             </li>
         </c:otherwise>
     </c:choose>

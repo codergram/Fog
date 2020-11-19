@@ -46,7 +46,7 @@
 
                     <img class="mb-2" src="../../images/logo.png" alt="" width="72" >
 
-                    <h1 class="h3 mb-3 font-weight-normal">Opret Kunde</h1>
+                    <h1 class="h3 mb-3 font-weight-normal">Opret Profil</h1>
 
                     <label for="email" class="sr-only">Email adresse</label>
                     <input type="email" name="email" id="email" class="form-control" placeholder="E-mailadresse" required="" autofocus="">
