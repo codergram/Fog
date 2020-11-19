@@ -39,7 +39,7 @@ public class BaseServlet extends HttpServlet {
 
         request.setAttribute("title", title);
         request.setAttribute("content", content);
-        request.getRequestDispatcher("/WEB-INF/pages/base.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/includes/base.jsp").forward(request, response);
 
     }
 

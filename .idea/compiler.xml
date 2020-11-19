@@ -14,8 +14,8 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="WebApp Template" options="-endorseddirs &quot;$PROJECT_DIR$/target/endorsed&quot;" />
-      <module name="fog" options="-endorseddirs $PROJECT_DIR$/target/endorsed" />
+      <module name="WebApp Template" options="-endorseddirs &quot;/Users/emilelkjaernielsen/Documents/Git/Fog/target/endorsed&quot;" />
+      <module name="fog" options="-endorseddirs /Users/emilelkjaernielsen/Documents/Git/Fog/target/endorsed" />
       <module name="webapptemplate" options="-endorseddirs $PROJECT_DIR$/target/endorsed" />
     </option>
   </component>

@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Tweny
-  Date: 21/10/2020
-  Time: 15.51
-  To change this template use File | Settings | File Templates.
---%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
@@ -44,7 +37,7 @@
 
                     <input type="hidden" name="checkoutProcess" value="false">
 
-                    <img class="mb-2" src="../../images/logo.png" alt="" width="72" >
+                    <img class="mb-2" src="../images/logo.png" alt="" width="72" >
 
                     <h1 class="h3 mb-3 font-weight-normal">Log Ind</h1>
 

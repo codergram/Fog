@@ -1,17 +1,6 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Tweny
-  Date: 25/10/2020
-  Time: 13.31
-  To change this template use File | Settings | File Templates.
---%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="../includes/header.jsp"%>
-
 <div class="container">
-    <%@include file="../includes/navigation.jsp"%>
-
         <div class="row mt-4">
 
             <div class="col-sm-12 col-md-1" style=""></div>
@@ -104,10 +93,3 @@
             <div class="col-sm-12 col-md-4" style=""></div>
         </div>
         </c:if>
-
-
-
-        <br>
-        <br>
-        <br>
-<%@include file="../includes/footer.jsp"%>

@@ -1,17 +1,8 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Tweny
-  Date: 16/10/2020
-  Time: 18.43
-  To change this template use File | Settings | File Templates.
---%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="../includes/header_secure.jsp"%>
 
 <div class="container">
-    <%@include file="../includes/navigation.jsp"%>
-
     <c:choose>
             <c:when test="${sessionScope.user.userRole == 'admin'}">
 
@@ -68,11 +59,4 @@
                 </script>
             </c:otherwise>
         </c:choose>
-
-
-
-
-
-
-<%@include file="../includes/footer.jsp"%>
 

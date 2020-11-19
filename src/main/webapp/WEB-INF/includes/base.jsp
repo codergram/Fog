@@ -16,19 +16,12 @@
     <title>${requestScope.content}</title>
 </head>
 <body>
-<%@include file="../includes/header.jsp"%>
+<%@include file="header.jsp"%>
 
-<main role="main" class="container">
-    <div class="content">
-        <h1 class="error-status">${pageContext.response.status}</h1>
-        <p><%=request.getAttribute("javax.servlet.error.message")%>
-        </p>
-        <p>Passerer De <a href="${pageContext.request.contextPath}">start</a>
-            modtager de ikke kr 4000,-</p>
-    </div>
-</main>
+<jsp:include page="${requestScope.content}" flush="true"/>
 
-<%@include file="../includes/footer.jsp"%>
+
+<%@include file="footer.jsp"%>
 </div>
 
 <!-- Optional JavaScript; choose one of the two! -->

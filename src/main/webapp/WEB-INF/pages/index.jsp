@@ -1,17 +1,7 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Tweny
-  Date: 16/10/2020
-  Time: 15.56
-  To change this template use File | Settings | File Templates.
---%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="../includes/header.jsp"%>
 
 <div class="container">
-    <%@include file="../includes/navigation.jsp"%>
-
     <br>
     <br>
     <h2 class="mt-4 mb-4 text-center">Bestil en lækker carport</h2>
@@ -63,11 +53,5 @@
         </div>
         <div class="col-md-3"></div>
     </div>
-
-        <br>
-        <br>
-        <br>
-
-<%@include file="../includes/footer.jsp"%>
 
 
