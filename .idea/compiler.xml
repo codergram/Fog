@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="WebApp Template" />
+        <module name="FogGit" />
         <module name="fog" />
         <module name="webapptemplate" />
       </profile>
@@ -14,8 +15,9 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="WebApp Template" options="-endorseddirs &quot;/Users/emilelkjaernielsen/Documents/Git/Fog/target/endorsed&quot;" />
-      <module name="fog" options="-endorseddirs /Users/emilelkjaernielsen/Documents/Git/Fog/target/endorsed" />
+      <module name="FogGit" options="-endorseddirs $PROJECT_DIR$/target/endorsed" />
+      <module name="WebApp Template" options="-endorseddirs &quot;$PROJECT_DIR$/../../../../../../emilelkjaernielsen/Documents/Git/Fog/target/endorsed&quot;" />
+      <module name="fog" options="-endorseddirs $PROJECT_DIR$/../../../../../../emilelkjaernielsen/Documents/Git/Fog/target/endorsed" />
       <module name="webapptemplate" options="-endorseddirs $PROJECT_DIR$/target/endorsed" />
     </option>
   </component>
