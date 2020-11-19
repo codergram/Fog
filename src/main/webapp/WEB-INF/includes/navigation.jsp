@@ -1,7 +1,8 @@
 
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!--    Nav bar-->
-<ul class="nav justify-content-end backgroundImageHeader paddingHeader" style="height: 126px;">
+<%--<ul class="nav justify-content-end backgroundImageHeader paddingHeader img-fluid" style="height: 126px;">--%>
+<ul class="nav justify-content-end" style="margin-top: -50px;">
     <!--        Visible to non logged in users-->
     <li class="nav-item">
         <a class="nav-link whiteLink" href="Shop">Hjem</a>

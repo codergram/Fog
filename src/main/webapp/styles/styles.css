@@ -18,25 +18,25 @@
 
 
 
-.backgroundImageHeader {
-    /* The image used */
-    background-image: url("../images/FOG.jpg");
+/*.backgroundImageHeader {*/
+/*    !* The image used *!*/
+/*    background-image: url("../images/FOG.jpg");*/
 
-    /* Full height */
-    height: 100%;
+/*    !* Full height *!*/
+/*    height: 100%;*/
 
-    /* Center and scale the image nicely */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
+/*    !* Center and scale the image nicely *!*/
+/*    background-position: center;*/
+/*    background-repeat: no-repeat;*/
+/*    background-size: cover;*/
+/*}*/
 
 .whiteLink {
     color: white;
-    font-size: 150%;
+    font-size: 140%
 }
 
-.paddingHeader {
-    padding-top: 40px;
-}
+/*.paddingHeader {*/
+/*    padding-top: 40px;*/
+/*}*/
 

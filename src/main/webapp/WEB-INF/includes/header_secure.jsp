@@ -12,11 +12,16 @@
     <!--    <link rel="stylesheet" href="../styles/styles.css">-->
 
     <title>${requestScope.content}</title>
+
 </head>
 <body>
 
-<div class="container">
+<%--Forward page to index.jsp if no session is set--%>
+<script>
+    history.forward();
+</script>
 
+<div class="container">
     <!--    Header image-->
     <div>
         <a href="Shop"><img src="${pageContext.request.contextPath}/images/FOG.jpg" class="img-fluid" alt="Responsive image"></a>
