@@ -1,10 +1,27 @@
 package entries;
 
 import api.Api;
+import core.Stykliste;
 import infrastructure.Database;
+import infrastructure.dbbestilling.DBBestillingFactory;
+import infrastructure.dbbestilling.DBBestillingRepository;
+import infrastructure.dbbestilling.DBBestillingServices;
+import infrastructure.dbcarport.DBCarportFactory;
+import infrastructure.dbcarport.DBCarportRepository;
+import infrastructure.dbkunde.DBKundeFactory;
+import infrastructure.dbkunde.DBKundeRepository;
+import infrastructure.dbmateriel.DBMaterielFactory;
+import infrastructure.dbmateriel.DBMaterielRepository;
+import infrastructure.dbmateriel.DBMaterielServices;
+import infrastructure.dbskur.DBSkurFactory;
+import infrastructure.dbskur.DBSkurRepository;
 import infrastructure.dbuser.DBUserFactory;
 import infrastructure.dbuser.DBUserRepository;
 import infrastructure.dbuser.DBUserServices;
+import infrastructure.localstykliste.LocalStyklisteFactory;
+import infrastructure.localstykliste.LocalStyklisteRepository;
+import infrastructure.localstykliste.LocalStyklisteServices;
+import infrastructure.localstyklistemateriel.LocalStyklisteMaterielFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,15 +40,14 @@ public class BaseServlet extends HttpServlet {
     private static Api createCupCakeApi(){
 
         Database database = new Database();
-//        Cart cart = new Cart();
 
-        return new Api(new DBUserFactory(database), new DBUserRepository(database), new DBUserServices(database));
-
-//        return new Api(new DBUserFactory(database), new DBUserRepository(database), new DBUserServices(database),
-//                new DBItemRepository(database), new DBBottomRepository(database), new DBToppingRepository(database),
-//                new LocalCartFactory(cart), new LocalCartRepository(cart), new LocalCartServices(cart),
-//                new DBShippingFactory(database), new DBOrderFactory(database), new DBOrderRepository(database),
-//                new DBOrderServices(database));
+        return new Api(new DBUserFactory(database), new DBUserRepository(database), new DBUserServices(database),
+                new DBBestillingFactory(database), new DBBestillingRepository(database), new DBBestillingServices(database),
+                new DBCarportFactory(database), new DBCarportRepository(database), new DBKundeFactory(database),
+                new DBKundeRepository(database), new DBMaterielFactory(database), new DBMaterielRepository(database),
+                new DBMaterielServices(database), new DBSkurFactory(database), new DBSkurRepository(database),
+                new LocalStyklisteFactory(), new LocalStyklisteRepository(), new LocalStyklisteServices(),
+                new LocalStyklisteMaterielFactory());
     }
 
     protected void render(String title, String content, HttpServletRequest request, HttpServletResponse response)
