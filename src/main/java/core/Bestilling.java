@@ -11,33 +11,33 @@ public class Bestilling {
     private final double bes_subtotal;
     private final double bes_moms;
     private final double bes_total;
-    private final ArrayList<Stykliste_Materiel> stykliste;
+    private final Stykliste stykliste;
     private final Kunde kunde;
     private final Carport carport;
     private final Skur skur;
 
-    public Bestilling(int bes_id, String bes_tid, String bes_status, double bes_moms, ArrayList<Stykliste_Materiel> stykliste, Kunde kunde, Carport carport, Skur skur) {
+    public Bestilling(int bes_id, String bes_tid, String bes_status, double bes_moms, Stykliste stykliste, Kunde kunde, Carport carport, Skur skur) {
         this.bes_id = bes_id;
         this.bes_tid = bes_tid;
         this.bes_status = bes_status;
         this.bes_aktiv = 1;
-        this.bes_subtotal = calculate_subtotal();
+        this.bes_subtotal = calculate_subtotal(stykliste.getStykliste());
         this.bes_moms = bes_moms;
-        this.bes_total = calculate_total();
+        this.bes_total = calculate_total(stykliste.getStykliste(), bes_moms);
         this.stykliste = stykliste;
         this.kunde = kunde;
         this.carport = carport;
         this.skur = skur;
     }
 
-    public Bestilling(String bes_tid, String bes_status, double bes_moms, ArrayList<Stykliste_Materiel> stykliste, Kunde kunde, Carport carport, Skur skur) {
+    public Bestilling(String bes_tid, String bes_status, double bes_moms, Stykliste stykliste, Kunde kunde, Carport carport, Skur skur) {
         this.bes_id = -1;
         this.bes_tid = bes_tid;
         this.bes_status = bes_status;
         this.bes_aktiv = 1;
-        this.bes_subtotal = calculate_subtotal();
+        this.bes_subtotal = calculate_subtotal(stykliste.getStykliste());
         this.bes_moms = bes_moms;
-        this.bes_total = calculate_total();
+        this.bes_total = calculate_total(stykliste.getStykliste(), bes_moms);
         this.stykliste = stykliste;
         this.kunde = kunde;
         this.carport = carport;
@@ -84,19 +84,19 @@ public class Bestilling {
         return skur;
     }
 
-    private double calculate_subtotal() {
+    private double calculate_subtotal(ArrayList<Stykliste_Materiel> styklisteMateriel) {
 
         double bes_subtotal = 0;
 
-        for(Stykliste_Materiel currentElement: stykliste){
+        for(Stykliste_Materiel currentElement: styklisteMateriel){
             bes_subtotal = bes_subtotal + currentElement.getStyk_subtotal();
         }
 
         return bes_subtotal;
     }
 
-    private double calculate_total() {
-        return calculate_subtotal() * (1 + (bes_moms / 100));
+    private double calculate_total(ArrayList<Stykliste_Materiel> styklisteMateriel, double bes_moms) {
+        return calculate_subtotal(styklisteMateriel) * (1 + (bes_moms / 100));
     }
 
 }
