@@ -1,20 +1,15 @@
-package entries.customer;
+package entries.employee;
 
-import core.User;
 import entries.BaseServlet;
-import infrastructure.DBexception;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 
-@WebServlet(name = "CustomerPage", urlPatterns = { "/CustomerPage" } )
-public class CustomerPage extends BaseServlet {
+@WebServlet(name = "EmployeePage", urlPatterns = { "/EmployeePage" } )
+public class EmployeePage extends BaseServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -57,13 +52,13 @@ public class CustomerPage extends BaseServlet {
 
     private void redirect (String profileMenu, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("profileMenu", profileMenu);
-        render("Admin Page", "/WEB-INF/pages/customerpage.jsp", req, resp);
+        render("Employee Page", "/WEB-INF/pages/employeepage.jsp", req, resp);
     }
 
     private void redirectWithError (String errorMessage, String profileMenu, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("errorMessage", errorMessage);
         req.setAttribute("profileMenu", profileMenu);
-        render("Admin Page", "/WEB-INF/pages/customerpage.jsp", req, resp);
+        render("Employee Page", "/WEB-INF/pages/employeepage.jsp", req, resp);
     }
 
     @Override

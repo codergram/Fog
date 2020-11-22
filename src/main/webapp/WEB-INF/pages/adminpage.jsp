@@ -3,6 +3,7 @@
 <%@include file="../includes/header_secure.jsp"%>
 
 <div class="container">
+    <%@include file="../includes/navigation.jsp"%>
     <c:choose>
             <c:when test="${sessionScope.user.userRole == 'admin'}">
 
@@ -59,4 +60,5 @@
                 </script>
             </c:otherwise>
         </c:choose>
+<%@include file="../includes/footer.jsp"%>
 

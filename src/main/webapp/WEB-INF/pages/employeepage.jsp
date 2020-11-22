@@ -3,8 +3,9 @@
 <%@include file="../includes/header_secure.jsp"%>
 
 <div class="container">
+<%@include file="../includes/navigation.jsp"%>
 <c:choose>
-    <c:when test="${sessionScope.user.userRole == 'customer'}">
+    <c:when test="${sessionScope.user.userRole == 'sælger'}">
 
 
         <div class="row mt-4">
@@ -56,3 +57,4 @@
     </script>
     </c:otherwise>
     </c:choose>
+<%@include file="../includes/footer.jsp"%>

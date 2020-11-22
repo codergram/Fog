@@ -1,78 +1,70 @@
 @startuml
-Title Domian Model
+Title Domænemodel
 
 hide circle
 hide methods
 
-class User {
-    id
-    email
-    role
-    credit
-    salt
-    secret
+class Sælger {
+    medarbejder nummer
+    navn
+    kodeord
 }
 
-class Item {
-    id
-    name
-    description
-    price
-    image
+class Carport {
+    varenummer
+    navn
+    type
+    højde
+    bredde
+    beskrivelse
+    pris
 }
 
-class Topping {
-    id
-    name
-    price
+class Skur {
+    varenummer
+    navn
+    højde
+    bredde
+    beskrivelse
+    pris
 }
 
-class Bottom {
-    id
-    name
-    price
-}
-
-class Cart_item {
-    Item
-    Topping
-    Bottom
-    qty
-    subtotal
-}
-
-class Cart {
-    Cart_item
-}
-
-
-class Shipping {
+class Kunde {
+    navn
     address
-    zip
-    city
+    psot nummer
+    by
+    tlf nummer
+    email
 }
 
-class Order {
-    id
-    payment_option
+class Bestilling {
+    ordrenumer
+    tidspunkt
     info
-    time
-    total
-    shipping_option
     status
-    active
-    User
-    Shipping
-    Cart
+    aktiv
 }
 
-Order "*" -- "1" Shipping
-Order "*" -- "1" User
-Order "*" -- "1" Cart
-Cart "1" -- "*" Cart_item
-Cart_item "*" -- "1" Topping
-Cart_item "*" -- "1" Bottom
-Cart_item "*" -- "1" Item
+class Stykliste {
+    varenummer
+    navn
+    antal
+}
+
+class Materiale {
+    varenummer
+    navn
+    styk/meter pris
+}
+
+Bestilling "*" -- "1" Carport
+Bestilling "*" -- "1" Skur
+Bestilling "*" -- "1" Kunde
+Carport "*" -- "1" Stykliste
+Skur "*" -- "1" Stykliste
+Stykliste "1" -- "*" Materiale
+
 
 
 

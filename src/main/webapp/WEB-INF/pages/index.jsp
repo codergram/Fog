@@ -1,7 +1,9 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@include file="../includes/header.jsp"%>
 
 <div class="container">
+    <%@include file="../includes/navigation.jsp"%>
     <br>
     <br>
     <h2 class="mt-4 mb-4 text-center">Bestil en lækker carport</h2>
@@ -55,5 +57,5 @@
     </div>
     <br>
     <br>
-
+<%@include file="../includes/footer.jsp"%>
 

@@ -1,0 +1,31 @@
+@startuml
+Title Aktivitetsdiagram AS-IS
+
+|Kunde|
+start
+:Besøger hjemmeside;
+
+|#AntiqueWhite|Hjemmeside|
+:Indhenter tilbud;
+
+|Kunde|
+:Overvejer tilbud;
+    if (Tilfreds med tilbudet) equals (ja) then
+    |#AntiqueWhite|Hjemmeside|
+    :Bestiller tilbud;
+
+    |Lager|
+    :Bestilling klargøres;
+    :Bestilling afhentes af kunden;
+
+    |Kunde|
+    :Bestilling ankommer hos kunde;
+    stop
+
+    else (nej)
+    |#AntiqueWhite|Konkurrent|
+    :Indhenter tilbud;
+    stop
+
+
+@enduml

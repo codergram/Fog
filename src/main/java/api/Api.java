@@ -42,7 +42,7 @@ public class Api {
 
         } else {
             //Create user
-            User user = new User(user_email, "customer", salt, secret);
+            User user = new User(user_email, "sælger", salt, secret);
             //Save/create the user in the DB and return the users (No longer id -1)
             user = userFactory.createUser(user);
             return user;
