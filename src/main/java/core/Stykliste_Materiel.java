@@ -11,14 +11,14 @@ public class Stykliste_Materiel {
         this.styk_id = styk_id;
         this.materiel = materiel;
         this.antal = antal;
-        this.styk_subtotal = materiel.getMat_pris() * antal;
+        this.styk_subtotal = calculate_subtotal();
     }
 
     public Stykliste_Materiel(Materiel materiel, double antal) {
         this.styk_id = -1;
         this.materiel = materiel;
         this.antal = antal;
-        this.styk_subtotal = materiel.getMat_pris() * antal;
+        this.styk_subtotal = calculate_subtotal();
     }
 
     public Stykliste_Materiel withId (int styk_id) {
@@ -39,5 +39,9 @@ public class Stykliste_Materiel {
 
     public double getStyk_subtotal() {
         return styk_subtotal;
+    }
+
+    private double calculate_subtotal(){
+        return materiel.getMat_pris() * antal;
     }
 }
