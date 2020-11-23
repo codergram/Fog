@@ -1,21 +1,21 @@
 package core;
 
-public class Træ extends Materiel{
+public class Materiel_Træ extends Materiel{
 
     private final int træ_mål;
 
-    public Træ(int mat_id, String mat_navn, int træ_mål, double mat_pris) {
+    public Materiel_Træ(int mat_id, String mat_navn, int træ_mål, double mat_pris) {
         super(mat_id, mat_navn, mat_pris);
         this.træ_mål = træ_mål;
     }
 
-    public Træ(String mat_navn, int træ_mål, double mat_pris) {
+    public Materiel_Træ(String mat_navn, int træ_mål, double mat_pris) {
         super(mat_navn, mat_pris);
         this.træ_mål = træ_mål;
     }
 
-    public Træ withId (int mat_id) {
-        return new Træ(mat_id, this.mat_navn, this.træ_mål, this.mat_pris);
+    public Materiel_Træ withId (int mat_id) {
+        return new Materiel_Træ(mat_id, this.mat_navn, this.træ_mål, this.mat_pris);
     }
 
     public int getTræ_id() {

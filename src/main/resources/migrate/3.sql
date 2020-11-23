@@ -1,10 +1,10 @@
 DROP TABLE IF EXISTS styklistetræ;
 DROP TABLE IF EXISTS styklistebeslagskruer;
 DROP TABLE IF EXISTS beslagskruer;
-DROP TABLE IF EXISTS træ;
+DROP TABLE IF EXISTS materielTræ;
 
 
-CREATE TABLE IF NOT EXISTS træ (
+CREATE TABLE IF NOT EXISTS materielTræ (
 træ_id INT NOT NULL AUTO_INCREMENT,
 træ_navn VARCHAR(45) NOT NULL,
 træ_mål INT NOT NULL DEFAULT 0,
@@ -28,7 +28,7 @@ st_pris DECIMAL(8,2) NOT NULL DEFAULT 0,
 st_subtotal DECIMAL(8,2) NOT NULL DEFAULT 0,
 fk_bestilling_id INT NOT NULL,
 PRIMARY KEY (st_id),
-FOREIGN KEY (fk_træ_id) REFERENCES træ(træ_id),
+FOREIGN KEY (fk_træ_id) REFERENCES materielTræ(træ_id),
 FOREIGN KEY (fk_bestilling_id) REFERENCES bestilling(bes_id)
 );
 
@@ -45,7 +45,7 @@ FOREIGN KEY (fk_bes_id) REFERENCES beslagskruer(bes_id),
 FOREIGN KEY (fk_bestilling_id) REFERENCES bestilling(bes_id)
 );
 
-INSERT INTO træ
+INSERT INTO materielTræ
     (træ_navn, træ_mål, træ_pris)
 VALUES
     ('25x150 mm. trykimp. Bræt', 480, 0),

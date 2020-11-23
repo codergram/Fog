@@ -1,7 +1,7 @@
 package infrastructure.dbmateriel;
 
-import core.BeslagSkruer;
-import core.Træ;
+import core.Materiel_BeslagSkruer;
+import core.Materiel_Træ;
 import domain.materiel.MaterielRepository;
 import infrastructure.DBexception;
 import infrastructure.Database;
@@ -17,22 +17,22 @@ public class DBMaterielRepository implements MaterielRepository {
     }
 
     @Override
-    public ArrayList<Træ> getAllTræFromDB() throws DBexception {
+    public ArrayList<Materiel_Træ> getAllTræFromDB() throws DBexception {
         return null;
     }
 
     @Override
-    public Træ getTræById(int træ_id) throws DBexception {
+    public Materiel_Træ getTræById(int træ_id) throws DBexception {
         return null;
     }
 
     @Override
-    public ArrayList<BeslagSkruer> getAllBeslagSkruerFromDB() throws DBexception {
+    public ArrayList<Materiel_BeslagSkruer> getAllBeslagSkruerFromDB() throws DBexception {
         return null;
     }
 
     @Override
-    public BeslagSkruer getBeslagSkruerById(int bes_id) throws DBexception {
+    public Materiel_BeslagSkruer getBeslagSkruerById(int bes_id) throws DBexception {
         return null;
     }
 }

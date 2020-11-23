@@ -1,7 +1,7 @@
 package infrastructure.dbmateriel;
 
-import core.BeslagSkruer;
-import core.Træ;
+import core.Materiel_BeslagSkruer;
+import core.Materiel_Træ;
 import domain.materiel.MaterielFactory;
 import infrastructure.DBexception;
 import infrastructure.Database;
@@ -15,12 +15,12 @@ public class DBMaterielFactory implements MaterielFactory {
     }
 
     @Override
-    public Træ createTræ(Træ træ) throws DBexception {
+    public Materiel_Træ createTræ(Materiel_Træ materielTræ) throws DBexception {
         return null;
     }
 
     @Override
-    public BeslagSkruer createBeslagSkruer(BeslagSkruer beslagSkruer) throws DBexception {
+    public Materiel_BeslagSkruer createBeslagSkruer(Materiel_BeslagSkruer materielBeslagSkruer) throws DBexception {
         return null;
     }
 }

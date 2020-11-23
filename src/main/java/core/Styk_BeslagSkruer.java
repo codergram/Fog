@@ -2,31 +2,31 @@ package core;
 
 public class Styk_BeslagSkruer extends Styk{
 
-    private final BeslagSkruer beslagSkruer;
+    private final Materiel_BeslagSkruer materielBeslagSkruer;
     private final double styk_subtotal;
 
-    public Styk_BeslagSkruer(int styk_id, BeslagSkruer beslagSkruer, String styk_bes, double styk_antal) {
+    public Styk_BeslagSkruer(int styk_id, Materiel_BeslagSkruer materielBeslagSkruer, String styk_bes, double styk_antal) {
         super(styk_id, styk_bes, styk_antal);
-        this.beslagSkruer = beslagSkruer;
-        this.styk_subtotal = calculate_subtotal(beslagSkruer, styk_antal);
+        this.materielBeslagSkruer = materielBeslagSkruer;
+        this.styk_subtotal = calculate_subtotal(materielBeslagSkruer, styk_antal);
     }
 
-    public Styk_BeslagSkruer(BeslagSkruer beslagSkruer, String styk_bes, double styk_antal) {
+    public Styk_BeslagSkruer(Materiel_BeslagSkruer materielBeslagSkruer, String styk_bes, double styk_antal) {
         super(styk_bes, styk_antal);
-        this.beslagSkruer = beslagSkruer;
-        this.styk_subtotal = calculate_subtotal(beslagSkruer, styk_antal);
+        this.materielBeslagSkruer = materielBeslagSkruer;
+        this.styk_subtotal = calculate_subtotal(materielBeslagSkruer, styk_antal);
     }
 
     public Styk_BeslagSkruer withId (int styk_id) {
-        return new Styk_BeslagSkruer(styk_id, this.beslagSkruer, this.styk_bes, this.styk_antal);
+        return new Styk_BeslagSkruer(styk_id, this.materielBeslagSkruer, this.styk_bes, this.styk_antal);
     }
 
     public int getStyk_id() {
         return styk_id;
     }
 
-    public BeslagSkruer getBeslagSkruer() {
-        return beslagSkruer;
+    public Materiel_BeslagSkruer getBeslagSkruer() {
+        return materielBeslagSkruer;
     }
 
     public double getAntal() {
@@ -37,9 +37,9 @@ public class Styk_BeslagSkruer extends Styk{
         return styk_subtotal;
     }
 
-    private double calculate_subtotal(BeslagSkruer beslagSkruer, double antal){
+    private double calculate_subtotal(Materiel_BeslagSkruer materielBeslagSkruer, double antal){
 
-        return beslagSkruer.getBes_pris() * antal;
+        return materielBeslagSkruer.getBes_pris() * antal;
 
     }
 }
