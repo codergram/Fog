@@ -1,13 +1,13 @@
 package infrastructure.localstyk;
 
-import core.Materiel_Træ;
+import core.materialer.Tree;
 import core.Styk_BeslagSkruer;
 import core.Styk_Træ;
 import domain.styk.StykFactory;
 
 public class LocalStykFactory implements StykFactory {
     @Override
-    public Styk_Træ createStyk_Træ(Materiel_Træ materielTræ, double antal) {
+    public Styk_Træ createStyk_Træ(Tree materielTræ, double antal) {
         return null;
     }
 

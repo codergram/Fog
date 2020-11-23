@@ -17,14 +17,7 @@ public class Shop extends BaseServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-//        try {
-//            ArrayList<Item> getAllItemsFromDB = api.getAllItemsFromDB();
-//            req.setAttribute("getAllItemsFromDB", getAllItemsFromDB);
-//        } catch (DBexception dBexception) {
-//            dBexception.printStackTrace();
-//        }
-
-        render("The CupCake Shop", "/WEB-INF/pages/index.jsp", request, response);
+        render("Din carport", "/WEB-INF/pages/garage.jsp", request, response);
     }
 
 }

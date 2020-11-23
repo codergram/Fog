@@ -27,23 +27,6 @@ public class EmployeePage extends BaseServlet {
                 profileMenu = "viewProfile";
                 redirect(profileMenu, req, resp);
                 break;
-
-//            case "orderHistory":
-//                HttpSession session = req.getSession();
-//                User user = (User) session.getAttribute("user");
-//
-//                try{
-//                    ArrayList<Order> allOrders = api.getAllOrdersByUserId(user.getId());
-//                    Collections.reverse(allOrders);
-//                    req.setAttribute("allOrders", allOrders);
-//                } catch (DBexception dBexception) {
-//                    dBexception.printStackTrace();
-//                }
-//
-//                profileMenu = "orderHistory";
-//                redirect(profileMenu, req, resp);
-//                break;
-
             default:
                 profileMenu = "";
                 redirect(profileMenu, req, resp);

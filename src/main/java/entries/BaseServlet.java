@@ -1,6 +1,7 @@
 package entries;
 
 import api.Api;
+import api.Utils;
 import infrastructure.Database;
 import infrastructure.dbbestilling.DBBestillingFactory;
 import infrastructure.dbbestilling.DBBestillingRepository;
@@ -27,6 +28,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 public class BaseServlet extends HttpServlet {
 
@@ -51,11 +53,17 @@ public class BaseServlet extends HttpServlet {
 
     protected void render(String title, String content, HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        request.setAttribute("title", title);
+    
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        request.setAttribute("title", api.genericSiteTitle + " - " + title);
         request.setAttribute("content", content);
         request.getRequestDispatcher("/WEB-INF/includes/base.jsp").forward(request, response);
 
+    }
+    
+    protected void log(HttpServletRequest req, String str){
+        System.err.print("(" + LocalDateTime.now() + ")" + this.getClass().getCanonicalName() + " - " + req.getRequestURI() + " - " + str);
     }
 
 }

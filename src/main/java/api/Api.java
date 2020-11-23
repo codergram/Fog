@@ -21,6 +21,8 @@ import domain.user.*;
 import infrastructure.DBexception;
 
 public class Api {
+    
+    public final  String genericSiteTitle = "Fog Trælast";
 
     private final UserFactory userFactory;
     private final UserRepository userRepository;
@@ -69,6 +71,21 @@ public class Api {
         this.styklisteServices = styklisteServices;
         this.stykFactory = stykFactory;
     }
+    
+    protected boolean sendMail(String mailAddress, String title, String subject, String msg){
+        try {
+            String message = Utils.fileToString("resetmail.html")
+                    .replace("$$TITEL$$", title)
+                    .replace("$$OVERSKRIFT$$", subject)
+                    .replace("$$TEKST$$", msg);
+            
+            Utils.sendEmail(mailAddress, title, message);
+            return true;
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
 
     /**
      * Create a user from the registration page
@@ -88,14 +105,14 @@ public class Api {
 
         //Validate user input
         if(userServices.userAldreadyExistsInDB(user_email)){
-            throw new UserExists();
+            throw new UserExists(user_email);
 
         } else if (!password1.equals(password2)){
             throw new InvalidPassword();
 
         } else {
             //Create user
-            User user = new User(user_email, "sælger", salt, secret);
+            User user = new User(0,user_email,User.Role.Employee, salt, secret);
             //Save/create the user in the DB and return the users (No longer id -1)
             user = userFactory.createUser(user);
             return user;
@@ -116,7 +133,7 @@ public class Api {
         User user = userServices.login(email);
 
         //Username is null => no user was found in DB
-        if(user.getUserEmail() == null){
+        if(user.getEmail() == null){
             throw new UserNotFound();
         }
         //Validate the DB password with the provided one
