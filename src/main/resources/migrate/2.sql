@@ -41,25 +41,6 @@ FOREIGN KEY (fk_carport_id) REFERENCES carport(carport_id),
 FOREIGN KEY (fk_skur_id) REFERENCES skur(skur_id)
 );
 
-CREATE TABLE IF NOT EXISTS materiel (
-mat_id INT NOT NULL AUTO_INCREMENT,
-mat_navn VARCHAR(45) NOT NULL,
-mat_pris DECIMAL(8,2) NOT NULL DEFAULT 0,
-PRIMARY KEY (mat_id)
-);
-
-CREATE TABLE IF NOT EXISTS stykliste (
-styk_id INT NOT NULL AUTO_INCREMENT,
-fk_mat_id INT NOT NULL,
-styk_antal DECIMAL(8,2) NOT NULL DEFAULT 0,
-styk_pris DECIMAL(8,2) NOT NULL DEFAULT 0,
-styk_subtotal DECIMAL(8,2) NOT NULL DEFAULT 0,
-fk_bes_id INT NOT NULL,
-PRIMARY KEY (styk_id),
-FOREIGN KEY (fk_mat_id) REFERENCES materiel(mat_id),
-FOREIGN KEY (fk_bes_id) REFERENCES bestilling(bes_id)
-);
-
 -- Husk at update jeres database version.
 UPDATE properties
 SET value = '2'

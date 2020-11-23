@@ -4,21 +4,32 @@ import java.util.ArrayList;
 
 public class Stykliste {
 
-    private volatile ArrayList<Stykliste_Materiel> stykliste;
+    private volatile ArrayList<Stykliste_Træ> styklisteTræ;
+    private volatile ArrayList<Stykliste_BeslagSkruer> styklisteBeslagSkruer;
 
     public Stykliste() {
-        this.stykliste = new ArrayList<>();
+        this.styklisteTræ = new ArrayList<>();
+        this.styklisteBeslagSkruer = new ArrayList<>();
     }
 
-    public Stykliste(ArrayList<Stykliste_Materiel> stykliste) {
-        this.stykliste = stykliste;
+    public Stykliste(ArrayList<Stykliste_Træ> styklisteTræ, ArrayList<Stykliste_BeslagSkruer> styklisteBeslagSkruer) {
+        this.styklisteTræ = styklisteTræ;
+        this.styklisteBeslagSkruer = styklisteBeslagSkruer;
     }
 
-    public ArrayList<Stykliste_Materiel> getStykliste() {
-        return stykliste;
+    public ArrayList<Stykliste_Træ> getStyklisteTræ() {
+        return styklisteTræ;
     }
 
-    public void setStykliste(ArrayList<Stykliste_Materiel> stykliste) {
-        this.stykliste = stykliste;
+    public void setStyklisteTræ(ArrayList<Stykliste_Træ> stykliste) {
+        this.styklisteTræ = stykliste;
+    }
+
+    public ArrayList<Stykliste_BeslagSkruer> getStyklisteBeslagSkruer() {
+        return styklisteBeslagSkruer;
+    }
+
+    public void setStyklisteBeslagSkruer(ArrayList<Stykliste_BeslagSkruer> styklisteBeslagSkruer) {
+        this.styklisteBeslagSkruer = styklisteBeslagSkruer;
     }
 }

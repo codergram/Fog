@@ -1,6 +1,10 @@
 package api;
 
+import core.Stykliste_BeslagSkruer;
 import core.User;
+import domain.beslagskruer.BeslagSkruerFactory;
+import domain.beslagskruer.BeslagSkruerRepository;
+import domain.beslagskruer.BeslagSkruerServices;
 import domain.bestilling.BestillingFactory;
 import domain.bestilling.BestillingRepository;
 import domain.bestilling.BestillingServices;
@@ -8,15 +12,16 @@ import domain.carport.CarportFactory;
 import domain.carport.CarportRepository;
 import domain.kunde.KundeFactory;
 import domain.kunde.KundeRepository;
-import domain.materiel.MaterielFactory;
-import domain.materiel.MaterielRepository;
-import domain.materiel.MaterielServices;
+import domain.stykliste_beslagskruer.Stykliste_BeslagSkruerFactory;
+import domain.træ.TræFactory;
+import domain.træ.TræRepository;
+import domain.træ.TræServices;
 import domain.skur.SkurFactory;
 import domain.skur.SkurRepository;
 import domain.stykliste.StyklisteFactory;
 import domain.stykliste.StyklisteRepository;
 import domain.stykliste.StyklisteServices;
-import domain.stykliste_materiel.Stykliste_MaterielFactory;
+import domain.stykliste_træ.Stykliste_TræFactory;
 import domain.user.*;
 import infrastructure.DBexception;
 
@@ -32,23 +37,29 @@ public class Api {
     private final CarportRepository carportRepository;
     private final KundeFactory kundeFactory;
     private final KundeRepository kundeRepository;
-    private final MaterielFactory materielFactory;
-    private final MaterielRepository materielRepository;
-    private final MaterielServices materielServices;
+    private final TræFactory træFactory;
+    private final TræRepository træRepository;
+    private final TræServices træServices;
+    private final BeslagSkruerFactory beslagSkruerFactory;
+    private final BeslagSkruerRepository beslagSkruerRepository;
+    private final BeslagSkruerServices beslagSkruerServices;
     private final SkurFactory skurFactory;
     private final SkurRepository skurRepository;
     private final StyklisteFactory styklisteFactory;
     private final StyklisteRepository styklisteRepository;
     private final StyklisteServices styklisteServices;
-    private final Stykliste_MaterielFactory stykliste_materielFactory;
+    private final Stykliste_TræFactory stykliste_træFactory;
+    private final Stykliste_BeslagSkruerFactory styklisteBeslagSkruerFactory;
 
     public Api(UserFactory userFactory, UserRepository userRepository, UserServices userServices,
                BestillingFactory bestillingFactory, BestillingRepository bestillingRepository,
                BestillingServices bestillingServices, CarportFactory carportFactory, CarportRepository carportRepository,
-               KundeFactory kundeFactory, KundeRepository kundeRepository, MaterielFactory materielFactory,
-               MaterielRepository materielRepository, MaterielServices materielServices, SkurFactory skurFactory,
+               KundeFactory kundeFactory, KundeRepository kundeRepository, TræFactory træFactory,
+               TræRepository træRepository, TræServices træServices, BeslagSkruerFactory beslagSkruerFactory,
+               BeslagSkruerRepository beslagSkruerRepository, BeslagSkruerServices beslagSkruerServices, SkurFactory skurFactory,
                SkurRepository skurRepository, StyklisteFactory styklisteFactory, StyklisteRepository styklisteRepository,
-               StyklisteServices styklisteServices, Stykliste_MaterielFactory stykliste_materielFactory) {
+               StyklisteServices styklisteServices, Stykliste_TræFactory stykliste_træFactory,
+               Stykliste_BeslagSkruerFactory styklisteBeslagSkruerFactory) {
         this.userFactory = userFactory;
         this.userRepository = userRepository;
         this.userServices = userServices;
@@ -59,15 +70,19 @@ public class Api {
         this.carportRepository = carportRepository;
         this.kundeFactory = kundeFactory;
         this.kundeRepository = kundeRepository;
-        this.materielFactory = materielFactory;
-        this.materielRepository = materielRepository;
-        this.materielServices = materielServices;
+        this.træFactory = træFactory;
+        this.træRepository = træRepository;
+        this.træServices = træServices;
+        this.beslagSkruerFactory = beslagSkruerFactory;
+        this.beslagSkruerRepository = beslagSkruerRepository;
+        this.beslagSkruerServices = beslagSkruerServices;
         this.skurFactory = skurFactory;
         this.skurRepository = skurRepository;
         this.styklisteFactory = styklisteFactory;
         this.styklisteRepository = styklisteRepository;
         this.styklisteServices = styklisteServices;
-        this.stykliste_materielFactory = stykliste_materielFactory;
+        this.stykliste_træFactory = stykliste_træFactory;
+        this.styklisteBeslagSkruerFactory = styklisteBeslagSkruerFactory;
     }
 
     /**
