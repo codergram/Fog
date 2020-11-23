@@ -1,13 +1,13 @@
 package domain.materiel;
 
-import core.Materiel_BeslagSkruer;
-import core.Materiel_Træ;
+import core.materialer.Options;
+import core.materialer.Tree;
 import infrastructure.DBexception;
 
 public interface MaterielFactory {
 
-    Materiel_Træ createTræ(Materiel_Træ materielTræ) throws DBexception;
+    Tree createTræ(Tree materielTræ) throws DBexception;
 
-    Materiel_BeslagSkruer createBeslagSkruer(Materiel_BeslagSkruer materielBeslagSkruer) throws DBexception;
+    Options createBeslagSkruer(Options materielBeslagSkruer) throws DBexception;
 
 }

@@ -1,17 +1,19 @@
 package core;
 
+import core.materialer.Options;
+
 public class Styk_BeslagSkruer extends Styk{
 
-    private final Materiel_BeslagSkruer materielBeslagSkruer;
+    private final Options materielBeslagSkruer;
     private final double styk_subtotal;
 
-    public Styk_BeslagSkruer(int styk_id, Materiel_BeslagSkruer materielBeslagSkruer, String styk_bes, double styk_antal) {
+    public Styk_BeslagSkruer(int styk_id, Options materielBeslagSkruer, String styk_bes, double styk_antal) {
         super(styk_id, styk_bes, styk_antal);
         this.materielBeslagSkruer = materielBeslagSkruer;
         this.styk_subtotal = calculate_subtotal(materielBeslagSkruer, styk_antal);
     }
 
-    public Styk_BeslagSkruer(Materiel_BeslagSkruer materielBeslagSkruer, String styk_bes, double styk_antal) {
+    public Styk_BeslagSkruer(Options materielBeslagSkruer, String styk_bes, double styk_antal) {
         super(styk_bes, styk_antal);
         this.materielBeslagSkruer = materielBeslagSkruer;
         this.styk_subtotal = calculate_subtotal(materielBeslagSkruer, styk_antal);
@@ -25,7 +27,7 @@ public class Styk_BeslagSkruer extends Styk{
         return styk_id;
     }
 
-    public Materiel_BeslagSkruer getBeslagSkruer() {
+    public Options getBeslagSkruer() {
         return materielBeslagSkruer;
     }
 
@@ -37,9 +39,9 @@ public class Styk_BeslagSkruer extends Styk{
         return styk_subtotal;
     }
 
-    private double calculate_subtotal(Materiel_BeslagSkruer materielBeslagSkruer, double antal){
+    private double calculate_subtotal(Options materielBeslagSkruer, double antal){
 
-        return materielBeslagSkruer.getBes_pris() * antal;
+        return materielBeslagSkruer.getPrice() * antal;
 
     }
 }

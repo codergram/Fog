@@ -1,5 +1,7 @@
 package core;
 
+import core.materialer.Options;
+import core.materialer.Tree;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -12,8 +14,8 @@ class BestillingTest {
     @Test
     void calculate_orderTotalOnlyTræ() {
 
-        Materiel_Træ materielTræ1 = new Materiel_Træ("test_product", 100, 10);
-        Materiel_Træ materielTræ2 = new Materiel_Træ("test_product", 200, 20);
+        Tree materielTræ1 = new Tree("test_product", 100, 10);
+        Tree materielTræ2 = new Tree("test_product", 200, 20);
 
         String styk_bes = "Skal bruges til...";
         int antal = 1;
@@ -45,8 +47,8 @@ class BestillingTest {
     @Test
     void calculate_orderTotalOnlyBeslagSkruer() {
 
-        Materiel_BeslagSkruer materielBeslagSkruer1 = new Materiel_BeslagSkruer("test_product", 10);
-        Materiel_BeslagSkruer materielBeslagSkruer2 = new Materiel_BeslagSkruer("test_product", 20);
+        Options materielBeslagSkruer1 = new Options("test_product", 10);
+        Options materielBeslagSkruer2 = new Options("test_product", 20);
 
         String styk_bes = "Skal bruges til...";
         int antal =2;
@@ -78,8 +80,8 @@ class BestillingTest {
     @Test
     void calculate_orderTotal() {
 
-        Materiel_BeslagSkruer materielBeslagSkruer1 = new Materiel_BeslagSkruer("test_product", 10);
-        Materiel_Træ materielTræ1 = new Materiel_Træ("test_product", 200, 20);
+        Options materielBeslagSkruer1 = new Options("test_product", 10);
+        Tree materielTræ1 = new Tree("test_product", 200, 20);
 
 
         String styk_bes = "Skal bruges til...";

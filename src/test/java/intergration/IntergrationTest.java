@@ -97,7 +97,7 @@ public class IntergrationTest {
         //Create user
         try {
             user = api.createUser(email, password1, password2);
-            assertEquals(email, user.getUserEmail());
+            assertEquals(email, user.getEmail());
         } catch (UserExists | DBexception userExists) {
             userExists.printStackTrace();
         } catch (InvalidPassword invalidPassword) {
@@ -106,8 +106,8 @@ public class IntergrationTest {
 
         //Login user
         try {
-            user = api.login(user.getUserEmail(), password1);
-            assertEquals(email, user.getUserEmail());
+            user = api.login(user.getEmail(), password1);
+            assertEquals(email, user.getEmail());
         } catch (InvalidPassword invalidPassword) {
             invalidPassword.printStackTrace();
         } catch (UserNotFound e){
@@ -118,7 +118,7 @@ public class IntergrationTest {
 
         //Invalid login
         try {
-            user = api.login(user.getUserEmail(), "2233");
+            user = api.login(user.getEmail(), "2233");
         } catch (InvalidPassword invalidPassword) {
             String exceptionMessage = "" + invalidPassword.getMessage();
         } catch (UserNotFound | DBexception e){
