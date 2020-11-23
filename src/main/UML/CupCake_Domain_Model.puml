@@ -11,28 +11,21 @@ class Sælger {
 }
 
 class Carport {
-    varenummer
-    navn
     type
-    højde
+    længde
     bredde
-    beskrivelse
-    pris
+    skur?
 }
 
 class Skur {
-    varenummer
-    navn
-    højde
+    længde
     bredde
-    beskrivelse
-    pris
 }
 
 class Kunde {
     navn
     address
-    psot nummer
+    post nummer
     by
     tlf nummer
     email
@@ -41,15 +34,16 @@ class Kunde {
 class Bestilling {
     ordrenumer
     tidspunkt
-    info
     status
-    aktiv
+    tilbud?
+    længde
+    bredde
 }
 
 class Stykliste {
-    varenummer
-    navn
-    antal
+    materiale varenummer
+    materiale navn
+    materiale antal
 }
 
 class Materiale {
@@ -58,12 +52,12 @@ class Materiale {
     styk/meter pris
 }
 
-Bestilling "*" -- "1" Carport
-Bestilling "*" -- "1" Skur
+Bestilling "1" -- "1" Carport
+Carport "1" -- "1" Skur
 Bestilling "*" -- "1" Kunde
 Carport "*" -- "1" Stykliste
-Skur "*" -- "1" Stykliste
 Stykliste "1" -- "*" Materiale
+Sælger "1" -- "*" Bestilling
 
 
 
