@@ -37,7 +37,7 @@ public class DBUserRepository implements UserRepository {
                 String user_email = rs.getString( "user_email" );
                 String user_role = rs.getString( "user_role" );
 
-                User user = new User( user_id, user_email, user_role);
+                User user = new User( user_id, user_email, User.Role.valueOf(user_role));
 
                 allUsersFromDB.add(user);
             }
@@ -65,7 +65,7 @@ public class DBUserRepository implements UserRepository {
                 String user_email = rs.getString( "user_email" );
                 String user_role = rs.getString( "user_role" );
 
-                user = new User( user_id, user_email, user_role);
+                user = new User( user_id, user_email, User.Role.valueOf(user_role));
 
                 return user;
             }

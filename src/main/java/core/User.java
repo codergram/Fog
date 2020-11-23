@@ -23,73 +23,68 @@ public class User {
         }
         PASSWORD_FACTORY = factory;
     }
+    
+    public enum Role {
+        Employee,
+        Admin
+    }
 
-    private final int user_id;
-    private final String user_email;
-    private final String user_role;
+    private int id;
+    private final String email;
+    private final Enum<Role> role;
     private final byte[] salt;
     private final byte[] secret;
-
-
-    public User(int user_id, String user_email, String user_role, byte[] salt, byte[] secret) {
-        this.user_id = user_id;
-        this.user_email = user_email;
-        this.user_role = user_role;
+    
+    
+    public User(int id, String email, Enum<Role> role, byte[] salt, byte[] secret) {
+        this.id = id;
+        this.email = email;
+        this.role = role;
         this.salt = salt;
         this.secret = secret;
     }
-
-    public User(String user_email, String user_role, byte[] salt, byte[] secret) {
-        this.user_id = -1;
-        this.user_email= user_email;
-        this.user_role = user_role;
-        this.salt = salt;
-        this.secret = secret;
+    
+    public User(int id, String email, Enum<Role> role) {
+        this.id = id;
+        this.email = email;
+        this.role = role;
+        salt = null;
+        secret = null;
     }
-
-    //Is used when we edit a user
-    public User(int user_id, String user_email, String user_role) {
-        this.user_id = user_id;
-        this.user_email= user_email;
-        this.user_role = user_role;
-        this.salt = null;
-        this.secret = null;
+    
+    public boolean isEmployee(){
+        return this.role.name().equalsIgnoreCase("employee");
     }
-
-    //Is used when we get orders from the DB where we don't need all the users info's
-    public User(String user_email) {
-        this.user_id = -1;
-        this.user_email= user_email;
-        this.user_role = "";
-        this.salt = null;
-        this.secret = null;
+    
+    public boolean isAdmin(){
+        return this.role.name().equalsIgnoreCase("admin");
     }
-
-    public User withId (int user_id) {
-        return new User(user_id, this.user_email, this.user_role, this.salt, this.secret);
+    
+    public User getById(int id){
+        return this.id != id ? this : null;
     }
-
-    public int getId() {
-        return user_id;
+    
+    public User withId(int id){
+        this.id = id;
+        return this;
     }
-
-    public String getUserEmail() {
-        return user_email;
+    
+    public String getEmail() {
+        return email;
     }
-
-    public String getUserRole() {
-        return user_role;
+    
+    public Enum<Role> getRole() {
+        return role;
     }
-
+    
     public byte[] getSalt() {
         return salt;
     }
-
+    
     public byte[] getSecret() {
         return secret;
     }
-
-
+    
     /**
      * Password stuff
      */
@@ -114,13 +109,5 @@ public class User {
 
     public boolean isPasswordCorrect(String password) {
         return Arrays.equals(this.secret, calculateSecret(salt, password));
-    }
-
-    // Thanks: https://stackoverflow.com/a/13006907
-    public static String byteArrayToHex(byte[] a) {
-        StringBuilder sb = new StringBuilder(a.length * 2);
-        for(byte b: a)
-            sb.append(String.format("%02x", b));
-        return sb.toString();
     }
 }

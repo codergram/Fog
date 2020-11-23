@@ -24,8 +24,8 @@ public class DBUserFactory implements UserFactory {
             PreparedStatement ps = conn.prepareStatement( SQL, Statement.RETURN_GENERATED_KEYS );
 
             //Link variables to the SQL statement
-            ps.setString(1, user.getUserEmail());
-            ps.setString(2, user.getUserRole());
+            ps.setString(1, user.getEmail());
+            ps.setString(2, user.getRole().name());
             ps.setBytes(3, user.getSalt());
             ps.setBytes(4, user.getSecret());
 

@@ -1,4 +1,4 @@
-package entries.login_register_logout;
+package entries.website;
 
 import core.User;
 import domain.user.InvalidPassword;
@@ -47,15 +47,15 @@ public class Login extends BaseServlet {
             session.setAttribute("user", user);
 
             //Redirect by user_role and get session data
-            if(user.getUserRole().equals("admin")){
+            if(user.getRole().equals(User.Role.Admin)){
                 if(checkoutProcess.equals("true")){
                     response.sendRedirect(request.getContextPath() + "/CheckoutPage?user_role=admin");
 
                 } else {
-                    response.sendRedirect(request.getContextPath() + "/AdminPage");
+                    response.sendRedirect(request.getContextPath() + "/Start");
                 }
 
-            } else if (user.getUserRole().equals("sælger")){
+            } else if (user.getRole().equals(User.Role.Employee)){
                 if(checkoutProcess.equals("true")){
                     response.sendRedirect(request.getContextPath() + "/CheckoutPage?user_role=sælger");
 
