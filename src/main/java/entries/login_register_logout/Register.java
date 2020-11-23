@@ -49,10 +49,10 @@ public class Register extends BaseServlet {
 
             } else if (user.getUserRole().equals("customer")){
                 if(checkoutProcess.equals("true")){
-                    response.sendRedirect(request.getContextPath() + "/CheckoutPage?user_role=customer");
+                    response.sendRedirect(request.getContextPath() + "/CheckoutPage?user_role=sælger");
 
                 } else {
-                    response.sendRedirect(request.getContextPath() + "/CustomerPage");
+                    response.sendRedirect(request.getContextPath() + "/EmployeePage");
                 }
 
             } else {

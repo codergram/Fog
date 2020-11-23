@@ -55,12 +55,12 @@ public class Login extends BaseServlet {
                     response.sendRedirect(request.getContextPath() + "/AdminPage");
                 }
 
-            } else if (user.getUserRole().equals("customer")){
+            } else if (user.getUserRole().equals("sælger")){
                 if(checkoutProcess.equals("true")){
-                    response.sendRedirect(request.getContextPath() + "/CheckoutPage?user_role=customer");
+                    response.sendRedirect(request.getContextPath() + "/CheckoutPage?user_role=sælger");
 
                 } else {
-                    response.sendRedirect(request.getContextPath() + "/CustomerPage");
+                    response.sendRedirect(request.getContextPath() + "/EmployeePage");
                 }
 
             } else {

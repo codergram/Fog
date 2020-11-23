@@ -2,32 +2,36 @@
 Title Use Case
 left to right direction
 
-actor customer
+actor kunde
+actor sælger
 actor admin
 
-rectangle webshop {
-    customer -- (Choose product)
-    customer -- (Edit cart)
-    customer -- (View cart)
-    customer -- (Buy product)
-    customer -- (Login)
-    customer -- (Logout)
-    (Buy product) -- (Choose payment)
-    (Buy product) -- (Choose delivery)
-    (Buy product) -- (Choose extra info)
+rectangle hjemmeside {
+    kunde -- (Vælge carport inkl. specifikationer)
+    kunde -- (Vælge skur inkl. specifikationer)
+    kunde -- (Send forespørgsel)
 
-    customer -- (View order)
-    customer -- (View customer profile)
 
-    admin -- (View customer profile)
-    admin -- (Edit customer)
-    admin -- (Delete customer)
-    admin -- (View order)
-    admin -- (View orders)
-    admin -- (Edit order)
-    admin -- (Delete order)
+    sælger -- (Login)
+    sælger -- (Logout)
+    sælger -- (Se forespørgsler)
+    (Se forespørgsler) -- (Rette i forespørgsler) : inkl.
+    (Se forespørgsler) -- (Se listepriser) : inkl.
+    sælger -- (Se listepriser)
+
+
+
     admin -- (Login)
     admin -- (Logout)
+    admin -- (Se profiler)
+    (Se profiler) -- (Oprette profiler) : inkl.
+    (Se profiler) -- (Ændre profiler) : inkl.
+    (Se profiler) -- (Slette profiler) : inkl.
+    admin -- (Se forespørgsler)
+    admin -- (Se listepriser)
+    (Se listepriser) -- (Tilføj listepriser) : inkl.
+    (Se listepriser) -- (Ændre listepriser) : inkl. (admin)
+    (Se listepriser) -- (Slet listepriser) : inkl. (admin)
 }
 
 @enduml

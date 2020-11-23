@@ -1,0 +1,50 @@
+@startuml
+Title Aktivitetsdiagram AS-IS
+
+
+|Kunde|
+start
+:Besøger hjemmeside;
+
+|#AntiqueWhite|Hjemmeside|
+:Indsender specifikation;
+
+|Sælger|
+:Modtager bestilling;
+:Sælger kontakter kunde;
+
+|#AntiqueWhite|Hjemmeside|
+:Udregner tilbud;
+
+|Sælger|
+:Sender tilbud til kunden;
+
+|Kunde|
+:Overvejer tilbud;
+    if (Tilfreds med tilbudet) equals (nej) then
+    stop
+
+    else (ja)
+    |Sælger|
+    :Bestiller tilbud;
+    :Sælger klargører bestilling;
+
+    |Lager|
+    :Bestilling klargøres;
+
+    |Sælger|
+    :Sælger kontakter kunde;
+
+    |Lager|
+    :Bestilling afhentes af kunden;
+
+    |Kunde|
+    :Bestilling ankommer hos kunde;
+
+    |Sælger|
+    :Opdaterer bestilling;
+    stop
+
+
+
+@enduml
