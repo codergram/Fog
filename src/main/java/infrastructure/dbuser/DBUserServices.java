@@ -148,7 +148,7 @@ public class DBUserServices implements UserServices {
                 byte[] salt = rs.getBytes("salt");
                 byte[] secret = rs.getBytes("secret");
 
-                User user = new User(user_id, user_email, user_role, salt, secret);
+                User user = new User(user_id, user_email, User.Role.valueOf(user_role), salt, secret);
 
                 return user;
 

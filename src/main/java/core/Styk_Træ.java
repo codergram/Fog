@@ -1,17 +1,19 @@
 package core;
 
+import core.materialer.Tree;
+
 public class Styk_Træ extends Styk{
 
-    private final Materiel_Træ materielTræ;
+    private final Tree materielTræ;
     private final double styk_subtotal;
 
-    public Styk_Træ(int styk_id, Materiel_Træ materielTræ, String styk_bes, double styk_antal) {
+    public Styk_Træ(int styk_id, Tree materielTræ, String styk_bes, double styk_antal) {
         super(styk_id, styk_bes, styk_antal);
         this.materielTræ = materielTræ;
         this.styk_subtotal = calculate_subtotal(materielTræ, styk_antal);
     }
 
-    public Styk_Træ(Materiel_Træ materielTræ, String styk_bes, double styk_antal) {
+    public Styk_Træ(Tree materielTræ, String styk_bes, double styk_antal) {
         super(styk_bes, styk_antal);
         this.materielTræ = materielTræ;
         this.styk_subtotal = calculate_subtotal(materielTræ, styk_antal);
@@ -25,7 +27,7 @@ public class Styk_Træ extends Styk{
         return styk_id;
     }
 
-    public Materiel_Træ getTræ() {
+    public Tree getTræ() {
         return materielTræ;
     }
 
@@ -37,7 +39,7 @@ public class Styk_Træ extends Styk{
         return styk_subtotal;
     }
 
-    private double calculate_subtotal(Materiel_Træ materielTræ, double antal){
-        return ((materielTræ.getTræ_mål() / 100) * materielTræ.getTræ_pris()) * antal;
+    private double calculate_subtotal(Tree tree, double antal){
+        return ((tree.getLength() / 100) * tree.getPrice()) * antal;
     }
 }
