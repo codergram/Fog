@@ -1,37 +1,28 @@
 package core;
 
-public class BeslagSkruer {
+public class BeslagSkruer extends Materiel{
 
-    private final int bes_id;
-    private final String bes_navn;
-    private final double bes_pris;
-
-
-    public BeslagSkruer(int bes_id, String bes_navn, double bes_pris) {
-        this.bes_id = bes_id;
-        this.bes_navn = bes_navn;
-        this.bes_pris = bes_pris;
+    public BeslagSkruer(int mat_id, String mat_navn, double mat_pris) {
+        super(mat_id, mat_navn, mat_pris);
     }
 
-    public BeslagSkruer(String bes_navn, double bes_pris) {
-        this.bes_id = -1;
-        this.bes_navn = bes_navn;
-        this.bes_pris = bes_pris;
+    public BeslagSkruer(String mat_navn, double mat_pris) {
+        super(mat_navn, mat_pris);
     }
 
-    public BeslagSkruer withId (int bes_id) {
-        return new BeslagSkruer(bes_id, this.bes_navn, this.bes_pris);
+    public BeslagSkruer withId (int mat_id) {
+        return new BeslagSkruer(mat_id, this.mat_navn, this.mat_pris);
     }
 
     public int getBes_id() {
-        return bes_id;
+        return mat_id;
     }
 
     public String getBes_navn() {
-        return bes_navn;
+        return mat_navn;
     }
 
     public double getBes_pris() {
-        return bes_pris;
+        return mat_pris;
     }
 }

@@ -2,7 +2,7 @@ package core;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class Stykliste_BeslagSkruerTest {
+class Styk_BeslagSkruerTest {
 
     @org.junit.jupiter.api.Test
     void calculate_subtotal() {
@@ -10,8 +10,8 @@ class Stykliste_BeslagSkruerTest {
 
         String styk_bes = "Skal bruges til...";
         int antal = 2;
-        Stykliste_BeslagSkruer stykliste_beslagSkruer = new Stykliste_BeslagSkruer(beslagSkruer, styk_bes, antal);
-        assertEquals(40, stykliste_beslagSkruer.getStyk_subtotal());
+        Styk_BeslagSkruer styk_beslagSkruer = new Styk_BeslagSkruer(beslagSkruer, styk_bes, antal);
+        assertEquals(40, styk_beslagSkruer.getStyk_subtotal());
     }
 
 

@@ -84,22 +84,22 @@ public class Bestilling {
         return skur;
     }
 
-    private double calculate_subtotal(ArrayList<Stykliste_Træ> styklisteTræ, ArrayList<Stykliste_BeslagSkruer> styklisteBeslagSkruers) {
+    private double calculate_subtotal(ArrayList<Styk_Træ> styklisteTræ, ArrayList<Styk_BeslagSkruer> styklisteBeslagSkruers) {
 
         double bes_subtotal = 0;
 
-        for(Stykliste_Træ currentElement: styklisteTræ){
+        for(Styk_Træ currentElement: styklisteTræ){
             bes_subtotal = bes_subtotal + currentElement.getStyk_subtotal();
         }
 
-        for(Stykliste_BeslagSkruer currentElement: styklisteBeslagSkruers){
+        for(Styk_BeslagSkruer currentElement: styklisteBeslagSkruers){
             bes_subtotal = bes_subtotal + currentElement.getStyk_subtotal();
         }
 
         return bes_subtotal;
     }
 
-    private double calculate_total(ArrayList<Stykliste_Træ> styklisteTræ, ArrayList<Stykliste_BeslagSkruer> styklisteBeslagSkruers, double bes_moms) {
+    private double calculate_total(ArrayList<Styk_Træ> styklisteTræ, ArrayList<Styk_BeslagSkruer> styklisteBeslagSkruers, double bes_moms) {
         return calculate_subtotal(styklisteTræ, styklisteBeslagSkruers) * (1 + (bes_moms / 100));
     }
 

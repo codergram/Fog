@@ -1,41 +1,33 @@
 package core;
 
-public class Træ {
+public class Træ extends Materiel{
 
-    private final int træ_id;
-    private final String træ_navn;
     private final int træ_mål;
-    private final double træ_pris;
 
-
-    public Træ(int træ_id, String træ_navn, int træ_mål, double træ_pris) {
-        this.træ_id = træ_id;
-        this.træ_navn = træ_navn;
+    public Træ(int mat_id, String mat_navn, int træ_mål, double mat_pris) {
+        super(mat_id, mat_navn, mat_pris);
         this.træ_mål = træ_mål;
-        this.træ_pris = træ_pris;
     }
 
-    public Træ(String træ_navn, int træ_mål, double træ_pris) {
-        this.træ_id = -1;
-        this.træ_navn = træ_navn;
+    public Træ(String mat_navn, int træ_mål, double mat_pris) {
+        super(mat_navn, mat_pris);
         this.træ_mål = træ_mål;
-        this.træ_pris = træ_pris;
     }
 
-    public Træ withId (int træ_id) {
-        return new Træ(træ_id, this.træ_navn, this.træ_mål, this.træ_pris);
+    public Træ withId (int mat_id) {
+        return new Træ(mat_id, this.mat_navn, this.træ_mål, this.mat_pris);
     }
 
     public int getTræ_id() {
-        return træ_id;
+        return mat_id;
     }
 
     public String getTræ_navn() {
-        return træ_navn;
+        return mat_navn;
     }
 
     public double getTræ_pris() {
-        return træ_pris;
+        return mat_pris;
     }
 
     public int getTræ_mål() {

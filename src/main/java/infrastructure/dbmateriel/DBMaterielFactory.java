@@ -1,16 +1,22 @@
-package infrastructure.dbbeslagskruer;
+package infrastructure.dbmateriel;
 
 import core.BeslagSkruer;
-import domain.beslagskruer.BeslagSkruerFactory;
+import core.Træ;
+import domain.materiel.MaterielFactory;
 import infrastructure.DBexception;
 import infrastructure.Database;
 
-public class DBBeslagSkruerFactory implements BeslagSkruerFactory {
+public class DBMaterielFactory implements MaterielFactory {
 
     private final Database database;
 
-    public DBBeslagSkruerFactory(Database database) {
+    public DBMaterielFactory(Database database) {
         this.database = database;
+    }
+
+    @Override
+    public Træ createTræ(Træ træ) throws DBexception {
+        return null;
     }
 
     @Override

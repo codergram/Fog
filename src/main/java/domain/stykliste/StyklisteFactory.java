@@ -1,14 +1,14 @@
 package domain.stykliste;
 
-import core.Stykliste_BeslagSkruer;
-import core.Stykliste_Træ;
+import core.Styk_BeslagSkruer;
+import core.Styk_Træ;
 
 import java.util.ArrayList;
 
 public interface StyklisteFactory {
 
-    ArrayList<Stykliste_Træ> createStyklisteTræ();
+    ArrayList<Styk_Træ> createStyklisteTræ();
 
-    ArrayList<Stykliste_BeslagSkruer> createStyklisteBeslagSkruer();
+    ArrayList<Styk_BeslagSkruer> createStyklisteBeslagSkruer();
 
 }

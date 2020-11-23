@@ -1,5 +1,7 @@
 package core;
 
+import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -7,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BestillingTest {
 
 
-    @org.junit.jupiter.api.Test
+    @Test
     void calculate_orderTotalOnlyTræ() {
 
         Træ træ1 = new Træ("test_product", 100, 10);
@@ -15,18 +17,18 @@ class BestillingTest {
 
         String styk_bes = "Skal bruges til...";
         int antal = 1;
-        Stykliste_Træ stykliste_træ1 = new Stykliste_Træ(træ1, styk_bes, antal);
-        Stykliste_Træ stykliste_træ2 = new Stykliste_Træ(træ2, styk_bes, antal);
+        Styk_Træ styk_træ1 = new Styk_Træ(træ1, styk_bes, antal);
+        Styk_Træ styk_træ2 = new Styk_Træ(træ2, styk_bes, antal);
 
-        ArrayList<Stykliste_Træ> styklisteTræ = new ArrayList<>();
-        styklisteTræ.add(stykliste_træ1);
-        styklisteTræ.add(stykliste_træ2);
-
-
-        ArrayList<Stykliste_BeslagSkruer> stykliste_BeslagSkruer = new ArrayList<>();
+        ArrayList<Styk_Træ> styklisteTræ = new ArrayList<>();
+        styklisteTræ.add(styk_træ1);
+        styklisteTræ.add(styk_træ2);
 
 
-        Stykliste stykliste = new Stykliste(styklisteTræ, stykliste_BeslagSkruer);
+        ArrayList<Styk_BeslagSkruer> styk_BeslagSkruer = new ArrayList<>();
+
+
+        Stykliste stykliste = new Stykliste(styklisteTræ, styk_BeslagSkruer);
 
         Kunde kunde = new Kunde("", "", 0, "", 0, "");
         Carport carport = new Carport("", 0, 0);
@@ -40,7 +42,7 @@ class BestillingTest {
 
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void calculate_orderTotalOnlyBeslagSkruer() {
 
         BeslagSkruer beslagSkruer1 = new BeslagSkruer("test_product", 10);
@@ -48,18 +50,18 @@ class BestillingTest {
 
         String styk_bes = "Skal bruges til...";
         int antal =2;
-        Stykliste_BeslagSkruer stykliste_BeslagSkruer1 = new Stykliste_BeslagSkruer(beslagSkruer1, styk_bes, antal);
-        Stykliste_BeslagSkruer stykliste_BeslagSkruer2 = new Stykliste_BeslagSkruer(beslagSkruer2, styk_bes, antal);
+        Styk_BeslagSkruer styk_BeslagSkruer1 = new Styk_BeslagSkruer(beslagSkruer1, styk_bes, antal);
+        Styk_BeslagSkruer styk_BeslagSkruer2 = new Styk_BeslagSkruer(beslagSkruer2, styk_bes, antal);
 
-        ArrayList<Stykliste_BeslagSkruer> stykliste_beslagSkruers = new ArrayList<>();
-        stykliste_beslagSkruers.add(stykliste_BeslagSkruer1);
-        stykliste_beslagSkruers.add(stykliste_BeslagSkruer2);
-
-
-        ArrayList<Stykliste_Træ> stykliste_Træ = new ArrayList<>();
+        ArrayList<Styk_BeslagSkruer> styk_beslagSkruers = new ArrayList<>();
+        styk_beslagSkruers.add(styk_BeslagSkruer1);
+        styk_beslagSkruers.add(styk_BeslagSkruer2);
 
 
-        Stykliste stykliste = new Stykliste(stykliste_Træ, stykliste_beslagSkruers);
+        ArrayList<Styk_Træ> styk_Træ = new ArrayList<>();
+
+
+        Stykliste stykliste = new Stykliste(styk_Træ, styk_beslagSkruers);
 
         Kunde kunde = new Kunde("", "", 0, "", 0, "");
         Carport carport = new Carport("", 0, 0);
@@ -73,7 +75,7 @@ class BestillingTest {
 
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void calculate_orderTotal() {
 
         BeslagSkruer beslagSkruer1 = new BeslagSkruer("test_product", 10);
@@ -82,17 +84,17 @@ class BestillingTest {
 
         String styk_bes = "Skal bruges til...";
         int antal =2;
-        Stykliste_BeslagSkruer stykliste_BeslagSkruer1 = new Stykliste_BeslagSkruer(beslagSkruer1, styk_bes, antal);
-        Stykliste_Træ stykliste_træ1 = new Stykliste_Træ(træ1, styk_bes, antal);
+        Styk_BeslagSkruer styk_BeslagSkruer1 = new Styk_BeslagSkruer(beslagSkruer1, styk_bes, antal);
+        Styk_Træ styk_træ1 = new Styk_Træ(træ1, styk_bes, antal);
 
-        ArrayList<Stykliste_BeslagSkruer> stykliste_beslagSkruers = new ArrayList<>();
-        stykliste_beslagSkruers.add(stykliste_BeslagSkruer1);
+        ArrayList<Styk_BeslagSkruer> styk_beslagSkruers = new ArrayList<>();
+        styk_beslagSkruers.add(styk_BeslagSkruer1);
 
-        ArrayList<Stykliste_Træ> styklisteTræ = new ArrayList<>();
-        styklisteTræ.add(stykliste_træ1);
+        ArrayList<Styk_Træ> styklisteTræ = new ArrayList<>();
+        styklisteTræ.add(styk_træ1);
 
 
-        Stykliste stykliste = new Stykliste(styklisteTræ, stykliste_beslagSkruers);
+        Stykliste stykliste = new Stykliste(styklisteTræ, styk_beslagSkruers);
 
         Kunde kunde = new Kunde("", "", 0, "", 0, "");
         Carport carport = new Carport("", 0, 0);

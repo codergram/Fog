@@ -1,18 +1,29 @@
-package infrastructure.dbbeslagskruer;
+package infrastructure.dbmateriel;
 
 import core.BeslagSkruer;
-import domain.beslagskruer.BeslagSkruerRepository;
+import core.Træ;
+import domain.materiel.MaterielRepository;
 import infrastructure.DBexception;
 import infrastructure.Database;
 
 import java.util.ArrayList;
 
-public class DBBeslagSkruerRepository implements BeslagSkruerRepository {
+public class DBMaterielRepository implements MaterielRepository {
 
     private final Database database;
 
-    public DBBeslagSkruerRepository(Database database) {
+    public DBMaterielRepository(Database database) {
         this.database = database;
+    }
+
+    @Override
+    public ArrayList<Træ> getAllTræFromDB() throws DBexception {
+        return null;
+    }
+
+    @Override
+    public Træ getTræById(int træ_id) throws DBexception {
+        return null;
     }
 
     @Override
