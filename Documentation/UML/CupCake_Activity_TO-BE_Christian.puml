@@ -1,0 +1,51 @@
+@startuml
+Title Aktivitetsdiagram AS-IS
+
+
+|Kunde|
+start
+repeat
+:Beskriver behov og opretter behov;
+
+|#AntiqueWhite|IT System|
+:Visualiser carport og kundes behov;
+
+|Kunde|
+:Vurdere billede;
+repeat while (accept) is (no)
+:Bestil carport;
+
+|#AntiqueWhite|IT System|
+:Tilføj bestilling til liste;
+:Beregner tilbud m. stykliste;
+
+
+|Sælger|
+:Se bestilling på liste;
+repeat
+
+|Sælger|
+:Gennemgår tilbud;
+:Kontakter kunde på tlf.;
+
+|Kunde|
+:Vurdere tilbud;
+
+repeat while (accept) is (no)
+
+
+|Sælger|
+:Opretter ordre;
+:Send faktura;
+
+|Kunde|
+:Betal;
+:Få materialer på lager og byg carport;
+
+|Sælger|
+:Følg op med kunde;
+stop
+
+
+
+@enduml
