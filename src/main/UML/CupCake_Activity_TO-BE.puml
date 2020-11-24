@@ -35,13 +35,13 @@ start
     :Bestiller tilbud;
     :Sælger klargører bestilling;
 
-    |Lager|
+    |#AntiqueWhite|Lager|
     :Bestilling klargøres;
 
     |Sælger|
     :Sælger kontakter kunde;
 
-    |Lager|
+    |#AntiqueWhite|Lager|
     :Bestilling afhentes af kunden;
 
     |Kunde|
