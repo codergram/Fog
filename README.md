@@ -1,22 +1,33 @@
-<h1 align="center">Welcome to WebApp Template 👋</h1>
+<h1 align="center">Welcome to Fog Carport Builder 👋</h1>
 <p>
-  <img alt="Version" src="https://img.shields.io/badge/version-1-blue.svg?cacheSeconds=2592000" />
+  <img alt="Version" src="https://img.shields.io/badge/version-1.0-blue.svg?cacheSeconds=2592000" />
 </p>
 
-> IntelliJ Project template for Web applications using JSP
+> Programming project for 2. Semester exam
 
-### Install instructions
-***
-1) Execute "init.sql" on your Database
-2) Configure Database settings in Database.java
-3) <b><u>Have fun</u></b>
-***
+### 🏠 [Team homepage](https://codergram.me/)
+
+### ✨ [Demo site](https://codergram.me/fog)
 
 ## Author
 
 👤 **Emil Elkjær Nielsen**
 
-* Github: [@eelkjaer](https://github.com/eelkjaer)
+* [Github](https://github.com/eelkjaer)
+* [LinkedIn](https://linkedin.com/in/emil-elkjær)
+
+👤 **Jacob Lange Nielsen**
+
+* [Github](https://github.com/Langeeee)
+* [LinkedIn](https://linkedin.com/in/jacob-lange-nielsen-28219b1a8)
+
+👤 **Sigurd Arik Twena Nielsen**
+
+* [Github](https://github.com/ariktwena)
+
+## 🤝 Contributing
+
+Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://tree.taiga.io/project/eenielsen-fog/issues). 
 
 ## Show your support
 
