@@ -22,7 +22,7 @@ import infrastructure.DBexception;
 
 public class Api {
     
-    public final  String genericSiteTitle = "Fog Trælast";
+    public final static String genericSiteTitle = "Fog Trælast";
 
     private final UserFactory userFactory;
     private final UserRepository userRepository;

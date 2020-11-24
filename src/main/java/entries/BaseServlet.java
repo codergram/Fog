@@ -56,7 +56,7 @@ public class BaseServlet extends HttpServlet {
     
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-        request.setAttribute("title", api.genericSiteTitle + " - " + title);
+        request.setAttribute("title", Api.genericSiteTitle + " - " + title);
         request.setAttribute("content", content);
         request.getRequestDispatcher("/WEB-INF/includes/base.jsp").forward(request, response);
 
