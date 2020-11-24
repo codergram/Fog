@@ -1,7 +1,7 @@
 package domain.materiel;
 
-import core.materialer.Options;
-import core.materialer.Tree;
+import core.materials.Options;
+import core.materials.Tree;
 import infrastructure.DBexception;
 
 import java.util.ArrayList;

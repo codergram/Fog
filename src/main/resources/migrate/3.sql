@@ -29,7 +29,7 @@ st_subtotal DECIMAL(8,2) NOT NULL DEFAULT 0,
 fk_bestilling_id INT NOT NULL,
 PRIMARY KEY (st_id),
 FOREIGN KEY (fk_træ_id) REFERENCES materielTræ(træ_id),
-FOREIGN KEY (fk_bestilling_id) REFERENCES bestilling(bes_id)
+FOREIGN KEY (fk_bestilling_id) REFERENCES order(bes_id)
 );
 
 CREATE TABLE IF NOT EXISTS styklistebeslagskruer (
@@ -42,7 +42,7 @@ sb_subtotal DECIMAL(8,2) NOT NULL DEFAULT 0,
 fk_bestilling_id INT NOT NULL,
 PRIMARY KEY (sb_id),
 FOREIGN KEY (fk_bes_id) REFERENCES beslagskruer(bes_id),
-FOREIGN KEY (fk_bestilling_id) REFERENCES bestilling(bes_id)
+FOREIGN KEY (fk_bestilling_id) REFERENCES order(bes_id)
 );
 
 INSERT INTO materielTræ

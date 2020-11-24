@@ -1,6 +1,6 @@
 package infrastructure.dbbestilling;
 
-import core.Bestilling;
+import core.Order;
 import domain.bestilling.BestillingFactory;
 import infrastructure.DBexception;
 import infrastructure.Database;
@@ -14,7 +14,7 @@ public class DBBestillingFactory implements BestillingFactory {
     }
 
     @Override
-    public Bestilling createBestilling(Bestilling bestilling) throws DBexception {
+    public Order createBestilling(Order order) throws DBexception {
         return null;
     }
 }

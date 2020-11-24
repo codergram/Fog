@@ -17,7 +17,7 @@ public class Shop extends BaseServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        render("Din carport", "/WEB-INF/pages/garage.jsp", request, response);
+        render("Din carport", "/WEB-INF/pages/carport.jsp", request, response);
     }
 
 }

@@ -24,7 +24,7 @@ skur_højde INT NOT NULL,
 PRIMARY KEY (skur_id)
 );
 
-CREATE TABLE IF NOT EXISTS bestilling (
+CREATE TABLE IF NOT EXISTS order (
 bes_id INT NOT NULL AUTO_INCREMENT,
 bes_tid VARCHAR(45) NOT NULL,
 bes_status VARCHAR(45) NOT NULL DEFAULT 'afventer',

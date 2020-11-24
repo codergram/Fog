@@ -6,27 +6,27 @@
             <div class="form-group">
                 <label for="laengde">Carportens længde</label>
                 <select class="form-control" id="laengde" required>
-                    <option>200cm</option>
-                    <option>300cm</option>
-                    <option>400cm</option>
+                    <option value="200">200cm</option>
+                    <option value="300">300cm</option>
+                    <option value="400">400cm</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="bredde">Carportens bredde</label>
                 <select class="form-control" id="bredde" required>
-                    <option>150cm</option>
-                    <option>200cm</option>
-                    <option>250cm</option>
-                    <option>300cm</option>
+                    <option value="150">150cm</option>
+                    <option value="200">200cm</option>
+                    <option value="250">250cm</option>
+                    <option value="300">300cm</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="tag">Carportens tagtype</label>
                 <select class="form-control" id="tag" required>
-                    <option>Fladt</option>
-                    <option>Med rejsning</option>
+                    <option value="flat">Fladt</option>
+                    <option value="peak">Med rejsning</option>
                 </select>
             </div>
 
@@ -37,8 +37,8 @@
             <div class="form-group">
                 <label for="shedtype">Skur type</label>
                 <select class="form-control" id="shedtype" disabled>
-                    <option>Hel bredde</option>
-                    <option>Halv bredde</option>
+                    <option value="50">Hel bredde</option>
+                    <option value="100">Halv bredde</option>
                 </select>
             </div>
 

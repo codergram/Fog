@@ -1,10 +1,10 @@
 package domain.bestilling;
 
-import core.Bestilling;
+import core.Order;
 import infrastructure.DBexception;
 
 public interface BestillingFactory {
 
-    Bestilling createBestilling(Bestilling bestilling) throws DBexception;
+    Order createBestilling(Order order) throws DBexception;
 
 }

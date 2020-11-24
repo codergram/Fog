@@ -1,6 +1,6 @@
-package core.materialer;
+package core.materials;
 
-public class Tree extends Materiel{
+public class Tree extends Material {
 
     private final double length;
     

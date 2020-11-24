@@ -1,11 +1,12 @@
 package core;
 
-import core.materialer.Tree;
+import core.materials.Tree;
+import core.parts.Part_Træ;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class Styk_TræTest {
+class Part_TræTest {
 
     @Test
     void calculate_subtotal() {
@@ -13,8 +14,8 @@ class Styk_TræTest {
 
         String styk_bes = "Skal bruges til...";
         int antal = 2;
-        Styk_Træ styk_træ = new Styk_Træ(materielTræ, styk_bes, antal);
-        assertEquals(41, styk_træ.getStyk_subtotal());
+        Part_Træ styk_træ = new Part_Træ(materielTræ, styk_bes, antal);
+        assertEquals(41, styk_træ.getSubTotal());
     }
 
 

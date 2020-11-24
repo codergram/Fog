@@ -1,14 +1,14 @@
 package domain.stykliste;
 
-import core.Styk_BeslagSkruer;
-import core.Styk_Træ;
+import core.parts.Part_BeslagSkruer;
+import core.parts.Part_Træ;
 
 import java.util.ArrayList;
 
 public interface StyklisteRepository {
 
-    ArrayList<Styk_Træ> addToStyklisteTræ(ArrayList<Styk_Træ> styklisteTræ, Styk_Træ styk_træ);
+    ArrayList<Part_Træ> addToStyklisteTræ(ArrayList<Part_Træ> styklisteTræ, Part_Træ styk_træ);
 
-    ArrayList<Styk_BeslagSkruer> addToStyklisteBeslagSkruer(ArrayList<Styk_BeslagSkruer> styklisteBeslagSkruer, Styk_BeslagSkruer styk_beslagSkruer);
+    ArrayList<Part_BeslagSkruer> addToStyklisteBeslagSkruer(ArrayList<Part_BeslagSkruer> styklisteBeslagSkruer, Part_BeslagSkruer styk_beslagSkruer);
 
 }
