@@ -10,7 +10,7 @@ start
 :Indsender specifikation;
 
 |Sælger|
-:Modtager bestilling;
+:Modtager order;
 :Sælger kontakter kunde;
 
 |#AntiqueWhite|Hjemmeside|
@@ -27,7 +27,7 @@ start
     else (ja)
     |Sælger|
     :Bestiller tilbud;
-    :Sælger klargører bestilling;
+    :Sælger klargører order;
 
     |Lager|
     :Bestilling klargøres;
@@ -42,7 +42,7 @@ start
     :Bestilling ankommer hos kunde;
 
     |Sælger|
-    :Opdaterer bestilling;
+    :Opdaterer order;
     stop
 
 

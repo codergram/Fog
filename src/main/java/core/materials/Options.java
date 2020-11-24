@@ -1,6 +1,6 @@
-package core.materialer;
+package core.materials;
 
-public class Options extends Materiel{
+public class Options extends Material {
     
     public Options(int id, String name, double price) {
         super(id, name, price);

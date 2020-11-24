@@ -1,14 +1,14 @@
 package domain.stykliste;
 
-import core.Styk_BeslagSkruer;
-import core.Styk_Træ;
+import core.parts.Part_BeslagSkruer;
+import core.parts.Part_Træ;
 
 import java.util.ArrayList;
 
 public interface StyklisteServices {
 
-    ArrayList<Styk_Træ> resetStyklisteTræ();
+    ArrayList<Part_Træ> resetStyklisteTræ();
 
-    ArrayList<Styk_BeslagSkruer> resetStyklisteBeslagSkruer();
+    ArrayList<Part_BeslagSkruer> resetStyklisteBeslagSkruer();
 
 }

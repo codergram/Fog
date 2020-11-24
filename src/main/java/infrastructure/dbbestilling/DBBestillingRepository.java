@@ -1,6 +1,6 @@
 package infrastructure.dbbestilling;
 
-import core.Bestilling;
+import core.Order;
 import domain.bestilling.BestillingRepository;
 import infrastructure.DBexception;
 import infrastructure.Database;
@@ -16,12 +16,12 @@ public class DBBestillingRepository implements BestillingRepository {
     }
 
     @Override
-    public ArrayList<Bestilling> getAllBestillingFromDB() throws DBexception {
+    public ArrayList<Order> getAllBestillingFromDB() throws DBexception {
         return null;
     }
 
     @Override
-    public Bestilling getBestillingById(int bes_id) throws DBexception {
+    public Order getBestillingById(int bes_id) throws DBexception {
         return null;
     }
 }

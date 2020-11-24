@@ -1,7 +1,7 @@
 package infrastructure.dbmateriel;
 
-import core.materialer.Options;
-import core.materialer.Tree;
+import core.materials.Options;
+import core.materials.Tree;
 import domain.materiel.MaterielFactory;
 import infrastructure.DBexception;
 import infrastructure.Database;
