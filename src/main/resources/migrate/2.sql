@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS kunde (
+CREATE TABLE IF NOT EXISTS customer (
 kunde_id INT NOT NULL AUTO_INCREMENT,
 kunde_navn VARCHAR(45) NOT NULL,
 kunde_adresse VARCHAR(45) NOT NULL,
@@ -36,7 +36,7 @@ fk_kunde_id INT NOT NULL,
 fk_carport_id INT NOT NULL,
 fk_skur_id INT NOT NULL,
 PRIMARY KEY (bes_id),
-FOREIGN KEY (fk_kunde_id) REFERENCES kunde(kunde_id),
+FOREIGN KEY (fk_kunde_id) REFERENCES customer(kunde_id),
 FOREIGN KEY (fk_carport_id) REFERENCES carport(carport_id),
 FOREIGN KEY (fk_skur_id) REFERENCES skur(skur_id)
 );

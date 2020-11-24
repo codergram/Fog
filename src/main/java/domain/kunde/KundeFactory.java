@@ -1,10 +1,10 @@
 package domain.kunde;
 
-import core.Kunde;
+import core.Customer;
 import infrastructure.DBexception;
 
 public interface KundeFactory {
 
-    Kunde createKunde(Kunde kunde) throws DBexception;
+    Customer createKunde(Customer customer) throws DBexception;
 
 }

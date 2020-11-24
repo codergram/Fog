@@ -16,11 +16,11 @@ public class Order {
     private final double bes_moms;
     private final double bes_total;
     private final Partlist partlist;
-    private final Kunde kunde;
+    private final Customer customer;
     private final Carport carport;
     private final Skur skur;
 
-    public Order(int bes_id, String bes_tid, String bes_status, double bes_moms, Partlist partlist, Kunde kunde, Carport carport, Skur skur) {
+    public Order(int bes_id, String bes_tid, String bes_status, double bes_moms, Partlist partlist, Customer customer, Carport carport, Skur skur) {
         this.bes_id = bes_id;
         this.bes_tid = bes_tid;
         this.bes_status = bes_status;
@@ -29,12 +29,12 @@ public class Order {
         this.bes_moms = bes_moms;
         this.bes_total = calculate_total(partlist.getStyklisteTræ(), partlist.getStyklisteBeslagSkruer(), bes_moms);
         this.partlist = partlist;
-        this.kunde = kunde;
+        this.customer = customer;
         this.carport = carport;
         this.skur = skur;
     }
 
-    public Order(String bes_tid, String bes_status, double bes_moms, Partlist partlist, Kunde kunde, Carport carport, Skur skur) {
+    public Order(String bes_tid, String bes_status, double bes_moms, Partlist partlist, Customer customer, Carport carport, Skur skur) {
         this.bes_id = -1;
         this.bes_tid = bes_tid;
         this.bes_status = bes_status;
@@ -43,13 +43,13 @@ public class Order {
         this.bes_moms = bes_moms;
         this.bes_total = calculate_total(partlist.getStyklisteTræ(), partlist.getStyklisteBeslagSkruer(), bes_moms);
         this.partlist = partlist;
-        this.kunde = kunde;
+        this.customer = customer;
         this.carport = carport;
         this.skur = skur;
     }
 
     public Order withId (int bes_id) {
-        return new Order(bes_id, this.bes_tid, this.bes_status, this.bes_moms, this.partlist, this.kunde, this.carport, this.skur);
+        return new Order(bes_id, this.bes_tid, this.bes_status, this.bes_moms, this.partlist, this.customer, this.carport, this.skur);
     }
 
     public int getBes_id() {
@@ -76,8 +76,8 @@ public class Order {
         return bes_total;
     }
 
-    public Kunde getKunde() {
-        return kunde;
+    public Customer getKunde() {
+        return customer;
     }
 
     public Carport getCarport() {

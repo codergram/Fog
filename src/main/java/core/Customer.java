@@ -1,6 +1,6 @@
 package core;
 
-public class Kunde {
+public class Customer {
 
     private final int kunde_id;
     private final String navn;
@@ -10,7 +10,7 @@ public class Kunde {
     private final int tlf_nr;
     private final String email;
 
-    public Kunde(int kunde_id, String navn, String adresse, int post_nummer, String by, int tlf_nr, String email) {
+    public Customer(int kunde_id, String navn, String adresse, int post_nummer, String by, int tlf_nr, String email) {
         this.kunde_id = kunde_id;
         this.navn = navn;
         this.adresse = adresse;
@@ -20,7 +20,7 @@ public class Kunde {
         this.email = email;
     }
 
-    public Kunde(String navn, String adresse, int post_nummer, String by, int tlf_nr, String email) {
+    public Customer(String navn, String adresse, int post_nummer, String by, int tlf_nr, String email) {
         this.kunde_id = -1;
         this.navn = navn;
         this.adresse = adresse;
@@ -31,7 +31,7 @@ public class Kunde {
     }
 
     //Is used when we get orders from the DB where we don't need all the users info's
-    public Kunde(String navn, int tlf_nr, String email) {
+    public Customer(String navn, int tlf_nr, String email) {
         this.kunde_id = -1;
         this.navn = navn;
         this.adresse = "";
@@ -41,8 +41,8 @@ public class Kunde {
         this.email = email;
     }
 
-    public Kunde withId (int kunde_id) {
-        return new Kunde(kunde_id, this.navn, this.adresse, this.post_nummer, this.by, this.tlf_nr, this.email);
+    public Customer withId (int kunde_id) {
+        return new Customer(kunde_id, this.navn, this.adresse, this.post_nummer, this.by, this.tlf_nr, this.email);
     }
 
     public int getKunde_id() {

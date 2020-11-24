@@ -1,6 +1,6 @@
 package infrastructure.dbkunde;
 
-import core.Kunde;
+import core.Customer;
 import domain.kunde.KundeFactory;
 import infrastructure.DBexception;
 import infrastructure.Database;
@@ -14,7 +14,7 @@ public class DBKundeFactory implements KundeFactory {
     }
 
     @Override
-    public Kunde createKunde(Kunde kunde) throws DBexception {
+    public Customer createKunde(Customer customer) throws DBexception {
         return null;
     }
 }

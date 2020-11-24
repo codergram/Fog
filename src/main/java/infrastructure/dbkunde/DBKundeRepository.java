@@ -1,6 +1,6 @@
 package infrastructure.dbkunde;
 
-import core.Kunde;
+import core.Customer;
 import domain.kunde.KundeRepository;
 import infrastructure.DBexception;
 import infrastructure.Database;
@@ -16,12 +16,12 @@ public class DBKundeRepository implements KundeRepository {
     }
 
     @Override
-    public ArrayList<Kunde> getAllKunderFromDB() throws DBexception {
+    public ArrayList<Customer> getAllKunderFromDB() throws DBexception {
         return null;
     }
 
     @Override
-    public Kunde getKundeById(int kunde_id) throws DBexception {
+    public Customer getKundeById(int kunde_id) throws DBexception {
         return null;
     }
 }
