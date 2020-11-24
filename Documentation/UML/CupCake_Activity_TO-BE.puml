@@ -10,7 +10,7 @@ start
 
 |Sælger|
 :Modtager order;
-:Sælger kontakter kunde;
+:Sælger kontakter customer;
 
 |#AntiqueWhite|Hjemmeside|
 :Udregner tilbud;
@@ -39,13 +39,13 @@ start
     :Bestilling klargøres;
 
     |Sælger|
-    :Sælger kontakter kunde;
+    :Sælger kontakter customer;
 
     |#AntiqueWhite|Lager|
     :Bestilling afhentes af kunden;
 
     |Kunde|
-    :Bestilling ankommer hos kunde;
+    :Bestilling ankommer hos customer;
 
     |Sælger|
     :Opdaterer order;

@@ -35,11 +35,11 @@ class OrderTest {
 
         Partlist partlist = new Partlist(styklisteTræ, styk_BeslagSkruer);
 
-        Kunde kunde = new Kunde("", "", 0, "", 0, "");
+        Customer customer = new Customer("", "", 0, "", 0, "");
         Carport carport = new Carport("", 0, 0);
         Skur skur = new Skur(0, 0);
 
-        Order order = new Order("", "", 25, partlist, kunde, carport, skur);
+        Order order = new Order("", "", 25, partlist, customer, carport, skur);
 
         assertEquals(50, order.getBes_subtotal());
         assertEquals(25, order.getBes_moms());
@@ -68,11 +68,11 @@ class OrderTest {
 
         Partlist partlist = new Partlist(styk_Træ, styk_beslagSkruers);
 
-        Kunde kunde = new Kunde("", "", 0, "", 0, "");
+        Customer customer = new Customer("", "", 0, "", 0, "");
         Carport carport = new Carport("", 0, 0);
         Skur skur = new Skur(0, 0);
 
-        Order order = new Order("", "", 25, partlist, kunde, carport, skur);
+        Order order = new Order("", "", 25, partlist, customer, carport, skur);
 
         assertEquals(60, order.getBes_subtotal());
         assertEquals(25, order.getBes_moms());
@@ -101,11 +101,11 @@ class OrderTest {
 
         Partlist partlist = new Partlist(styklisteTræ, styk_beslagSkruers);
 
-        Kunde kunde = new Kunde("", "", 0, "", 0, "");
+        Customer customer = new Customer("", "", 0, "", 0, "");
         Carport carport = new Carport("", 0, 0);
         Skur skur = new Skur(0, 0);
 
-        Order order = new Order("", "", 25, partlist, kunde, carport, skur);
+        Order order = new Order("", "", 25, partlist, customer, carport, skur);
 
         assertEquals(100, order.getBes_subtotal());
         assertEquals(25, order.getBes_moms());

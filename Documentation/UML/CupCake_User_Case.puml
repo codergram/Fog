@@ -2,14 +2,14 @@
 Title Use Case
 left to right direction
 
-actor kunde
+actor customer
 actor sælger
 actor admin
 
 rectangle hjemmeside {
-    kunde -- (Vælge carport inkl. specifikationer)
-    kunde -- (Vælge skur inkl. specifikationer)
-    kunde -- (Send forespørgsel)
+    customer -- (Vælge carport inkl. specifikationer)
+    customer -- (Vælge skur inkl. specifikationer)
+    customer -- (Send forespørgsel)
 
 
     sælger -- (Login)

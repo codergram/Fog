@@ -1,0 +1,20 @@
+<svg version="1.1"
+     xmlns="http://www.w3.org/2000/svg"
+     height="500"
+     width="500"
+     viewBox="0 0 500 500"
+     >
+    <style>
+        .dannebrog {
+            fill: red;
+            stroke: black;
+        }
+    </style>
+
+    <rect x="0" y="0" height="90" width="90" class="dannebrog"/>
+    <rect x="120" y="0" height="90" width="135" class="dannebrog"/>
+    <rect x="0" y="120" height="90" width="90" class="dannebrog"/>
+    <rect x="120" y="120" height="90" width="135" class="dannebrog"/>
+
+</svg>
+
