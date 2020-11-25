@@ -1,10 +1,7 @@
 package api;
 
+import api.exceptions.EmailNotSent;
 import domain.user.User;
-import domain.order.OrderRepository;
-import domain.carport.CarportRepository;
-import domain.customer.CustomerRepository;
-import domain.material.MaterielRepository;
 import domain.user.*;
 import domain.user.exceptions.InvalidPassword;
 import domain.user.exceptions.UserExists;
@@ -15,21 +12,13 @@ public class Api {
     
     public final static String genericSiteTitle = "Fog Trælast";
     
-    private final Database database;
 
     private final UserRepository userRepository;
-    private final OrderRepository orderRepository;
-    private final CarportRepository carportRepository;
-    private final CustomerRepository customerRepository;
-    private final MaterielRepository materielRepository;
+    private final EmailService emailService;
     
-    public Api(Database database) {
-        this.database = database;
-        this.userRepository = new DBUser(database);
-        this.orderRepository = new DBOrder(database);
-        this.carportRepository = new DBCarport(database);
-        this.customerRepository = new DBCustomer(database);
-        this.materielRepository = new DBMaterial(database);
+    public Api(UserRepository userRepository, EmailService emailService) {
+        this.userRepository = userRepository;
+        this.emailService = emailService;
     }
     
     protected boolean sendMail(String mailAddress, String title, String subject, String msg){
@@ -39,9 +28,9 @@ public class Api {
                     .replace("$$OVERSKRIFT$$", subject)
                     .replace("$$TEKST$$", msg);
             
-            Utils.sendEmail(mailAddress, title, message);
+            emailService.sendEmail(mailAddress, title, message);
             return true;
-        } catch (Exception e){
+        } catch (EmailNotSent e){
             System.out.println(e.getMessage());
             return false;
         }
