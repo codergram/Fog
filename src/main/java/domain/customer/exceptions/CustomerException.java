@@ -1,4 +1,4 @@
-package domain.customer;
+package domain.customer.exceptions;
 
 public class CustomerException extends Exception {
     public CustomerException() {
