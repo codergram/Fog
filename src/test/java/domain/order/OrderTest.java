@@ -4,6 +4,7 @@ import domain.carport.Carport;
 import domain.customer.Customer;
 import domain.material.materials.Options;
 import domain.material.materials.Tree;
+import domain.partslist.Part;
 import domain.partslist.Partslist;
 import domain.user.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,15 +27,15 @@ class OrderTest {
         
         Partslist partslist = new Partslist();
         partslist.addItem(
-                partslist.newPart(
+                new Part(
                     new Tree("20x20 bjælke", 550, 20), 15 //total price: 300
                 ));
         partslist.addItem(
-                partslist.newPart(
+                new Part(
                         new Tree("30x10 spær", 430, 12.5), 30 //total price: 375
                 ));
         partslist.addItem(
-                partslist.newPart(
+                new Part(
                         new Options("Søm", 0.25), 200 //total price: 50
                 ));
         
