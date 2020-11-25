@@ -37,7 +37,12 @@
 <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js"></script>
 <script type="text/javascript" class="init">
     $(document).ready(function () {
-        $('#example').DataTable();
+        $('#example').DataTable({
+            "columnDefs": [{
+                "targets": 'no-sort',
+                "orderable": false,
+            }]
+        });
     });
 </script>
 
