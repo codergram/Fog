@@ -1,7 +1,7 @@
 package domain.carport;
 
 import domain.carport.shed.Shed;
-import domain.stykliste.ListOfItems;
+import domain.partslist.Partslist;
 
 public class Carport {
     public enum Roof {
@@ -15,15 +15,24 @@ public class Carport {
     private final Enum<Roof> roofType;
     private final Shed shed;
     private double price;
-    private final ListOfItems listOfItems;
+    private final Partslist partslist;
     
-    public Carport(int id, double length, double width, Enum<Roof> roofType, Shed shed, ListOfItems listOfItems) {
+    public Carport(int id, double length, double width, Enum<Roof> roofType, Shed shed, Partslist partslist) {
         this.id = id;
         this.length = length;
         this.width = width;
         this.roofType = roofType;
         this.shed = shed;
-        this.listOfItems = listOfItems;
+        this.partslist = partslist;
+        this.price = calculatePrice(partslist);
+    }
+    
+    private double calculatePrice(Partslist partslist) {
+        double x = 0.0;
+        for(Partslist.Part p: partslist.getMaterialList()){
+            x += p.getPrice();
+        }
+        return x;
     }
     
     public int getId() {
@@ -54,7 +63,7 @@ public class Carport {
         this.price = price;
     }
     
-    public ListOfItems getListOfItems() {
-        return listOfItems;
+    public Partslist getListOfItems() {
+        return partslist;
     }
 }

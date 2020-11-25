@@ -1,4 +1,4 @@
-package domain.stykliste;
+package domain.partslist;
 
 public class StyklisteException extends Exception{
     public StyklisteException() {

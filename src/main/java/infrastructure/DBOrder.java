@@ -21,4 +21,19 @@ public class DBOrder implements OrderRepository {
     public Order getBestillingById(int bes_id) throws DBException {
         return null;
     }
+    
+    @Override
+    public Order createBestilling(Order order) throws DBException {
+        return null;
+    }
+    
+    @Override
+    public void deleteBestillingById(int bes_id) throws DBException {
+    
+    }
+    
+    @Override
+    public void updatedOrderStatus(int orderId, Order.Status status) throws DBException {
+    
+    }
 }
