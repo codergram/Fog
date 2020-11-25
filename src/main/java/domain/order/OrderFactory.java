@@ -1,9 +1,9 @@
 package domain.order;
 
-import infrastructure.DBException;
+import domain.order.exceptions.OrderException;
 
 public interface OrderFactory {
 
-    Order createBestilling(Order order) throws DBException;
+    Order createNewOrder(Order order) throws OrderException;
 
 }

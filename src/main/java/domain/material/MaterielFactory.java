@@ -2,12 +2,12 @@ package domain.material;
 
 import domain.material.materials.Options;
 import domain.material.materials.Tree;
-import infrastructure.DBException;
+import infrastructure.exceptions.DBException;
 
 public interface MaterielFactory {
 
-    Tree createTræ(Tree materielTræ) throws DBException;
+    Tree createTree(Tree tree) throws DBException;
 
-    Options createBeslagSkruer(Options materielBeslagSkruer) throws DBException;
+    Options createOption(Options option) throws DBException;
 
 }

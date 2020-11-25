@@ -1,10 +1,12 @@
 package infrastructure;
 
+import domain.material.materials.Material;
 import domain.material.materials.Options;
 import domain.material.materials.Tree;
 import domain.material.MaterielRepository;
+import infrastructure.exceptions.DBException;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class DBMaterial implements MaterielRepository {
     private final Database database;
@@ -15,42 +17,57 @@ public class DBMaterial implements MaterielRepository {
     
     
     @Override
-    public ArrayList<Tree> getAllTræFromDB() throws DBException {
+    public List<Material> getAllMaterials() throws DBException {
         return null;
     }
     
     @Override
-    public Tree getTræById(int træ_id) throws DBException {
+    public Material getMaterialById(int id) throws DBException {
         return null;
     }
     
     @Override
-    public ArrayList<Options> getAllBeslagSkruerFromDB() throws DBException {
+    public List<Tree> getAllTrees() throws DBException {
         return null;
     }
     
     @Override
-    public Options getBeslagSkruerById(int bes_id) throws DBException {
+    public Tree getTreeByName(String name) throws DBException {
         return null;
     }
     
     @Override
-    public Tree createTræ(Tree materielTræ) throws DBException {
+    public Tree updateTree(Tree tree) throws DBException {
         return null;
     }
     
     @Override
-    public Options createBeslagSkruer(Options materielBeslagSkruer) throws DBException {
+    public List<Options> getAllOptions() throws DBException {
         return null;
     }
     
     @Override
-    public void updateTræById(int træ_id, String træ_navn, double træ_pris) throws DBException {
-    
+    public Options getOptionByName(String name) throws DBException {
+        return null;
     }
     
     @Override
-    public void updateBeslagSkruerById(int bes_id, String bes_navn, double bes_pris) throws DBException {
+    public Options updateOption(Options option) throws DBException {
+        return null;
+    }
     
+    @Override
+    public boolean deleteMaterialById(int id) throws DBException {
+        return false;
+    }
+    
+    @Override
+    public Tree createTree(Tree tree) throws DBException {
+        return null;
+    }
+    
+    @Override
+    public Options createOption(Options option) throws DBException {
+        return null;
     }
 }

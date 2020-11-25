@@ -1,6 +1,6 @@
 package domain.carport;
 
-import infrastructure.DBException;
+import infrastructure.exceptions.DBException;
 
 public interface CarportFactory {
 

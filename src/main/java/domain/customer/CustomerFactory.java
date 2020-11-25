@@ -1,6 +1,6 @@
 package domain.customer;
 
-import infrastructure.DBException;
+import infrastructure.exceptions.DBException;
 
 public interface CustomerFactory {
 

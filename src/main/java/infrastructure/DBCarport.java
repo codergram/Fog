@@ -4,6 +4,7 @@ import domain.carport.Carport;
 import domain.carport.CarportRepository;
 import domain.carport.shed.Shed;
 import domain.carport.shed.ShedException;
+import infrastructure.exceptions.DBException;
 
 import java.util.ArrayList;
 

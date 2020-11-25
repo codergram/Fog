@@ -4,7 +4,7 @@ import domain.user.User;
 import domain.user.exceptions.InvalidPassword;
 import domain.user.exceptions.UserNotFound;
 import entries.BaseServlet;
-import infrastructure.DBException;
+import infrastructure.exceptions.DBException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

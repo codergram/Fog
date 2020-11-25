@@ -2,6 +2,7 @@ package infrastructure;
 
 import domain.customer.Customer;
 import domain.customer.CustomerRepository;
+import infrastructure.exceptions.DBException;
 
 import java.util.ArrayList;
 
