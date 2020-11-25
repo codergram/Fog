@@ -6,7 +6,7 @@ import infrastructure.DBException;
 
 import java.util.ArrayList;
 
-public interface MaterielRepository {
+public interface MaterielRepository extends MaterielFactory, MaterielServices{
 
     ArrayList<Tree> getAllTræFromDB() throws DBException;
 

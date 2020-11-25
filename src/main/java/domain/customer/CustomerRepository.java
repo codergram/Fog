@@ -4,7 +4,7 @@ import infrastructure.DBException;
 
 import java.util.ArrayList;
 
-public interface CustomerRepository {
+public interface CustomerRepository extends CustomerFactory {
 
     ArrayList<Customer> getAllKunderFromDB() throws DBException;
 

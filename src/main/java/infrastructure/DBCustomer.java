@@ -12,6 +12,7 @@ public class DBCustomer implements CustomerRepository {
         this.database = database;
     }
     
+    
     @Override
     public ArrayList<Customer> getAllKunderFromDB() throws DBException {
         return null;
@@ -19,6 +20,11 @@ public class DBCustomer implements CustomerRepository {
     
     @Override
     public Customer getKundeById(int kunde_id) throws DBException {
+        return null;
+    }
+    
+    @Override
+    public Customer createKunde(Customer customer) throws DBException {
         return null;
     }
 }
