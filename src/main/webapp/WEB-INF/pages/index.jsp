@@ -7,13 +7,13 @@
         <div class="col-md-6">
             <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
+                    <div class="carousel-part active">
                         <img class="d-block w-100" src="${pageContext.request.contextPath}/images/carport_1.jpg" alt="Første slide">
                         <div class="carousel-caption d-none d-md-block">
                             <a class="btn btn-light" href="Shop">Bestil Nu</a>
                         </div>
                     </div>
-                    <div class="carousel-item">
+                    <div class="carousel-part">
                         <img class="d-block w-100" src="${pageContext.request.contextPath}/images/carport_2.jpg" alt="Anden slide">
                         <div class="carousel-caption d-none d-md-block">
                             <a class="btn btn-light" href="Shop">Bestil Nu</a>

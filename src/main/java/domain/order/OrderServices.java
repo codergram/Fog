@@ -6,8 +6,6 @@ public interface OrderServices {
 
     void deleteBestillingById(int bes_id) throws DBException;
 
-    void updatedBestillingToAfventer(int bes_id) throws DBException;
-
-    void updatedBestillingToLeveret(int bes_id) throws DBException;
+    void updatedOrderStatus(int orderId, Order.Status status) throws DBException;
 
 }

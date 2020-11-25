@@ -5,7 +5,7 @@ import domain.carport.Carport;
 import domain.customer.Customer;
 import domain.user.User;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 public class Order {
     
