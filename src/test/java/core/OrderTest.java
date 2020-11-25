@@ -1,5 +1,6 @@
 package core;
 
+import domain.carport.shed.Shed;
 import domain.order.Order;
 import domain.carport.Carport;
 import domain.material.materials.Options;
@@ -8,7 +9,6 @@ import domain.parts.Part_BeslagSkruer;
 import domain.parts.Part_Træ;
 import domain.parts.Partlist;
 import domain.customer.Customer;
-import domain.skur.Skur;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -41,9 +41,9 @@ class OrderTest {
 
         Customer customer = new Customer("", "", 0, "", 0, "");
         Carport carport = new Carport("", 0, 0);
-        Skur skur = new Skur(0, 0);
+        Shed shed = new Shed(0, 0);
 
-        Order order = new Order("", "", 25, partlist, customer, carport, skur);
+        Order order = new Order("", "", 25, partlist, customer, carport, shed);
 
         assertEquals(50, order.getBes_subtotal());
         assertEquals(25, order.getBes_moms());
@@ -74,9 +74,9 @@ class OrderTest {
 
         Customer customer = new Customer("", "", 0, "", 0, "");
         Carport carport = new Carport("", 0, 0);
-        Skur skur = new Skur(0, 0);
+        Shed shed = new Shed(0, 0);
 
-        Order order = new Order("", "", 25, partlist, customer, carport, skur);
+        Order order = new Order("", "", 25, partlist, customer, carport, shed);
 
         assertEquals(60, order.getBes_subtotal());
         assertEquals(25, order.getBes_moms());
@@ -107,9 +107,9 @@ class OrderTest {
 
         Customer customer = new Customer("", "", 0, "", 0, "");
         Carport carport = new Carport("", 0, 0);
-        Skur skur = new Skur(0, 0);
+        Shed shed = new Shed(0, 0);
 
-        Order order = new Order("", "", 25, partlist, customer, carport, skur);
+        Order order = new Order("", "", 25, partlist, customer, carport, shed);
 
         assertEquals(100, order.getBes_subtotal());
         assertEquals(25, order.getBes_moms());

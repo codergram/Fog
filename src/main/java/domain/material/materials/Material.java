@@ -1,6 +1,6 @@
 package domain.material.materials;
 
-abstract class Material {
+public abstract class Material {
 
     protected final int id;
     protected final String name;

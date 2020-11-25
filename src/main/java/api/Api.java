@@ -1,7 +1,7 @@
 package api;
 
 import domain.user.User;
-import domain.order.BestillingRepository;
+import domain.order.OrderRepository;
 import domain.carport.CarportRepository;
 import domain.customer.CustomerRepository;
 import domain.material.MaterielRepository;
@@ -18,7 +18,7 @@ public class Api {
     private final Database database;
 
     private final UserRepository userRepository;
-    private final BestillingRepository bestillingRepository;
+    private final OrderRepository orderRepository;
     private final CarportRepository carportRepository;
     private final CustomerRepository customerRepository;
     private final MaterielRepository materielRepository;
@@ -26,7 +26,7 @@ public class Api {
     public Api(Database database) {
         this.database = database;
         this.userRepository = new DBUser(database);
-        this.bestillingRepository = new DBOrder(database);
+        this.orderRepository = new DBOrder(database);
         this.carportRepository = new DBCarport(database);
         this.customerRepository = new DBCustomer(database);
         this.materielRepository = new DBMaterial(database);

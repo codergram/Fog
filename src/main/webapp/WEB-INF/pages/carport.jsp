@@ -32,7 +32,7 @@
 
             <div class="custom-control custom-switch">
                 <input type="checkbox" class="custom-control-input" id="shed" onchange="document.getElementById('shedtype').disabled = !this.checked;">
-                <label class="custom-control-label" for="shed">Jeg ønsker et skur</label>
+                <label class="custom-control-label" for="shed">Jeg ønsker et shed</label>
             </div>
             <div class="form-group">
                 <label for="shedtype">Skur type</label>

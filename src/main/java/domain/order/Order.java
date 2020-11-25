@@ -1,113 +1,72 @@
 package domain.order;
 
-import domain.skur.Skur;
-import domain.parts.Part_BeslagSkruer;
-import domain.parts.Part_Træ;
-import domain.parts.Partlist;
+
 import domain.carport.Carport;
 import domain.customer.Customer;
+import domain.user.User;
 
-import java.util.ArrayList;
+import java.security.Timestamp;
 
 public class Order {
+    
+    public enum Status{
+        New,
+        Awaiting,
+        Accepted,
+        Paid,
+        Completed
+    }
 
-    private final int bes_id;
-    private final String bes_tid;
-    private final String bes_status;
-    private final int bes_aktiv;
-    private final double bes_subtotal;
-    private final double bes_moms;
-    private final double bes_total;
-    private final Partlist partlist;
+    private final int id;
+    private final double width;
+    private final double length;
+    private final Timestamp timestamp;
+    private final User salesEmployee;
     private final Customer customer;
+    private final Enum<Status> status;
     private final Carport carport;
-    private final Skur skur;
-
-    public Order(int bes_id, String bes_tid, String bes_status, double bes_moms, Partlist partlist, Customer customer, Carport carport, Skur skur) {
-        this.bes_id = bes_id;
-        this.bes_tid = bes_tid;
-        this.bes_status = bes_status;
-        this.bes_aktiv = 1;
-        this.bes_subtotal = calculate_subtotal(partlist.getStyklisteTræ(), partlist.getStyklisteBeslagSkruer());
-        this.bes_moms = bes_moms;
-        this.bes_total = calculate_total(partlist.getStyklisteTræ(), partlist.getStyklisteBeslagSkruer(), bes_moms);
-        this.partlist = partlist;
+    
+    
+    public Order(int id, double width, double length, Timestamp timestamp, User salesEmployee, Customer customer, Enum<Status> status, Carport carport) {
+        this.id = id;
+        this.width = width;
+        this.length = length;
+        this.timestamp = timestamp;
+        this.salesEmployee = salesEmployee;
         this.customer = customer;
+        this.status = status;
         this.carport = carport;
-        this.skur = skur;
     }
-
-    public Order(String bes_tid, String bes_status, double bes_moms, Partlist partlist, Customer customer, Carport carport, Skur skur) {
-        this.bes_id = -1;
-        this.bes_tid = bes_tid;
-        this.bes_status = bes_status;
-        this.bes_aktiv = 1;
-        this.bes_subtotal = calculate_subtotal(partlist.getStyklisteTræ(), partlist.getStyklisteBeslagSkruer());
-        this.bes_moms = bes_moms;
-        this.bes_total = calculate_total(partlist.getStyklisteTræ(), partlist.getStyklisteBeslagSkruer(), bes_moms);
-        this.partlist = partlist;
-        this.customer = customer;
-        this.carport = carport;
-        this.skur = skur;
+    
+    public int getId() {
+        return id;
     }
-
-    public Order withId (int bes_id) {
-        return new Order(bes_id, this.bes_tid, this.bes_status, this.bes_moms, this.partlist, this.customer, this.carport, this.skur);
+    
+    public double getWidth() {
+        return width;
     }
-
-    public int getBes_id() {
-        return bes_id;
+    
+    public double getLength() {
+        return length;
     }
-
-    public String getBes_tid() {
-        return bes_tid;
+    
+    public Timestamp getTimestamp() {
+        return timestamp;
     }
-
-    public String getBes_status() {
-        return bes_status;
+    
+    public User getSalesEmployee() {
+        return salesEmployee;
     }
-
-    public double getBes_subtotal() {
-        return bes_subtotal;
-    }
-
-    public double getBes_moms() {
-        return bes_moms;
-    }
-
-    public double getBes_total() {
-        return bes_total;
-    }
-
-    public Customer getKunde() {
+    
+    public Customer getCustomer() {
         return customer;
     }
-
+    
+    public Enum<Status> getStatus() {
+        return status;
+    }
+    
     public Carport getCarport() {
         return carport;
     }
-
-    public Skur getSkur() {
-        return skur;
-    }
-
-    private double calculate_subtotal(ArrayList<Part_Træ> styklisteTræ, ArrayList<Part_BeslagSkruer> styklisteBeslagSkruers) {
-
-        double bes_subtotal = 0;
-
-        for(Part_Træ currentElement: styklisteTræ){
-            bes_subtotal = bes_subtotal + currentElement.getSubTotal();
-        }
-
-        for(Part_BeslagSkruer currentElement: styklisteBeslagSkruers){
-            bes_subtotal = bes_subtotal + currentElement.getSubTotal();
-        }
-
-        return bes_subtotal;
-    }
-
-    private double calculate_total(ArrayList<Part_Træ> styklisteTræ, ArrayList<Part_BeslagSkruer> styklisteBeslagSkruers, double bes_moms) {
-        return calculate_subtotal(styklisteTræ, styklisteBeslagSkruers) * (1 + (bes_moms / 100));
-    }
-
 }

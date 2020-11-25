@@ -1,11 +1,11 @@
 package infrastructure;
 
 import domain.order.Order;
-import domain.order.BestillingRepository;
+import domain.order.OrderRepository;
 
 import java.util.ArrayList;
 
-public class DBOrder implements BestillingRepository {
+public class DBOrder implements OrderRepository {
     private final Database database;
     
     public DBOrder(Database database) {

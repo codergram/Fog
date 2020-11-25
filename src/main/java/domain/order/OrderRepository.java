@@ -4,7 +4,7 @@ import infrastructure.DBException;
 
 import java.util.ArrayList;
 
-public interface BestillingRepository {
+public interface OrderRepository extends OrderFactory, OrderServices {
 
     ArrayList<Order> getAllBestillingFromDB() throws DBException;
 
