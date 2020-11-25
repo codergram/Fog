@@ -45,10 +45,7 @@ public class Api {
         //Create user
 
         //Validate user input
-        if(userRepository.userAldreadyExistsInDB(user_email)){
-            throw new UserExists(user_email);
-
-        } else if (!password1.equals(password2)){
+        if (!password1.equals(password2)){
             throw new InvalidPassword();
 
         } else {
@@ -64,8 +61,13 @@ public class Api {
     public synchronized User login(String email, String password) throws InvalidPassword, UserNotFound, DBException {
 
         //Get user from the DB with a specific name
-        User user = userRepository.login(email);
-
+        User user = null;
+        try {
+            user = userRepository.getUserByEmail(email);
+        } catch (UserExists userExists) {
+            userExists.printStackTrace();
+        }
+    
         //Username is null => no user was found in DB
         if(user.getEmail() == null){
             throw new UserNotFound();
