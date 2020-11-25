@@ -8,7 +8,7 @@ actor admin
 
 rectangle hjemmeside {
     customer -- (Vælge carport inkl. specifikationer)
-    customer -- (Vælge skur inkl. specifikationer)
+    customer -- (Vælge shed inkl. specifikationer)
     customer -- (Send forespørgsel)
 
 

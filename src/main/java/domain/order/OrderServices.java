@@ -2,7 +2,7 @@ package domain.order;
 
 import infrastructure.DBException;
 
-public interface BestillingServices {
+public interface OrderServices {
 
     void deleteBestillingById(int bes_id) throws DBException;
 

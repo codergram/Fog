@@ -17,7 +17,7 @@ carport_højde INT NOT NULL,
 PRIMARY KEY (carport_id)
 );
 
-CREATE TABLE IF NOT EXISTS skur (
+CREATE TABLE IF NOT EXISTS shed (
 skur_id INT NOT NULL AUTO_INCREMENT,
 skur_længde INT NOT NULL,
 skur_højde INT NOT NULL,
@@ -38,7 +38,7 @@ fk_skur_id INT NOT NULL,
 PRIMARY KEY (bes_id),
 FOREIGN KEY (fk_kunde_id) REFERENCES customer(kunde_id),
 FOREIGN KEY (fk_carport_id) REFERENCES carport(carport_id),
-FOREIGN KEY (fk_skur_id) REFERENCES skur(skur_id)
+FOREIGN KEY (fk_skur_id) REFERENCES shed(skur_id)
 );
 
 -- Husk at update jeres database version.

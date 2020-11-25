@@ -2,7 +2,7 @@ package domain.order;
 
 import infrastructure.DBException;
 
-public interface BestillingFactory {
+public interface OrderFactory {
 
     Order createBestilling(Order order) throws DBException;
 

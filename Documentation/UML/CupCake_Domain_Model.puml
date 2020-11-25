@@ -14,7 +14,7 @@ class Carport {
     type
     længde
     bredde
-    skur?
+    shed?
 }
 
 class Skur {

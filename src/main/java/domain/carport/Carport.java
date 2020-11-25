@@ -1,44 +1,60 @@
 package domain.carport;
 
+import domain.carport.shed.Shed;
+import domain.stykliste.ListOfItems;
+
 public class Carport {
-
-    private final int carport_id;
-    private final String carport_type;
-    private final int længde;
-    private final int højde;
-
-
-    public Carport(int carport_id, String carport_type, int længde, int højde) {
-        this.carport_id = carport_id;
-        this.carport_type = carport_type;
-        this.længde = længde;
-        this.højde = højde;
+    public enum Roof {
+        Flat,
+        Sloping
     }
 
-    public Carport(String carport_type, int længde, int højde) {
-        this.carport_id = -1;
-        this.carport_type = carport_type;
-        this.længde = længde;
-        this.højde = højde;
+    private final int id;
+    private final double length;
+    private final double width;
+    private final Enum<Roof> roofType;
+    private final Shed shed;
+    private double price;
+    private final ListOfItems listOfItems;
+    
+    public Carport(int id, double length, double width, Enum<Roof> roofType, Shed shed, ListOfItems listOfItems) {
+        this.id = id;
+        this.length = length;
+        this.width = width;
+        this.roofType = roofType;
+        this.shed = shed;
+        this.listOfItems = listOfItems;
     }
-
-    public Carport withId (int carport_id) {
-        return new Carport(carport_id, this.carport_type, this.længde, this.højde);
+    
+    public int getId() {
+        return id;
     }
-
-    public int getCarport_id() {
-        return carport_id;
+    
+    public double getLength() {
+        return length;
     }
-
-    public String getCarport_type() {
-        return carport_type;
+    
+    public double getWidth() {
+        return width;
     }
-
-    public int getLængde() {
-        return længde;
+    
+    public String getRoofType() {
+        return roofType.name();
     }
-
-    public int getHøjde() {
-        return højde;
+    
+    public Shed getShed() {
+        return shed;
+    }
+    
+    public double getPrice() {
+        return price;
+    }
+    
+    public void setPrice(double price) {
+        this.price = price;
+    }
+    
+    public ListOfItems getListOfItems() {
+        return listOfItems;
     }
 }
