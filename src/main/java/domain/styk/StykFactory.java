@@ -1,6 +1,6 @@
 package domain.styk;
 
-import domain.materiel.materials.Tree;
+import domain.material.materials.Tree;
 import domain.parts.Part_BeslagSkruer;
 import domain.parts.Part_Træ;
 

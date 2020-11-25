@@ -1,4 +1,4 @@
-package domain.bestilling;
+package domain.order;
 
 import domain.skur.Skur;
 import domain.parts.Part_BeslagSkruer;

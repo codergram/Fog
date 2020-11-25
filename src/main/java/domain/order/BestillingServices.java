@@ -1,4 +1,4 @@
-package domain.bestilling;
+package domain.order;
 
 import infrastructure.DBException;
 

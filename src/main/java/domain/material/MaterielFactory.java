@@ -1,7 +1,7 @@
-package domain.materiel;
+package domain.material;
 
-import domain.materiel.materials.Options;
-import domain.materiel.materials.Tree;
+import domain.material.materials.Options;
+import domain.material.materials.Tree;
 import infrastructure.DBException;
 
 public interface MaterielFactory {

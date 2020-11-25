@@ -1,4 +1,4 @@
-package domain.materiel.materials;
+package domain.material.materials;
 
 abstract class Material {
 

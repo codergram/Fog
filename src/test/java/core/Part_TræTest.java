@@ -1,6 +1,6 @@
 package core;
 
-import domain.materiel.materials.Tree;
+import domain.material.materials.Tree;
 import domain.parts.Part_Træ;
 import org.junit.jupiter.api.Test;
 

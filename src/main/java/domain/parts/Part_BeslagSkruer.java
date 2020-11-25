@@ -1,6 +1,6 @@
 package domain.parts;
 
-import domain.materiel.materials.Options;
+import domain.material.materials.Options;
 
 public class Part_BeslagSkruer extends Part {
 

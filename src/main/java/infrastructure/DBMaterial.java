@@ -1,8 +1,8 @@
 package infrastructure;
 
-import domain.materiel.materials.Options;
-import domain.materiel.materials.Tree;
-import domain.materiel.MaterielRepository;
+import domain.material.materials.Options;
+import domain.material.materials.Tree;
+import domain.material.MaterielRepository;
 
 import java.util.ArrayList;
 

@@ -1,7 +1,7 @@
 package infrastructure;
 
-import domain.bestilling.Order;
-import domain.bestilling.BestillingRepository;
+import domain.order.Order;
+import domain.order.BestillingRepository;
 
 import java.util.ArrayList;
 

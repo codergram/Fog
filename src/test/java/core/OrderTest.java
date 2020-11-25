@@ -1,9 +1,9 @@
 package core;
 
-import domain.bestilling.Order;
+import domain.order.Order;
 import domain.carport.Carport;
-import domain.materiel.materials.Options;
-import domain.materiel.materials.Tree;
+import domain.material.materials.Options;
+import domain.material.materials.Tree;
 import domain.parts.Part_BeslagSkruer;
 import domain.parts.Part_Træ;
 import domain.parts.Partlist;
