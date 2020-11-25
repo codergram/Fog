@@ -5,7 +5,7 @@ import domain.user.User;
 import domain.user.exceptions.InvalidPassword;
 import domain.user.exceptions.UserExists;
 import domain.user.exceptions.UserNotFound;
-import infrastructure.DBException;
+import infrastructure.exceptions.DBException;
 import infrastructure.Database;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.junit.jupiter.api.BeforeEach;

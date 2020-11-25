@@ -6,7 +6,7 @@ import domain.user.*;
 import domain.user.exceptions.InvalidPassword;
 import domain.user.exceptions.UserExists;
 import domain.user.exceptions.UserNotFound;
-import infrastructure.*;
+import infrastructure.exceptions.DBException;
 
 public class Api {
     
@@ -36,15 +36,7 @@ public class Api {
         }
     }
 
-    /**
-     * Create a user from the registration page
-     * @param user_email
-     * @param password1 needs to be the same as password2
-     * @param password2 needs to be the same as password1
-     * @return User that is signing up
-     * @throws UserExists User is already registered in the DB
-     * @throws InvalidPassword Passwords do not match
-     */
+    
     public synchronized User createUser(String user_email, String password1, String password2) throws UserExists, InvalidPassword, DBException {
         //Generate salt
         byte[] salt = User.generateSalt();
@@ -68,14 +60,7 @@ public class Api {
         }
     }
 
-    /**
-     * Login process
-     * @param email
-     * @param password
-     * @return The user that is logging in
-     * @throws UserNotFound
-     * @throws InvalidPassword
-     */
+    
     public synchronized User login(String email, String password) throws InvalidPassword, UserNotFound, DBException {
 
         //Get user from the DB with a specific name

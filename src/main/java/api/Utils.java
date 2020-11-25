@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class Utils {
+    private Utils() {
+    }
+    
     public static String removeHtml(String src) {
         return src.replaceAll("\"[^\"]*+\"", "");
     }

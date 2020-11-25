@@ -2,6 +2,8 @@ package infrastructure;
 
 import domain.user.User;
 import domain.user.UserRepository;
+import domain.user.exceptions.UserExists;
+import domain.user.exceptions.UserNotFound;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,69 +18,69 @@ public class DBUser implements UserRepository {
     
     
     @Override
-    public List<User> getAllUsersFromDB() throws DBException {
+    public List<User> getAllUsersFromDB() throws UserNotFound {
         List<User> allUsersFromDB = new ArrayList<>();
     
         try (Connection conn = database.getConnection()){
         
-            String SQL = "SELECT user_id, user_email, user_role FROM user "
+            String query = "SELECT user_id, user_email, user_role FROM user "
                     + "WHERE user_active = 1";
         
-            PreparedStatement ps = conn.prepareStatement( SQL );
+            PreparedStatement ps = conn.prepareStatement( query );
         
             ResultSet rs = ps.executeQuery();
         
             while ( rs.next() ) {
-                int user_id = rs.getInt("user_id");
-                String user_email = rs.getString( "user_email" );
-                String user_role = rs.getString( "user_role" );
+                int userId = rs.getInt("user_id");
+                String userEmail = rs.getString( "user_email" );
+                String userRole = rs.getString( "user_role" );
             
-                User user = new User( user_id, user_email, User.Role.valueOf(user_role));
+                User user = new User( userId, userEmail, User.Role.valueOf(userRole));
             
                 allUsersFromDB.add(user);
             }
         } catch ( SQLException ex ) {
-            throw new DBException();
+            throw new UserNotFound();
         }
     
         return allUsersFromDB;
     }
     
     @Override
-    public User getUserById(int userId) throws DBException {
+    public User getUserById(int userId) throws UserNotFound, UserExists {
         User user = null;
     
         try (Connection conn = database.getConnection()){
         
-            String SQL = "SELECT user_email, user_role FROM user "
+            String query = "SELECT user_email, user_role FROM user "
                     + "WHERE user_id = ?";
         
-            PreparedStatement ps = conn.prepareStatement( SQL );
+            PreparedStatement ps = conn.prepareStatement( query );
             ps.setInt( 1, userId );
             ResultSet rs = ps.executeQuery();
         
             if ( rs.next() ) {
-                String user_email = rs.getString( "user_email" );
-                String user_role = rs.getString( "user_role" );
+                String userEmail = rs.getString( "user_email" );
+                String userRole = rs.getString( "user_role" );
             
-                user = new User( userId, user_email, User.Role.valueOf(user_role));
+                user = new User( userId, userEmail, User.Role.valueOf(userRole));
             
                 return user;
+            } else {
+                throw new UserNotFound();
             }
         } catch ( SQLException ex ) {
-            throw new DBException();
+            throw new UserExists(ex.getMessage());
         }
-    
-        return user;
     }
     
     @Override
-    public User createUser(User user) throws DBException {
+    public User createUser(User user) throws UserExists {
         try (Connection conn = database.getConnection()){
         
             //Prepare a SQL statement from the DB connection
-            String SQL = "INSERT INTO user (user_email, user_role, salt, secret) VALUES (?, ?, ?, ?)";
-            PreparedStatement ps = conn.prepareStatement( SQL, Statement.RETURN_GENERATED_KEYS );
+            String query = "INSERT INTO user (user_email, user_role, salt, secret) VALUES (?, ?, ?, ?)";
+            PreparedStatement ps = conn.prepareStatement( query, Statement.RETURN_GENERATED_KEYS );
         
             //Link variables to the SQL statement
             ps.setString(1, user.getEmail());
@@ -102,18 +104,18 @@ public class DBUser implements UserRepository {
                 return null;
             }
         } catch ( SQLException ex ) {
-            throw new DBException();
+            throw new UserExists(ex.getMessage());
         }
     }
     
     @Override
-    public void updateUserById(int userId, User user) throws DBException {
+    public void updateUserById(int userId, User user) throws UserNotFound {
         try (Connection conn = database.getConnection()){
         
             //Prepare a SQL statement from the DB connection
-            String SQL = "UPDATE user SET user_role = ?"
+            String query = "UPDATE user SET user_role = ?"
                     + " WHERE user_id = ? ";
-            PreparedStatement ps = conn.prepareStatement( SQL );
+            PreparedStatement ps = conn.prepareStatement( query );
         
             //Link variables to the SQL statement
             ps.setString(1, user.getRole().name());
@@ -123,18 +125,18 @@ public class DBUser implements UserRepository {
             ps.executeUpdate();
         
         } catch ( SQLException ex ) {
-            throw new DBException();
+            throw new UserNotFound();
         }
     }
     
     @Override
-    public void deleteUserById(int userId) throws DBException {
+    public void deleteUserById(int userId) throws UserNotFound {
         try (Connection conn = database.getConnection()){
         
             //Prepare a SQL statement from the DB connection
-            String SQL = "UPDATE user SET user_active = 0 "
+            String query = "UPDATE user SET user_active = 0 "
                     + " WHERE user_id = ? ";
-            PreparedStatement ps = conn.prepareStatement( SQL );
+            PreparedStatement ps = conn.prepareStatement( query );
         
             //Link variables to the SQL statement
             ps.setInt(1, userId);
@@ -143,18 +145,18 @@ public class DBUser implements UserRepository {
             ps.executeUpdate();
         
         } catch ( SQLException ex ) {
-            throw new DBException();
+            throw new UserNotFound();
         }
     }
     
     @Override
-    public void changeUserRole(int userId, User.Role role) throws DBException {
+    public void changeUserRole(int userId, User.Role role) throws UserNotFound {
         try (Connection conn = database.getConnection()){
         
             //Prepare a SQL statement from the DB connection
-            String SQL = "UPDATE user SET user_role = ? "
+            String query = "UPDATE user SET user_role = ? "
                     + " WHERE user_id = ? ";
-            PreparedStatement ps = conn.prepareStatement( SQL );
+            PreparedStatement ps = conn.prepareStatement( query );
         
             //Link variables to the SQL statement
             ps.setString(1, role.name());
@@ -164,17 +166,17 @@ public class DBUser implements UserRepository {
             ps.executeUpdate();
         
         } catch ( SQLException ex ) {
-            throw new DBException();
+            throw new UserNotFound();
         }
     }
     
     @Override
-    public boolean userAldreadyExistsInDB(String email) throws DBException {
+    public User getUserByEmail(String email) throws UserNotFound, UserExists {
         try (Connection conn = database.getConnection()){
         
             //Prepare a SQL statement from the DB connection
-            String SQL = "SELECT user_email FROM user WHERE user_email = (?)";
-            PreparedStatement ps = conn.prepareStatement( SQL );
+            String query = "SELECT * FROM user WHERE user_email = ?";
+            PreparedStatement ps = conn.prepareStatement( query );
         
             //Link variables to the SQL statement
             ps.setString(1, email);
@@ -184,41 +186,19 @@ public class DBUser implements UserRepository {
         
             //Search if there is a result from the DB execution
             if (rs.next()) {
-                //Return true, if the is a DB execution result
-                return true;
+                int userId = rs.getInt("id");
+                String userMail = rs.getString( "email" );
+                User.Role userRole = User.Role.valueOf(rs.getString("role"));
+                byte[] userSalt = rs.getBytes("salt");
+                byte[] userSecret = rs.getBytes("secret");
+                
+                return new User(userId,userMail,userRole,userSalt,userSecret);
             
             } else {
-                //Return false, if the isn't a DB execution result
-                return false;
+                throw new UserNotFound();
             }
         } catch (SQLException e) {
-            throw new DBException();
-        }
-    }
-    
-    @Override
-    public User login(String email) throws DBException {
-        try (Connection conn = database.getConnection()){
-            String SQL = "SELECT user_id, user_role, salt, secret FROM user "
-                    + "WHERE user_email = ?";
-            PreparedStatement ps = conn.prepareStatement( SQL );
-            ps.setString( 1, email );
-            ResultSet rs = ps.executeQuery();
-            if ( rs.next() ) {
-                int user_id = rs.getInt("user_id");
-                String user_role = rs.getString( "user_role" );
-                byte[] salt = rs.getBytes("salt");
-                byte[] secret = rs.getBytes("secret");
-            
-                User user = new User(user_id, email, User.Role.valueOf(user_role), salt, secret);
-            
-                return user;
-            
-            } else {
-                throw new DBException();
-            }
-        } catch ( SQLException ex ) {
-            throw new DBException();
+            throw new UserExists(e.getMessage());
         }
     }
 }

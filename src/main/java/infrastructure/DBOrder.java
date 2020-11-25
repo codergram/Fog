@@ -2,8 +2,10 @@ package infrastructure;
 
 import domain.order.Order;
 import domain.order.OrderRepository;
+import domain.order.exceptions.OrderException;
+import domain.order.exceptions.OrderNotFound;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class DBOrder implements OrderRepository {
     private final Database database;
@@ -12,28 +14,29 @@ public class DBOrder implements OrderRepository {
         this.database = database;
     }
     
+    
     @Override
-    public ArrayList<Order> getAllBestillingFromDB() throws DBException {
+    public List<Order> getALlOrders() throws OrderNotFound {
         return null;
     }
     
     @Override
-    public Order getBestillingById(int bes_id) throws DBException {
+    public Order getOrderById(int id) throws OrderNotFound {
         return null;
     }
     
     @Override
-    public Order createBestilling(Order order) throws DBException {
+    public boolean deleteOrderById(int id) throws OrderException {
+        return false;
+    }
+    
+    @Override
+    public Order updateOrderStatusById(int id, Order.Status status) throws OrderException {
         return null;
     }
     
     @Override
-    public void deleteBestillingById(int bes_id) throws DBException {
-    
-    }
-    
-    @Override
-    public void updatedOrderStatus(int orderId, Order.Status status) throws DBException {
-    
+    public Order createNewOrder(Order order) throws OrderException {
+        return null;
     }
 }

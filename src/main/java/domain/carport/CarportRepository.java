@@ -1,7 +1,7 @@
 package domain.carport;
 
 import domain.carport.shed.ShedRepository;
-import infrastructure.DBException;
+import infrastructure.exceptions.DBException;
 
 import java.util.ArrayList;
 

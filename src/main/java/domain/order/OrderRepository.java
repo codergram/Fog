@@ -1,13 +1,18 @@
 package domain.order;
 
-import infrastructure.DBException;
+import domain.order.exceptions.OrderException;
+import domain.order.exceptions.OrderNotFound;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public interface OrderRepository extends OrderFactory, OrderServices {
+public interface OrderRepository extends OrderFactory {
 
-    ArrayList<Order> getAllBestillingFromDB() throws DBException;
-
-    Order getBestillingById(int bes_id) throws DBException;
+    List<Order> getALlOrders() throws OrderNotFound;
+    Order getOrderById(int id) throws OrderNotFound;
+    
+    boolean deleteOrderById(int id) throws OrderException;
+    Order updateOrderStatusById(int id, Order.Status status) throws OrderException;
+    
+    
 
 }
