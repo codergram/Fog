@@ -1,13 +1,12 @@
 package domain.carport.shed;
 
-import infrastructure.DBException;
 
 import java.util.ArrayList;
 
 public interface ShedRepository extends ShedFactory{
 
-    ArrayList<Shed> getAllSkurFromDB() throws DBException;
+    ArrayList<Shed> getAllSheds() throws ShedException;
 
-    Shed getSkurById(int skur_id) throws DBException;
+    Shed getShedByOrderId(int orderId) throws ShedException;
 
 }

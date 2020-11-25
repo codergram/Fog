@@ -1,9 +1,7 @@
 package domain.carport.shed;
 
-import infrastructure.DBException;
-
 public interface ShedFactory {
 
-    Shed createSkur(Shed shed) throws DBException;
+    Shed createShed(Shed shed) throws ShedException;
 
 }

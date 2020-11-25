@@ -2,6 +2,8 @@ package infrastructure;
 
 import domain.carport.Carport;
 import domain.carport.CarportRepository;
+import domain.carport.shed.Shed;
+import domain.carport.shed.ShedException;
 
 import java.util.ArrayList;
 
@@ -18,7 +20,27 @@ public class DBCarport implements CarportRepository {
     }
     
     @Override
-    public Carport getCarportById(int carport_id) throws DBException {
+    public Carport getCarportByOrderId(int orderId) throws DBException {
+        return null;
+    }
+    
+    @Override
+    public Carport createCarport(Carport carport) throws DBException {
+        return null;
+    }
+    
+    @Override
+    public ArrayList<Shed> getAllSheds() throws ShedException {
+        return null;
+    }
+    
+    @Override
+    public Shed getShedByOrderId(int orderId) throws ShedException {
+        return null;
+    }
+    
+    @Override
+    public Shed createShed(Shed shed) throws ShedException {
         return null;
     }
 }

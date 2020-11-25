@@ -1,6 +1,7 @@
 package domain.carport;
 
 import domain.carport.shed.Shed;
+import domain.partslist.Part;
 import domain.partslist.Partslist;
 
 public class Carport {
@@ -29,7 +30,7 @@ public class Carport {
     
     private double calculatePrice(Partslist partslist) {
         double x = 0.0;
-        for(Partslist.Part p: partslist.getMaterialList()){
+        for(Part p: partslist.getMaterialList()){
             x += p.getPrice();
         }
         return x;
