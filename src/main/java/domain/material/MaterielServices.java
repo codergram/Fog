@@ -1,4 +1,4 @@
-package domain.materiel;
+package domain.material;
 
 import infrastructure.DBException;
 

@@ -1,6 +1,6 @@
 package domain.parts;
 
-import domain.materiel.materials.Tree;
+import domain.material.materials.Tree;
 
 public class Part_Træ extends Part {
 

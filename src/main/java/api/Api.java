@@ -1,10 +1,10 @@
 package api;
 
 import domain.user.User;
-import domain.bestilling.BestillingRepository;
+import domain.order.BestillingRepository;
 import domain.carport.CarportRepository;
 import domain.customer.CustomerRepository;
-import domain.materiel.MaterielRepository;
+import domain.material.MaterielRepository;
 import domain.user.*;
 import domain.user.exceptions.InvalidPassword;
 import domain.user.exceptions.UserExists;

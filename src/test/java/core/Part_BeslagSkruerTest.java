@@ -1,6 +1,6 @@
 package core;
 
-import domain.materiel.materials.Options;
+import domain.material.materials.Options;
 import domain.parts.Part_BeslagSkruer;
 
 import static org.junit.jupiter.api.Assertions.*;
