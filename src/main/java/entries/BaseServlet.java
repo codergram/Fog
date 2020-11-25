@@ -1,7 +1,9 @@
 package entries;
 
 import api.Api;
+import infrastructure.DBUser;
 import infrastructure.Database;
+import infrastructure.JavaXEmailService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,7 +24,7 @@ public class BaseServlet extends HttpServlet {
 
         Database database = new Database();
 
-        return new Api(database);
+        return new Api(new DBUser(database), new JavaXEmailService());
     }
 
     protected void render(String title, String content, HttpServletRequest request, HttpServletResponse response)
