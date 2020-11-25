@@ -1,7 +1,7 @@
 package core;
 
-import core.materials.Tree;
-import core.parts.Part_Træ;
+import domain.materiel.materials.Tree;
+import domain.parts.Part_Træ;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

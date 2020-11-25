@@ -1,6 +1,6 @@
 package entries.admin;
 
-import core.User;
+import domain.user.User;
 import entries.BaseServlet;
 
 import javax.servlet.ServletException;

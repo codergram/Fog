@@ -1,10 +1,14 @@
 package core;
 
-import core.materials.Options;
-import core.materials.Tree;
-import core.parts.Part_BeslagSkruer;
-import core.parts.Part_Træ;
-import core.parts.Partlist;
+import domain.bestilling.Order;
+import domain.carport.Carport;
+import domain.materiel.materials.Options;
+import domain.materiel.materials.Tree;
+import domain.parts.Part_BeslagSkruer;
+import domain.parts.Part_Træ;
+import domain.parts.Partlist;
+import domain.customer.Customer;
+import domain.skur.Skur;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

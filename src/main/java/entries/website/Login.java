@@ -1,10 +1,10 @@
 package entries.website;
 
-import core.User;
-import domain.user.InvalidPassword;
-import domain.user.UserNotFound;
+import domain.user.User;
+import domain.user.exceptions.InvalidPassword;
+import domain.user.exceptions.UserNotFound;
 import entries.BaseServlet;
-import infrastructure.DBexception;
+import infrastructure.DBException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -68,7 +68,7 @@ public class Login extends BaseServlet {
                 redirectWithMessage(checkoutProcess, messageSignIn, request, response);
             }
 
-        } catch(NullPointerException | UserNotFound | InvalidPassword | DBexception e){
+        } catch(NullPointerException | UserNotFound | InvalidPassword | DBException e){
             //Unknown username or password
             messageSignIn = "Unknown username or password";
             redirectWithMessage(checkoutProcess, messageSignIn, request, response);

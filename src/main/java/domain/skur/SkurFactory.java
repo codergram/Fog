@@ -1,10 +1,9 @@
 package domain.skur;
 
-import core.Skur;
-import infrastructure.DBexception;
+import infrastructure.DBException;
 
 public interface SkurFactory {
 
-    Skur createSkur(Skur skur) throws DBexception;
+    Skur createSkur(Skur skur) throws DBException;
 
 }

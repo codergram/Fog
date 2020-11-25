@@ -1,20 +1,17 @@
 package domain.user;
 
-import core.User;
-import infrastructure.DBexception;
+import infrastructure.DBException;
 
 public interface UserServices {
 
-    void updateUserById(int user_id, String user_role, double user_credit) throws DBexception;
+    void updateUserById(int userId, User user) throws DBException;
 
-    void deleteUserById(int user_id) throws DBexception;
+    void deleteUserById(int userId) throws DBException;
 
-    void changeUserRoleToCustomer(int user_id) throws DBexception;
+    void changeUserRole(int userId, User.Role role) throws DBException;
 
-    void changeUserRoleToAdmin(int user_id) throws DBexception;
+    boolean userAldreadyExistsInDB(String email) throws DBException;
 
-    boolean userAldreadyExistsInDB(String email) throws DBexception;
-
-    User login(String user_email) throws DBexception;
+    User login(String email) throws DBException;
 
 }

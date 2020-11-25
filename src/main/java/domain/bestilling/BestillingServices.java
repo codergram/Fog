@@ -1,13 +1,13 @@
 package domain.bestilling;
 
-import infrastructure.DBexception;
+import infrastructure.DBException;
 
 public interface BestillingServices {
 
-    void deleteBestillingById(int bes_id) throws DBexception;
+    void deleteBestillingById(int bes_id) throws DBException;
 
-    void updatedBestillingToAfventer(int bes_id) throws DBexception;
+    void updatedBestillingToAfventer(int bes_id) throws DBException;
 
-    void updatedBestillingToLeveret(int bes_id) throws DBexception;
+    void updatedBestillingToLeveret(int bes_id) throws DBException;
 
 }

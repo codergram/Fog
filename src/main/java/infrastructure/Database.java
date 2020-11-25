@@ -8,13 +8,15 @@ import java.sql.*;
 public class Database {
     private final String URL;
     private final String USER;
+    private final String PSW;
 
     // Database version
     private static final int version = 2;
 
-    public Database(String url, String user) {
+    public Database(String url, String user, String psw) {
         this.URL = url == null ? "jdbc:mysql://localhost:3306/fog?serverTimezone=CET" : url;
         this.USER = user == null ? "fog" : user;
+        this.PSW = psw == null ? "codergram" : psw;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -23,7 +25,7 @@ public class Database {
     }
 
     public Database() {
-        this(null, null);
+        this(null, null, null);
     }
 
     public void runMigrations() {
@@ -78,7 +80,7 @@ public class Database {
     }
 
     public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, null);
+        return DriverManager.getConnection(URL, USER, PSW);
     }
 
     public static int getVersion() {

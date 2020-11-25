@@ -1,13 +1,13 @@
 package domain.materiel;
 
-import core.materials.Options;
-import core.materials.Tree;
-import infrastructure.DBexception;
+import domain.materiel.materials.Options;
+import domain.materiel.materials.Tree;
+import infrastructure.DBException;
 
 public interface MaterielFactory {
 
-    Tree createTræ(Tree materielTræ) throws DBexception;
+    Tree createTræ(Tree materielTræ) throws DBException;
 
-    Options createBeslagSkruer(Options materielBeslagSkruer) throws DBexception;
+    Options createBeslagSkruer(Options materielBeslagSkruer) throws DBException;
 
 }
