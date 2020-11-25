@@ -13,13 +13,8 @@
     <!-- Data tables -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
-    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
-    <script type="text/javascript" class="init">
-        $(document).ready(function() {
-            $('#example').DataTable();
-        } );
-    </script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css">
+
 
     <title>${requestScope.title}</title>
 </head>
@@ -37,6 +32,14 @@
 <!-- Custom CSS and JS :)-->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/styles.css">
 <script src="${pageContext.request.contextPath}/js/scripts.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" class="init">
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
+</script>
 
 </body>
 </html>
