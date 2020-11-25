@@ -1,14 +1,13 @@
 package domain.carport;
 
-import core.Carport;
-import infrastructure.DBexception;
+import infrastructure.DBException;
 
 import java.util.ArrayList;
 
 public interface CarportRepository {
 
-    ArrayList<Carport> getAllCarporteFromDB() throws DBexception;
+    ArrayList<Carport> getAllCarporteFromDB() throws DBException;
 
-    Carport getCarportById(int carport_id) throws DBexception;
+    Carport getCarportById(int carport_id) throws DBException;
 
 }

@@ -1,14 +1,13 @@
 package domain.skur;
 
-import core.Skur;
-import infrastructure.DBexception;
+import infrastructure.DBException;
 
 import java.util.ArrayList;
 
 public interface SkurRepository {
 
-    ArrayList<Skur> getAllSkurFromDB() throws DBexception;
+    ArrayList<Skur> getAllSkurFromDB() throws DBException;
 
-    Skur getSkurById(int skur_id) throws DBexception;
+    Skur getSkurById(int skur_id) throws DBException;
 
 }

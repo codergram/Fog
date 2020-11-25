@@ -1,7 +1,7 @@
 package domain.stykliste;
 
-import core.parts.Part_BeslagSkruer;
-import core.parts.Part_Træ;
+import domain.parts.Part_BeslagSkruer;
+import domain.parts.Part_Træ;
 
 import java.util.ArrayList;
 

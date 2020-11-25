@@ -6,23 +6,23 @@
             <div class="form-group">
                 <label for="laengde">Carportens længde</label>
                 <select class="form-control" id="laengde" required>
-                    <option value="200">200cm</option>
-                    <option value="300">300cm</option>
-                    <option value="400">400cm</option>
+                    <option value="500">500cm</option>
+
+                    <option value="780">780cm</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="bredde">Carportens bredde</label>
                 <select class="form-control" id="bredde" required>
-                    <option value="150">150cm</option>
-                    <option value="200">200cm</option>
-                    <option value="250">250cm</option>
                     <option value="300">300cm</option>
+
+                    <option value="600">600cm</option>
                 </select>
             </div>
 
             <div class="form-group">
+                <!-- TODO: Tekst som siger at alle tage har en hældning over 15 grader -->
                 <label for="tag">Carportens tagtype</label>
                 <select class="form-control" id="tag" required>
                     <option value="flat">Fladt</option>

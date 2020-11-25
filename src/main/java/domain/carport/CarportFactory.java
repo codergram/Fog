@@ -1,10 +1,9 @@
 package domain.carport;
 
-import core.Carport;
-import infrastructure.DBexception;
+import infrastructure.DBException;
 
 public interface CarportFactory {
 
-    Carport createCarport(Carport carport) throws DBexception;
+    Carport createCarport(Carport carport) throws DBException;
 
 }

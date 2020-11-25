@@ -1,10 +1,9 @@
 package domain.bestilling;
 
-import core.Order;
-import infrastructure.DBexception;
+import infrastructure.DBException;
 
 public interface BestillingFactory {
 
-    Order createBestilling(Order order) throws DBexception;
+    Order createBestilling(Order order) throws DBException;
 
 }

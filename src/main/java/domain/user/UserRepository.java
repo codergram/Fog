@@ -1,14 +1,13 @@
 package domain.user;
 
-import core.User;
-import infrastructure.DBexception;
+import infrastructure.DBException;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public interface UserRepository {
+public interface UserRepository extends UserFactory, UserServices {
 
-    ArrayList<User> getAllUsersFromDB() throws DBexception;
+    List<User> getAllUsersFromDB() throws DBException;
 
-    User getUserById(int user_id) throws DBexception;
+    User getUserById(int userId) throws DBException;
 
 }

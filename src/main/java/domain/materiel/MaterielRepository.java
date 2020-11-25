@@ -1,19 +1,19 @@
 package domain.materiel;
 
-import core.materials.Options;
-import core.materials.Tree;
-import infrastructure.DBexception;
+import domain.materiel.materials.Options;
+import domain.materiel.materials.Tree;
+import infrastructure.DBException;
 
 import java.util.ArrayList;
 
 public interface MaterielRepository {
 
-    ArrayList<Tree> getAllTræFromDB() throws DBexception;
+    ArrayList<Tree> getAllTræFromDB() throws DBException;
 
-    Tree getTræById(int træ_id) throws DBexception;
+    Tree getTræById(int træ_id) throws DBException;
 
-    ArrayList<Options> getAllBeslagSkruerFromDB() throws DBexception;
+    ArrayList<Options> getAllBeslagSkruerFromDB() throws DBException;
 
-    Options getBeslagSkruerById(int bes_id) throws DBexception;
+    Options getBeslagSkruerById(int bes_id) throws DBException;
 
 }

@@ -1,75 +1,35 @@
 package api;
 
-import core.User;
-import domain.bestilling.BestillingFactory;
+import domain.user.User;
 import domain.bestilling.BestillingRepository;
-import domain.bestilling.BestillingServices;
-import domain.carport.CarportFactory;
 import domain.carport.CarportRepository;
-import domain.kunde.KundeFactory;
-import domain.kunde.KundeRepository;
-import domain.materiel.MaterielFactory;
+import domain.customer.CustomerRepository;
 import domain.materiel.MaterielRepository;
-import domain.materiel.MaterielServices;
-import domain.styk.StykFactory;
-import domain.skur.SkurFactory;
-import domain.skur.SkurRepository;
-import domain.stykliste.StyklisteFactory;
-import domain.stykliste.StyklisteRepository;
-import domain.stykliste.StyklisteServices;
 import domain.user.*;
-import infrastructure.DBexception;
+import domain.user.exceptions.InvalidPassword;
+import domain.user.exceptions.UserExists;
+import domain.user.exceptions.UserNotFound;
+import infrastructure.*;
 
 public class Api {
     
     public final static String genericSiteTitle = "Fog Trælast";
+    
+    private final Database database;
 
-    private final UserFactory userFactory;
     private final UserRepository userRepository;
-    private final UserServices userServices;
-    private final BestillingFactory bestillingFactory;
     private final BestillingRepository bestillingRepository;
-    private final BestillingServices bestillingServices;
-    private final CarportFactory carportFactory;
     private final CarportRepository carportRepository;
-    private final KundeFactory kundeFactory;
-    private final KundeRepository kundeRepository;
-    private final MaterielFactory materielFactory;
+    private final CustomerRepository customerRepository;
     private final MaterielRepository materielRepository;
-    private final MaterielServices materielServices;
-    private final SkurFactory skurFactory;
-    private final SkurRepository skurRepository;
-    private final StyklisteFactory styklisteFactory;
-    private final StyklisteRepository styklisteRepository;
-    private final StyklisteServices styklisteServices;
-    private final StykFactory stykFactory;
-
-    public Api(UserFactory userFactory, UserRepository userRepository, UserServices userServices,
-               BestillingFactory bestillingFactory, BestillingRepository bestillingRepository,
-               BestillingServices bestillingServices, CarportFactory carportFactory, CarportRepository carportRepository,
-               KundeFactory kundeFactory, KundeRepository kundeRepository, MaterielFactory materielFactory,
-               MaterielRepository materielRepository, MaterielServices materielServices, SkurFactory skurFactory,
-               SkurRepository skurRepository, StyklisteFactory styklisteFactory, StyklisteRepository styklisteRepository,
-               StyklisteServices styklisteServices, StykFactory stykFactory) {
-        this.userFactory = userFactory;
-        this.userRepository = userRepository;
-        this.userServices = userServices;
-        this.bestillingFactory = bestillingFactory;
-        this.bestillingRepository = bestillingRepository;
-        this.bestillingServices = bestillingServices;
-        this.carportFactory = carportFactory;
-        this.carportRepository = carportRepository;
-        this.kundeFactory = kundeFactory;
-        this.kundeRepository = kundeRepository;
-        this.materielFactory = materielFactory;
-        this.materielRepository = materielRepository;
-        this.materielServices = materielServices;
-        this.skurFactory = skurFactory;
-        this.skurRepository = skurRepository;
-        this.styklisteFactory = styklisteFactory;
-        this.styklisteRepository = styklisteRepository;
-        this.styklisteServices = styklisteServices;
-        this.stykFactory = stykFactory;
+    
+    public Api(Database database) {
+        this.database = database;
+        this.userRepository = new DBUser(database);
+        this.bestillingRepository = new DBOrder(database);
+        this.carportRepository = new DBCarport(database);
+        this.customerRepository = new DBCustomer(database);
+        this.materielRepository = new DBMaterial(database);
     }
     
     protected boolean sendMail(String mailAddress, String title, String subject, String msg){
@@ -96,7 +56,7 @@ public class Api {
      * @throws UserExists User is already registered in the DB
      * @throws InvalidPassword Passwords do not match
      */
-    public synchronized User createUser(String user_email, String password1, String password2) throws UserExists, InvalidPassword, DBexception {
+    public synchronized User createUser(String user_email, String password1, String password2) throws UserExists, InvalidPassword, DBException {
         //Generate salt
         byte[] salt = User.generateSalt();
         //Generate secret
@@ -104,7 +64,7 @@ public class Api {
         //Create user
 
         //Validate user input
-        if(userServices.userAldreadyExistsInDB(user_email)){
+        if(userRepository.userAldreadyExistsInDB(user_email)){
             throw new UserExists(user_email);
 
         } else if (!password1.equals(password2)){
@@ -114,7 +74,7 @@ public class Api {
             //Create user
             User user = new User(0,user_email,User.Role.Employee, salt, secret);
             //Save/create the user in the DB and return the users (No longer id -1)
-            user = userFactory.createUser(user);
+            user = userRepository.createUser(user);
             return user;
         }
     }
@@ -127,10 +87,10 @@ public class Api {
      * @throws UserNotFound
      * @throws InvalidPassword
      */
-    public synchronized User login(String email, String password) throws InvalidPassword, UserNotFound, DBexception {
+    public synchronized User login(String email, String password) throws InvalidPassword, UserNotFound, DBException {
 
         //Get user from the DB with a specific name
-        User user = userServices.login(email);
+        User user = userRepository.login(email);
 
         //Username is null => no user was found in DB
         if(user.getEmail() == null){

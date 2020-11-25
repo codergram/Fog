@@ -1,11 +1,11 @@
 package intergration;
 
 import api.Api;
-import core.User;
-import domain.user.InvalidPassword;
-import domain.user.UserExists;
-import domain.user.UserNotFound;
-import infrastructure.DBexception;
+import domain.user.User;
+import domain.user.exceptions.InvalidPassword;
+import domain.user.exceptions.UserExists;
+import domain.user.exceptions.UserNotFound;
+import infrastructure.DBException;
 import infrastructure.Database;
 import infrastructure.dbuser.DBUserFactory;
 import infrastructure.dbuser.DBUserRepository;
@@ -63,14 +63,12 @@ public class IntergrationTest {
 
         String url = "jdbc:mysql://localhost:3306/fogtest?serverTimezone=CET";
         String user = "fogtest";
+        String psw = "codergram";
 
-        Database db = new Database(url, user);
+        Database db = new Database(url, user, psw);
 //        Cart cart = new Cart();
         db.runMigrations();
 
-        DBUserFactory userFactory = new DBUserFactory(db);
-        DBUserRepository userRepository = new DBUserRepository(db);
-        DBUserServices userServices = new DBUserServices(db);
 //        DBItemRepository itemRepository = new DBItemRepository(db);
 //        DBBottomRepository bottomRepository = new DBBottomRepository(db);
 //        DBToppingRepository toppingRepository = new DBToppingRepository(db);
@@ -98,7 +96,7 @@ public class IntergrationTest {
         try {
             user = api.createUser(email, password1, password2);
             assertEquals(email, user.getEmail());
-        } catch (UserExists | DBexception userExists) {
+        } catch (UserExists | DBException userExists) {
             userExists.printStackTrace();
         } catch (InvalidPassword invalidPassword) {
             invalidPassword.printStackTrace();
@@ -112,7 +110,7 @@ public class IntergrationTest {
             invalidPassword.printStackTrace();
         } catch (UserNotFound e){
             e.getMessage();
-        } catch (DBexception dBexception) {
+        } catch (DBException dBexception) {
             dBexception.printStackTrace();
         }
 
@@ -121,7 +119,7 @@ public class IntergrationTest {
             user = api.login(user.getEmail(), "2233");
         } catch (InvalidPassword invalidPassword) {
             String exceptionMessage = "" + invalidPassword.getMessage();
-        } catch (UserNotFound | DBexception e){
+        } catch (UserNotFound | DBException e){
             e.getMessage();
         }
     }

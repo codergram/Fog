@@ -1,14 +1,13 @@
 package domain.bestilling;
 
-import core.Order;
-import infrastructure.DBexception;
+import infrastructure.DBException;
 
 import java.util.ArrayList;
 
 public interface BestillingRepository {
 
-    ArrayList<Order> getAllBestillingFromDB() throws DBexception;
+    ArrayList<Order> getAllBestillingFromDB() throws DBException;
 
-    Order getBestillingById(int bes_id) throws DBexception;
+    Order getBestillingById(int bes_id) throws DBException;
 
 }

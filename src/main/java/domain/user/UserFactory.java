@@ -1,11 +1,10 @@
 package domain.user;
 
-import core.User;
-import infrastructure.DBexception;
+import infrastructure.DBException;
 
 public interface UserFactory {
 
-    User createUser(User user) throws DBexception;
+    User createUser(User user) throws DBException;
 
 
 }
