@@ -11,15 +11,13 @@ class Sælger {
 }
 
 class Carport {
-    type
     længde
     bredde
-    shed?
+    tag
 }
 
-class Skur {
-    længde
-    bredde
+object Skur {
+    position
 }
 
 class Kunde {
@@ -35,16 +33,9 @@ class Bestilling {
     ordrenumer
     tidspunkt
     status
-    tilbud?
-    længde
-    bredde
 }
 
-class Stykliste {
-    materiale varenummer
-    materiale navn
-    materiale antal
-}
+object Stykliste
 
 class Materiale {
     varenummer
@@ -52,12 +43,25 @@ class Materiale {
     styk/meter pris
 }
 
+class Styk {
+    beskrivelse
+    styk/meter
+    pris
+}
+
+class Tilbud {
+    dækningsgrad
+    pris
+}
+
 Bestilling "1" -- "1" Carport
-Carport "1" -- "1" Skur
+Carport "1" -- "0..1" Skur
 Bestilling "*" -- "1" Kunde
-Carport "*" -- "1" Stykliste
-Stykliste "1" -- "*" Materiale
-Sælger "1" -- "*" Bestilling
+Bestilling "1" -- "0..1" Stykliste
+Sælger "0..1" -- "*" Bestilling
+Stykliste "*" -- "1" Styk
+Styk "1" -- "*" Materiale
+Tilbud "0..1" -- "1" Bestilling
 
 
 
