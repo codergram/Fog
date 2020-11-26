@@ -18,8 +18,8 @@ public class Partslist {
         }
     }
     
-    public Part newPart(Material material, int amount) {
-        return new Part(material, amount);
+    public Part newPart(Material material, int amount, String description) {
+        return new Part(material, amount, description);
     }
     
     public void removeItemByMaterial(Material material) {

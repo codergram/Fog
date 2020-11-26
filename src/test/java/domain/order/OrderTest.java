@@ -28,15 +28,15 @@ class OrderTest {
         Partslist partslist = new Partslist();
         partslist.addItem(
                 new Part(
-                    new Tree("20x20 bjælke", 550, 20), 15 //total price: 300
+                    new Tree("20x20 bjælke", 550, 20), 15, "Bjælke til siden" //total price: 300
                 ));
         partslist.addItem(
                 new Part(
-                        new Tree("30x10 spær", 430, 12.5), 30 //total price: 375
+                        new Tree("30x10 spær", 430, 12.5), 30, "Spær til tagkonstruktion" //total price: 375
                 ));
         partslist.addItem(
                 new Part(
-                        new Options("Søm", 0.25), 200 //total price: 50
+                        new Options("Søm", 0.25), 200, "Søm til vægbeklædning" //total price: 50
                 ));
         
         //Total of parts: 725

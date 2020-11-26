@@ -1,12 +1,16 @@
 package api;
 
 import api.exceptions.EmailNotSent;
+import api.exceptions.PDFNotCreated;
+import domain.order.Order;
 import domain.user.User;
 import domain.user.*;
 import domain.user.exceptions.InvalidPassword;
 import domain.user.exceptions.UserExists;
 import domain.user.exceptions.UserNotFound;
 import infrastructure.exceptions.DBException;
+
+import java.io.File;
 
 public class Api {
     
@@ -15,20 +19,27 @@ public class Api {
 
     private final UserRepository userRepository;
     private final EmailService emailService;
+    private final FileService fileService;
     
-    public Api(UserRepository userRepository, EmailService emailService) {
+    public Api(UserRepository userRepository, EmailService emailService, FileService fileService) {
         this.userRepository = userRepository;
         this.emailService = emailService;
+        this.fileService = fileService;
     }
     
-    protected boolean sendMail(String mailAddress, String title, String subject, String msg){
+    public File testPdf(String path) throws PDFNotCreated {
+        Order order = new Order(1,200,300,null,null,null,null,null);
+        return fileService.generatePdf(path, order);
+    }
+    
+    public boolean sendMail(String mailAddress, String title, String subject, String msg, File file){
         try {
-            String message = Utils.fileToString("resetmail.html")
+            String message = Utils.fileToString("mail/mailtemplate.html")
                     .replace("$$TITEL$$", title)
                     .replace("$$OVERSKRIFT$$", subject)
                     .replace("$$TEKST$$", msg);
             
-            emailService.sendEmail(mailAddress, title, message);
+            emailService.sendEmail(mailAddress, title, message, file);
             return true;
         } catch (EmailNotSent e){
             System.out.println(e.getMessage());
