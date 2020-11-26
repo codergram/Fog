@@ -6,11 +6,13 @@ public class Part {
         private final Material material;
         private final int amount;
         private final double price;
+        private final String description;
         
-        public Part(Material material, int amount) {
+        public Part(Material material, int amount, String description) {
             this.material = material;
             this.amount = amount;
             this.price = material.getPrice() * amount;
+            this.description = description;
         }
         
         public Material getMaterial() {
@@ -23,5 +25,9 @@ public class Part {
         
         public double getPrice() {
             return price;
+        }
+    
+        public String getDescription() {
+            return description;
         }
 }

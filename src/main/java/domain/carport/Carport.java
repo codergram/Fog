@@ -52,6 +52,10 @@ public class Carport {
         return roofType.name();
     }
     
+    public boolean hasShed(){
+        return shed != null;
+    }
+    
     public Shed getShed() {
         return shed;
     }
