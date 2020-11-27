@@ -19,7 +19,8 @@ public class FeatureTest extends BaseServlet {
     
         try {
             String fileDir = System.getProperty("java.io.tmpdir");
-            api.sendMail("cph-en93@cphbusiness.dk", "Test mail", "Test mail", "Hej se filen.", api.testPdf(fileDir));
+            //api.sendMail("cph-en93@cphbusiness.dk", "Test mail", "Test mail", "Hej se filen.", api.testPdf(fileDir));
+            api.testPdf(fileDir);
         } catch (PDFNotCreated pdfNotCreated) {
             pdfNotCreated.printStackTrace();
         }
