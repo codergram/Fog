@@ -27,6 +27,8 @@ repeat
 |Sælger|
 :Gennemgår tilbud;
 :Kontakter kunde på tlf.;
+:Sender tilbud til kunden via mail,
+med tilbud som PDF;
 
 |Kunde|
 :Vurdere tilbud;
@@ -36,16 +38,19 @@ repeat while (accept) is (no)
 
 |Sælger|
 :Opretter ordre;
-:Send faktura;
+:Sender faktura til kunde vi mail,
+med bestilling som PDF;
 
 |Kunde|
-:Betal;
-:Få materialer på lager og byg carport;
-
-|Sælger|
-:Følg op med kunde;
+if (Betaler for bestilling) then
+:Afhenter materialer på lager
+og bygger carport;
 stop
 
-
+else
+|Sælger|
+:Opdaterer bestilling;
+:Følger op med kunde;
+stop
 
 @enduml
