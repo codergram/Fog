@@ -13,10 +13,17 @@ public class Navbar {
     
     private final List<Item> items = List.of(
             new Item("Home", "/", false, false),
-            new Item("Shop", "/Shop", false, false),
+            new Item("Bygning Carport", "/Shop", false, false),
             new Item("Log ind", "/Login", false, false),
-            new Item("Employee", "/lists", true, false),
-            new Item("Admin", "/admin", true, true)
+            new Item("Log ud", "/", true, true),
+            new Item("Employee", "/lists", true, true),
+            new Item("Admin", "/admin", true, true),
+            new Item("Orders", "/Orders", true, true),
+            new Item("Customers", "/Customers", true, true),
+            new Item("Users", "/Users", true, true),
+            new Item("Statestic", "/Statestic", true, true)
+
+
     );
     
     public List<Item> getItems() {
