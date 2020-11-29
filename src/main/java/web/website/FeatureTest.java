@@ -1,6 +1,7 @@
 package web.website;
 
 import api.exceptions.PDFNotCreated;
+import domain.user.User;
 import web.BaseServlet;
 
 import javax.servlet.ServletException;
@@ -13,9 +14,30 @@ import java.io.IOException;
 @WebServlet(name = "Test", urlPatterns = { "/Test" } )
 public class FeatureTest extends BaseServlet {
     
+    private void testUserLoggedIn(User.Role role, HttpServletRequest request) {
+    
+    }
+    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        
+        String getRole = req.getParameter("role");
+        Enum<User.Role> role;
+        
+        if(getRole != null){
+            role = User.valueOfIgnoreCase(getRole);
+        } else {
+            role = null;
+        }
+        
+        User testUser = new User(-1,"Test bruger", "test@mail.dk", role);
+        req.getSession().setAttribute("user", testUser);
+    
+        System.out.println("GET role: " + role);
+        System.out.println("Test user: " + testUser);
+        System.out.println("isAdmin: " + testUser.isAdmin());
+        System.out.println("isEmployee: " + testUser.isEmployee());
     
         try {
             String fileDir = System.getProperty("java.io.tmpdir");
@@ -31,6 +53,8 @@ public class FeatureTest extends BaseServlet {
     
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        
+        
         String valFromTable = req.getParameter("ValOne");
     
         HttpSession session = req.getSession();

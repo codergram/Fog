@@ -1,6 +1,7 @@
 package web;
 
 import api.Api;
+import domain.user.User;
 import infrastructure.DBUser;
 import infrastructure.Database;
 import infrastructure.JavaXEmailService;
@@ -31,7 +32,7 @@ public class BaseServlet extends HttpServlet {
 
     protected void render(String title, String content, HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    
+        
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         request.setAttribute("title", Api.genericSiteTitle + " - " + title);

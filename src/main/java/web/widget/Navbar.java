@@ -1,5 +1,7 @@
 package web.widget;
 
+import domain.user.User;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,25 +15,44 @@ public class Navbar {
     
     private final List<Item> items = List.of(
             new Item("Home", "/", false, false),
-            new Item("Shop", "/Shop", false, false),
+            new Item("Byg din carport", "/Shop", false, false),
             new Item("Log ind", "/Login", false, false),
             new Item("Employee", "/lists", true, false),
             new Item("Admin", "/admin", true, true)
     );
     
     public List<Item> getItems() {
-        String name = (String) request.getSession().getAttribute("user");
-        if (name != null && name.equals("ADMIN")) {
-            return items;
+        List<Item> list = new ArrayList<>();
+        User user = (User) request.getSession().getAttribute("user");
+        
+        if(user != null){
+            if (user.isAdmin()) {
+                    for(Item x: items){
+                        if(x.authorizedOnly){
+                            list.add(x);
+                        }
+                    }
+            } else if (user.isEmployee()) {
+                for (Item x : items) {
+                    if (x.authorizedOnly && ! x.adminOnly) {
+                        list.add(x);
+                    }
+                }
+            } else {
+                for (Item x : items) {
+                    if (!x.adminOnly && !x.authorizedOnly) {
+                        list.add(x);
+                    }
+                }
+            }
         } else {
-            List<Item> list = new ArrayList<>();
             for (Item x : items) {
-                if (!x.adminOnly) {
+                if (!x.adminOnly && !x.authorizedOnly) {
                     list.add(x);
                 }
             }
-            return list;
         }
+        return list;
     }
     
     public class Item {
