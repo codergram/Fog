@@ -24,7 +24,7 @@ public class User {
         PASSWORD_FACTORY = factory;
     }
     
-    public enum Role {
+      public enum Role {
         Employee,
         Admin
     }
@@ -56,11 +56,11 @@ public class User {
     }
     
     public boolean isEmployee(){
-        return this.role.name().equalsIgnoreCase("employee");
+        return this.role == Role.Employee;
     }
     
     public boolean isAdmin(){
-        return this.role.name().equalsIgnoreCase("admin");
+        return this.role == Role.Admin;
     }
     
     public User getById(int id){
@@ -90,6 +90,25 @@ public class User {
     
     public String getName() {
         return name;
+    }
+    
+    public static Enum<Role> valueOfIgnoreCase(String search) {
+        for (Enum<Role> e : Role.values()) {
+            if(e.name().equalsIgnoreCase(search)){
+                return e;
+            }
+        }
+        return null;
+    }
+    
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", role=" + role +
+                '}';
     }
     
     /**
