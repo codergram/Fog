@@ -1,10 +1,11 @@
-package entries;
+package web;
 
 import api.Api;
 import infrastructure.DBUser;
 import infrastructure.Database;
 import infrastructure.JavaXEmailService;
 import infrastructure.PDFService;
+import web.widget.Navbar;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -35,6 +36,7 @@ public class BaseServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         request.setAttribute("title", Api.genericSiteTitle + " - " + title);
         request.setAttribute("content", content);
+        request.setAttribute("navbar", new Navbar(request));
         request.getRequestDispatcher("/WEB-INF/includes/base.jsp").forward(request, response);
 
     }

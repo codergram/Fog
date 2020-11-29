@@ -1,7 +1,7 @@
-package entries.website;
+package web.website;
 
 import api.exceptions.PDFNotCreated;
-import entries.BaseServlet;
+import web.BaseServlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

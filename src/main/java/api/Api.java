@@ -48,7 +48,7 @@ public class Api {
     }
 
     
-    public synchronized User createUser(String user_email, String password1, String password2) throws UserExists, InvalidPassword, DBException {
+    public synchronized User createUser(String name, String email, String password1, String password2) throws UserExists, InvalidPassword, DBException {
         //Generate salt
         byte[] salt = User.generateSalt();
         //Generate secret
@@ -61,7 +61,7 @@ public class Api {
 
         } else {
             //Create user
-            User user = new User(0,user_email,User.Role.Employee, salt, secret);
+            User user = new User(0, name, email,User.Role.Employee, salt, secret);
             //Save/create the user in the DB and return the users (No longer id -1)
             user = userRepository.createUser(user);
             return user;

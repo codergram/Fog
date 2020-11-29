@@ -9,7 +9,7 @@ boundary index.jsp
 customer -> index.jsp: start
 '== Initialization ==
 
-box entries/UI (servlet)
+box web/UI (servlet)
 index.jsp -> login.jsp:doGet()
 
 login.jsp -> Login: doPost()
