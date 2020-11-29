@@ -8,7 +8,7 @@ boundary Tomcat
 
 customer -> Tomcat:POST /Login
 
-box entries (UI)
+box web (UI)
 Tomcat -> Login: doPost()
 end box
 

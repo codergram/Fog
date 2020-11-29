@@ -23,19 +23,19 @@ public class DBUser implements UserRepository {
     
         try (Connection conn = database.getConnection()){
         
-            String query = "SELECT user_id, user_email, user_role FROM user "
-                    + "WHERE user_active = 1";
+            String query = "SELECT * FROM Users";
         
             PreparedStatement ps = conn.prepareStatement( query );
         
             ResultSet rs = ps.executeQuery();
         
             while ( rs.next() ) {
-                int userId = rs.getInt("user_id");
-                String userEmail = rs.getString( "user_email" );
-                String userRole = rs.getString( "user_role" );
+                int userId = rs.getInt("Users.id");
+                String usersName = rs.getString("Users.name");
+                String userEmail = rs.getString( "Users.email" );
+                String userRole = rs.getString( "Users.role" );
             
-                User user = new User( userId, userEmail, User.Role.valueOf(userRole));
+                User user = new User( userId, usersName, userEmail, User.Role.valueOf(userRole));
             
                 allUsersFromDB.add(user);
             }
@@ -52,18 +52,19 @@ public class DBUser implements UserRepository {
     
         try (Connection conn = database.getConnection()){
         
-            String query = "SELECT user_email, user_role FROM user "
-                    + "WHERE user_id = ?";
+            String query = "SELECT * FROM Users "
+                    + "WHERE id = ?";
         
             PreparedStatement ps = conn.prepareStatement( query );
             ps.setInt( 1, userId );
             ResultSet rs = ps.executeQuery();
         
             if ( rs.next() ) {
-                String userEmail = rs.getString( "user_email" );
-                String userRole = rs.getString( "user_role" );
+                String usersName = rs.getString("Users.name");
+                String userEmail = rs.getString( "Users.email" );
+                String userRole = rs.getString( "Users.role" );
             
-                user = new User( userId, userEmail, User.Role.valueOf(userRole));
+                user = new User( userId, usersName, userEmail, User.Role.valueOf(userRole));
             
                 return user;
             } else {
@@ -79,14 +80,15 @@ public class DBUser implements UserRepository {
         try (Connection conn = database.getConnection()){
         
             //Prepare a SQL statement from the DB connection
-            String query = "INSERT INTO user (user_email, user_role, salt, secret) VALUES (?, ?, ?, ?)";
+            String query = "INSERT INTO Users (name, email, role, salt, secret) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement ps = conn.prepareStatement( query, Statement.RETURN_GENERATED_KEYS );
         
             //Link variables to the SQL statement
-            ps.setString(1, user.getEmail());
-            ps.setString(2, user.getRole().name());
-            ps.setBytes(3, user.getSalt());
-            ps.setBytes(4, user.getSecret());
+            ps.setString(1,user.getName());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getRole().name());
+            ps.setBytes(4, user.getSalt());
+            ps.setBytes(5, user.getSecret());
         
             //Execute the SQL statement to update the DB
             ps.executeUpdate();
@@ -113,8 +115,8 @@ public class DBUser implements UserRepository {
         try (Connection conn = database.getConnection()){
         
             //Prepare a SQL statement from the DB connection
-            String query = "UPDATE user SET user_role = ?"
-                    + " WHERE user_id = ? ";
+            String query = "UPDATE Users SET role = ?"
+                    + " WHERE id = ? ";
             PreparedStatement ps = conn.prepareStatement( query );
         
             //Link variables to the SQL statement
@@ -134,8 +136,7 @@ public class DBUser implements UserRepository {
         try (Connection conn = database.getConnection()){
         
             //Prepare a SQL statement from the DB connection
-            String query = "UPDATE user SET user_active = 0 "
-                    + " WHERE user_id = ? ";
+            String query = "DELETE FROM Users WHERE id = ?";
             PreparedStatement ps = conn.prepareStatement( query );
         
             //Link variables to the SQL statement
@@ -154,8 +155,8 @@ public class DBUser implements UserRepository {
         try (Connection conn = database.getConnection()){
         
             //Prepare a SQL statement from the DB connection
-            String query = "UPDATE user SET user_role = ? "
-                    + " WHERE user_id = ? ";
+            String query = "UPDATE Users SET role = ? "
+                    + " WHERE id = ? ";
             PreparedStatement ps = conn.prepareStatement( query );
         
             //Link variables to the SQL statement
@@ -175,7 +176,7 @@ public class DBUser implements UserRepository {
         try (Connection conn = database.getConnection()){
         
             //Prepare a SQL statement from the DB connection
-            String query = "SELECT * FROM user WHERE user_email = ?";
+            String query = "SELECT * FROM Users WHERE email = ?";
             PreparedStatement ps = conn.prepareStatement( query );
         
             //Link variables to the SQL statement
@@ -186,13 +187,14 @@ public class DBUser implements UserRepository {
         
             //Search if there is a result from the DB execution
             if (rs.next()) {
-                int userId = rs.getInt("id");
-                String userMail = rs.getString( "email" );
-                User.Role userRole = User.Role.valueOf(rs.getString("role"));
-                byte[] userSalt = rs.getBytes("salt");
-                byte[] userSecret = rs.getBytes("secret");
+                int userId = rs.getInt("Users.id");
+                String usersName = rs.getString("Users.name");
+                String userMail = rs.getString( "Users.email" );
+                User.Role userRole = User.Role.valueOf(rs.getString("Users.role"));
+                byte[] userSalt = rs.getBytes("Users.salt");
+                byte[] userSecret = rs.getBytes("Users.secret");
                 
-                return new User(userId,userMail,userRole,userSalt,userSecret);
+                return new User(userId, usersName, userMail,userRole,userSalt,userSecret);
             
             } else {
                 throw new UserNotFound();

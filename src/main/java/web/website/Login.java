@@ -1,9 +1,9 @@
-package entries.website;
+package web.website;
 
 import domain.user.User;
 import domain.user.exceptions.InvalidPassword;
 import domain.user.exceptions.UserNotFound;
-import entries.BaseServlet;
+import web.BaseServlet;
 import infrastructure.exceptions.DBException;
 
 import javax.servlet.ServletException;

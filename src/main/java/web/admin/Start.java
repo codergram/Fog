@@ -1,7 +1,7 @@
-package entries.admin;
+package web.admin;
 
 import domain.user.User;
-import entries.BaseServlet;
+import web.BaseServlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
