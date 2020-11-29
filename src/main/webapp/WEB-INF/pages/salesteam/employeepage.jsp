@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <c:choose>
-    <c:when test="${sessionScope.user.userRole == 'sælger'}">
+    <c:when test="${sessionScope.user.role.name() == 'Employee'}">
 
 
         <div class="row mt-4">
@@ -54,4 +54,4 @@
     </script>
     </c:otherwise>
     </c:choose>
-<%@include file="../includes/footer.jsp"%>
+<%@include file="../../includes/footer.jsp"%>
