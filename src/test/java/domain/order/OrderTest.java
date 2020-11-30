@@ -7,7 +7,6 @@ import domain.material.materials.Tree;
 import domain.partslist.Part;
 import domain.partslist.Partslist;
 import domain.user.User;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
@@ -22,7 +21,7 @@ class OrderTest {
     void test(){
         Timestamp ts = new Timestamp(System.currentTimeMillis());
         
-        User employee = new User(1,"email", User.Role.Employee);
+        User employee = new User(1, "Sælger john", "email", User.Role.Employee);
         Customer customer = new Customer(1,"Navn","Addresse",1234,"Bynavn",12345678,"email@nu.dk");
         
         Partslist partslist = new Partslist();

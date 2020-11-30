@@ -1,6 +1,6 @@
-package entries.website;
+package web.website;
 
-import entries.BaseServlet;
+import web.BaseServlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +15,7 @@ public class Shop extends BaseServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        render("Din carport", "/WEB-INF/pages/carport.jsp", request, response);
+        render("Din carport", "/WEB-INF/pages/customer/carport.jsp", request, response);
     }
 
 }

@@ -24,28 +24,31 @@ public class User {
         PASSWORD_FACTORY = factory;
     }
     
-    public enum Role {
+      public enum Role {
         Employee,
         Admin
     }
 
     private int id;
+    private final String name;
     private final String email;
     private final Enum<Role> role;
     private final byte[] salt;
     private final byte[] secret;
     
     
-    public User(int id, String email, Enum<Role> role, byte[] salt, byte[] secret) {
+    public User(int id, String name, String email, Enum<Role> role, byte[] salt, byte[] secret) {
         this.id = id;
+        this.name = name;
         this.email = email;
         this.role = role;
         this.salt = salt;
         this.secret = secret;
     }
     
-    public User(int id, String email, Enum<Role> role) {
+    public User(int id, String name, String email, Enum<Role> role) {
         this.id = id;
+        this.name = name;
         this.email = email;
         this.role = role;
         salt = null;
@@ -53,11 +56,11 @@ public class User {
     }
     
     public boolean isEmployee(){
-        return this.role.name().equalsIgnoreCase("employee");
+        return this.role == Role.Employee;
     }
     
     public boolean isAdmin(){
-        return this.role.name().equalsIgnoreCase("admin");
+        return this.role == Role.Admin;
     }
     
     public User getById(int id){
@@ -83,6 +86,29 @@ public class User {
     
     public byte[] getSecret() {
         return secret;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public static Enum<Role> valueOfIgnoreCase(String search) {
+        for (Enum<Role> e : Role.values()) {
+            if(e.name().equalsIgnoreCase(search)){
+                return e;
+            }
+        }
+        return null;
+    }
+    
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", role=" + role +
+                '}';
     }
     
     /**

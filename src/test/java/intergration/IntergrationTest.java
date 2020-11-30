@@ -84,6 +84,7 @@ public class IntergrationTest {
 
     @Test
     void loginTest(){
+        String name = "sælger john";
         String email =  "test@test.dk";
         String password1 = "1234";
         String password2 = "1234";
@@ -91,7 +92,7 @@ public class IntergrationTest {
 
         //Create user
         try {
-            user = api.createUser(email, password1, password2);
+            user = api.createUser(name, email, password1, password2);
             assertEquals(email, user.getEmail());
         } catch (UserExists | DBException userExists) {
             userExists.printStackTrace();

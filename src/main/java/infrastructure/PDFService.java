@@ -17,7 +17,7 @@ public class PDFService implements FileService {
         
         String templateSrc = Utils.fileToString("pdf/"+templateFileName);
         
-        templateSrc = templateSrc.replace("$$TEKST$$", "Hejsa");
+        templateSrc = templateSrc.replace("$$TEKST$$", order.getCustomer().getName());
         
         return templateSrc;
     }

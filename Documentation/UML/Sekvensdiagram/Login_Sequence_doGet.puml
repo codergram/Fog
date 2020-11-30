@@ -9,7 +9,7 @@ boundary Tomcat
 customer -> Tomcat:GET /
 
 
-box entries (UI)
+box web (UI)
 Tomcat -> Login:doGet()
 
 Login -> BaseServlet:render()
