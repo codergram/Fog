@@ -19,7 +19,7 @@ public class Navbar {
             new Item("Log ind", "/Login", false, false),
             new Item("Log ud", "/", true, false),
             new Item("Employee", "/lists", true, false),
-            new Item("Admin", "/admin", true, true),
+            new Item("Admin", "/AdminStart", true, true),
             new Item("Orders", "/Orders", true, false),
             new Item("Customers", "/Customers", true, false),
             new Item("Users", "/Users", true, false),
