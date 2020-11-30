@@ -1,0 +1,94 @@
+@startuml
+Title Domænemodel
+
+hide circle
+hide methods
+
+class Carport {
+
+}
+
+class CP01_DUR {
+Bredde * 4 : 25x200 mm. trykimp. Brædt for/bag
+Længde * 4 : 25x200 mm. trykimp. Brædt siderne
+Bredde * 2 : 25x125mm. trykimp. Brædt forende
+Længde * 4 : 25x125mm. trykimp. Brædt siderne
+Længde - skur længde * 2 : 45x195 mm. spærtræ ubh. rem
+Bredde * længde/55 : 45x195 mm. spærtræ ubh. spær
+300 * 7 : 97x97 mm. trykimp. Stolpe
+Bredde - 60 * 4 : 19x100 mm. trykimp. Brædt stern side
+Længde/2 - 30 * 2 : 19x100 mm. trykimp. Brædt stern forende
+Bredde * 6 : Plastmo Ecolite blåtonet spær
+Længde/2 - 30 : Plastmo Ecolite blåtonet spær
+
+carport m2/15 : pakker plastmo bundskruer 200 stk.
+carport m2/20 : hulbånd 1x20 mm. 10 mtr.
+Længde/55 : universal 190 mm højre
+Længde/55 : universal 190 mm venstre
+1 : 4,5 x 60 mm. skruer 200 stk.
+carport m2/15 : 4,0 x 50 mm. beslagskruer 250 stk.
+carport m2/2,5 : bræddebolt 10 x 120 mm. stolper
+carport m2/3,9 : firkantskiver 40x40x11mm stolper
+carport m2/20 : 4,5 x 70 mm. Skruer 400 stk. beklædning
+carport m2/20 : 4,5 x 50 mm. Skruer 300 stk. beklædning
+
+}
+
+class CPR01_HR {
+480 * 2: 25x150 mm. trykimp. Bræt rejsning
+Længde * 2 : 25x150 mm. trykimp. Bræt sider
+Bredde * længde/89 : fædigskåret (byg-selv spær)
+300 * 7 : 97x97 mm. trykimp. Stolpe
+Bredde + 120 * 2 : 45x195 spærtræ ubh. carport
+Længde - 150 * 2 : 19x100 mm. trykimp. Brædt vand bræt
+længde/3 * carport m2/0.65 : 45x195 mm. spærtræ ubh. spær
+længde/3 * carport m2/0.175 : 45x195 mm. spærtræ ubh. spær
+Bredde * 2 * 3 : 25x50 mm. trykimp. Bræt tagfod
+Længde - 150 * carport m2/1.23 : 38x73 mm. taglægte T1
+Bredde + 100 * 2 : 38x73 mm. taglægte T1 holder
+
+Bredde - 60 : B & C Dobbelt -s sort
+carport m2 : B & C Rygsten sort
+Længde/89 : B & C Toplægte holder
+carport m2 : B & C rygstensbeslag
+2 : B & C tagstens bindere & nakkekroge
+Længde/89 : universal 190 mm højre
+Længde/89 : universal 190 mm venstre
+1 : 4,5 x 60 mm. Skruer 200 stk.
+1 : 5,0 x 40 mm. beslagskruer 250 stk.
+carport m2/12 : 5,0 x 100 mm. skruer 100 stk.
+Længde/89 * 2 + 6 : bræddebolt 10 x 120 mm.
+Længde/89 * 2 + 6 : firkantskiver 40x40x11mm
+carport m2/7 : 4,5 x 70 mm. Skruer 200 stk.
+carport m2/12 : 4,5 x 50 mm. Skruer 350 stk.
+}
+
+class Skur {
+--fladt--
+420 * 1 : 38x73 mm. Lægte ubh. dør
+270 * 12 45x95 mm. Reglar ub. gavl
+240 * 4 45x95 mm. Reglar ub. sider
+Længde * 2 * 1 : 45x195 mm. spærtræ ubh. rem
+
+--skråt--
+540 * 1 : 25x150 mm. trykimp. Bræt
+Bredde + 120 * 1 : 45x195 spærtræ ubh. carport
+240 * 4 45x95 mm. Reglar ub. gavl
+bredde * 6 45x95 mm. Reglar ub. sider
+
+--begge--
+300 * 3 : 97x97 mm. trykimp. Stolpe
+210 * skur m2 * 2 : 19x100 mm. trykimp. Brædt
+1 : stalddørsgreb 50x75 dør
+2 : t hængsel 390 mm dør
+skur m2 * 3 : vinkelbeslag 35
+
+
+}
+
+Carport "1" -- "0..1" CP01_DUR
+Carport "1" -- "0..1" CPR01_HR
+CP01_DUR "1" -- "0..1" Skur
+CPR01_HR "1" -- "0..1" Skur
+
+@enduml
