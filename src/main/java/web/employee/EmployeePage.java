@@ -1,6 +1,6 @@
-package entries.employee;
+package web.employee;
 
-import entries.BaseServlet;
+import web.BaseServlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

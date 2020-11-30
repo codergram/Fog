@@ -1,6 +1,6 @@
-package entries.website;
+package web.website;
 
-import entries.BaseServlet;
+import web.BaseServlet;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;

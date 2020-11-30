@@ -54,7 +54,7 @@ package api <<Rectangle>> {
     }
 }
 
-package entries/UI <<Rectangle>> {
+package web/UI <<Rectangle>> {
     class BaseServlet {
         Login
         Register
