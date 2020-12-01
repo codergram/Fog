@@ -7,7 +7,7 @@ import domain.partslist.Partslist;
 public class Carport {
     public enum Roof {
         Flat,
-        Sloping
+        Peak
     }
 
     private final int id;
@@ -25,6 +25,16 @@ public class Carport {
         this.roofType = roofType;
         this.shed = shed;
         this.partslist = partslist;
+        this.price = calculatePrice(partslist);
+    }
+
+    public Carport(double length, double width, Enum<Roof> roofType, Shed shed) {
+        this.id = -1;
+        this.length = length;
+        this.width = width;
+        this.roofType = roofType;
+        this.shed = shed;
+        this.partslist = null;
         this.price = calculatePrice(partslist);
     }
     
