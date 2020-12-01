@@ -40,9 +40,10 @@ public class Carport {
     
     private double calculatePrice(Partslist partslist) {
         double x = 0.0;
-        for(Part p: partslist.getMaterialList()){
-            x += p.getPrice();
-        }
+        //TODO: Implement partslist
+        //for(Part p: partslist.getMaterialList()){
+        //  x += p.getPrice();
+        //}
         return x;
     }
     

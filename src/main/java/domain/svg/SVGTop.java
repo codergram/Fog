@@ -19,8 +19,12 @@ public class SVGTop {
         this.length = carport.getLength();
         this.width = carport.getWidth();
         this.withShed = carport.hasShed();
-        this.shedLength = carport.getShed().getLength();
-        this.shedWidth = carport.getShed().getWidth();
+        this.shedLength = 0.0;
+        this.shedWidth = 0.0;
+        if(withShed) {
+            this.shedLength = carport.getShed().getLength();
+            this.shedWidth = carport.getShed().getWidth();
+        }
         this.roof = carport.getRoofType();
         this.sb = new StringBuilder();
         this.SVGside = null;

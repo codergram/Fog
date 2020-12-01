@@ -21,31 +21,48 @@ public class Confirmation extends BaseServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         boolean isCustomer = true;
-        boolean withShed;
-        double shedLenght, shedWidth;
-        Enum<Carport.Roof> roofType;
-        Carport carport;
-        Shed shed;
-
-        double length = Double.parseDouble(req.getParameter("length"));
-        double width = Double.parseDouble(req.getParameter("width"));
+        boolean withShed = false;
+        double length = 0.0;
+        double width = 0.0;
+        double shedLength = 0.0;
+        double shedWidth = 0.0;
+        Enum<Carport.Roof> roofType = null;
+        Carport carport = null;
+        Shed shed = null;
+        
+        try {
+            length = Double.parseDouble(req.getParameter("length"));
+            width = Double.parseDouble(req.getParameter("width"));
+            withShed = req.getParameter("shedOption").equalsIgnoreCase("on");
+        } catch (NullPointerException | NumberFormatException e){
+            log.warn(e.getMessage());
+        }
         String roof = req.getParameter("roof");
-        String shedOption = req.getParameter("shedOption");
         String shedSize = req.getParameter("shedSize");
-
+    
+        System.out.println("width: " + width);
+        System.out.println("length: " + length);
+        System.out.println("shedSize: " + shedSize);
+        
+        
         if(roof.equals("peak")){
-            shedLenght = 225;
-            if(shedSize.equals("whole")){
-                shedWidth = width - 40;
-            } else {
-                shedWidth = (width / 2) - 40;
+            shedLength = 225.0;
+            if(shedSize != null) {
+                if (shedSize.equals("whole")) {
+                    shedWidth = width - 40.0;
+                } else {
+                    shedWidth = (width / 2.0) - 40.0;
+                }
             }
         } else {
-            shedLenght = 210;
-            if(shedSize.equals("whole")){
-                shedWidth = width - 75;
-            } else {
-                shedWidth = (width / 2) - 75;
+            shedLength = 210;
+            
+            if(shedSize != null) {
+                if (shedSize.equals("whole")) {
+                    shedWidth = width - 75.0;
+                } else {
+                    shedWidth = (width / 2.0) - 75.0;
+                }
             }
         }
 
@@ -55,21 +72,22 @@ public class Confirmation extends BaseServlet {
             roofType = Carport.Roof.valueOf("Flat");
         }
 
-        if(shedOption.equals("Jeg ønsker et skur")){
-            shed = new Shed(shedLenght, shedWidth);
+        if(withShed){
+            shed = new Shed(shedLength, shedWidth);
         } else {
+            //shed = new Shed(0.0,0.0);
             shed = null;
         }
 
         carport = new Carport(length, width, roofType, shed);
 
-        String svgSide = api.getSVGSide(carport, true);
-        String svgTop = api.getSVGTop(carport, true);
+        String svgSide = api.getSVGSide(carport, isCustomer);
+        String svgTop = api.getSVGTop(carport, isCustomer);
 
         req.setAttribute("svgSide", svgSide);
         req.setAttribute("svgTop", svgTop);
 
-        render("Bekræft Carport", "/WEB-INF/pages/customer/confirmation", req, resp);
+        render("Bekræft Carport", "/WEB-INF/pages/customer/confirmation.jsp", req, resp);
     }
 
 }

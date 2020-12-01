@@ -21,7 +21,10 @@ public class SVGSide {
         this.roof = carport.getRoofType();
         this.sb = new StringBuilder();
         this.SVGside = null;
-        this.shedLength = carport.getShed().getLength();
+        this.shedLength = 0.0;
+        if(carport.getShed() != null) {
+            this.shedLength = carport.getShed().getLength();
+        }
         this.isCustomer = isCustomer;
     }
 

@@ -6,10 +6,10 @@
     <div class="col-md-6">
         <h2 class="mt-4 mb-4 text-center">Sammensæt din helt egen carport herunder</h2>
         <br>
-        <form class="form-carport" action="${pageContext.request.contextPath}/Confirmation" method="GET">
+        <form class="form-carport" action="Confirmation" method="GET">
             <div class="form-group">
-                <label for="laengde">Carportens længde</label>
-                <select class="form-control" id="laengde" name="lenght" required>
+                <label for="length">Carportens længde</label>
+                <select class="form-control" id="length" name="length" required>
                     <option value="580">580</option>
                     <option value="590">590</option>
                     <option value="600">600</option>
@@ -35,8 +35,8 @@
             </div>
 
             <div class="form-group">
-                <label for="bredde">Carportens bredde</label>
-                <select class="form-control" id="bredde" name="width" required>
+                <label for="width">Carportens bredde</label>
+                <select class="form-control" id="width" name="width" required>
                     <option value="300">300</option>
                     <option value="310">310</option>
                     <option value="320">320</option>
@@ -72,20 +72,20 @@
             </div>
 
             <div class="form-group">
-                <label for="tag">Carportens tagtype</label>
-                <select class="form-control" id="tag" name="roof" required>
+                <label for="roof">Carportens tagtype</label>
+                <select class="form-control" id="roof" name="roof" required>
                     <option value="flat">Fladt</option>
                     <option value="peak">Med 15 graders hældning</option>
                 </select>
             </div>
 
             <div class="custom-control custom-switch">
-                <input type="checkbox" class="custom-control-input" id="shed" name="shedOption" onchange="document.getElementById('shedtype').disabled = !this.checked;">
-                <label class="custom-control-label" for="shed">Jeg ønsker et skur</label>
+                <input type="checkbox" class="custom-control-input" id="shedOption" name="shedOption" onchange="document.getElementById('shedSize').disabled = !this.checked;">
+                <label class="custom-control-label" for="shedOption">Jeg ønsker et skur</label>
             </div>
             <div class="form-group">
-                <label for="shedtype">Skur type</label>
-                <select class="form-control" id="shedtype" name="shedSize" disabled>
+                <label for="shedSize">Skur type</label>
+                <select class="form-control" id="shedSize" name="shedSize" disabled>
                     <option value="whole">Hel bredde</option>
                     <option value="half">Halv bredde</option>
                 </select>
