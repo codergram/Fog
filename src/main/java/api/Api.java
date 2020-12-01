@@ -9,13 +9,16 @@ import domain.user.exceptions.InvalidPassword;
 import domain.user.exceptions.UserExists;
 import domain.user.exceptions.UserNotFound;
 import infrastructure.exceptions.DBException;
+import org.slf4j.Logger;
 
 import java.io.File;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 public class Api {
     
     public final static String genericSiteTitle = "Fog Trælast";
-    
+    private static final Logger log = getLogger(Api.class);
 
     private final UserRepository userRepository;
     private final EmailService emailService;
@@ -70,24 +73,18 @@ public class Api {
 
     
     public synchronized User login(String email, String password) throws InvalidPassword, UserNotFound, DBException {
-
-        //Get user from the DB with a specific name
         User user = null;
         try {
             user = userRepository.getUserByEmail(email);
         } catch (UserExists userExists) {
-            userExists.printStackTrace();
+            log.info(userExists.getMessage());
         }
     
-        //Username is null => no user was found in DB
-        if(user.getEmail() == null){
+        if(user == null){
             throw new UserNotFound();
-        }
-        //Validate the DB password with the provided one
-        else if (!user.isPasswordCorrect(password)) {
+        } else if (!user.isPasswordCorrect(password)) {
             throw new InvalidPassword();
-        }
-        else  {
+        } else  {
             //Return user if password is validated
             return user;
         }

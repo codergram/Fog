@@ -12,6 +12,8 @@ import java.io.IOException;
 @WebServlet(name = "AdminStart", urlPatterns = { "/AdminStart" } )
 public class Start extends BaseServlet {
     
+    public User curUser;
+    
     /**
      * Renders the index.jsp page
      * @see BaseServlet
@@ -21,15 +23,15 @@ public class Start extends BaseServlet {
             throws ServletException, IOException {
     
         try {
-            User usr = (User) req.getSession().getAttribute("currentUser");
+            curUser = (User) req.getSession().getAttribute("user");
         
-            log("Trying to log into admin :" + usr);
+            log("Trying to log into admin :" + curUser);
         
-            if (usr == null || !usr.isAdmin()) {
-                log("User is not admin: " + usr );
+            if (curUser == null || !curUser.isAdmin()) {
+                log("User is not admin: " + curUser );
                 resp.sendError(401);
             } else {
-                log("User is admin: " + usr);
+                log("User is admin: " + curUser);
                 render("Administrator - Start", "/WEB-INF/pages/admin/adminpage.jsp", req, resp);
             }
         
