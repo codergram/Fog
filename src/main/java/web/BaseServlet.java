@@ -2,10 +2,7 @@ package web;
 
 import api.Api;
 import domain.partslist.Partslist;
-import infrastructure.DBUser;
-import infrastructure.Database;
-import infrastructure.JavaXEmailService;
-import infrastructure.PDFService;
+import infrastructure.*;
 import org.slf4j.Logger;
 import web.widget.Navbar;
 
@@ -31,7 +28,7 @@ public class BaseServlet extends HttpServlet {
 
         Database database = new Database();
 
-        return new Api(new DBUser(database), new JavaXEmailService(), new PDFService());
+        return new Api(new DBUser(database), new JavaXEmailService(), new PDFService(), new DBOrder(database));
     }
 
     protected void render(String title, String content, HttpServletRequest request, HttpServletResponse response)

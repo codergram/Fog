@@ -3,6 +3,8 @@ package api;
 import api.exceptions.EmailNotSent;
 import api.exceptions.PDFNotCreated;
 import domain.order.Order;
+import domain.order.OrderRepository;
+import domain.order.exceptions.OrderNotFound;
 import domain.user.User;
 import domain.user.*;
 import domain.user.exceptions.InvalidPassword;
@@ -24,11 +26,13 @@ public class Api {
     private final UserRepository userRepository;
     private final EmailService emailService;
     private final FileService fileService;
+    private final OrderRepository orderRepository;
     
-    public Api(UserRepository userRepository, EmailService emailService, FileService fileService) {
+    public Api(UserRepository userRepository, EmailService emailService, FileService fileService, OrderRepository orderRepository) {
         this.userRepository = userRepository;
         this.emailService = emailService;
         this.fileService = fileService;
+        this.orderRepository = orderRepository;
     }
     
     public File testPdf(String path) throws PDFNotCreated {
@@ -92,6 +96,10 @@ public class Api {
             log.info(e.getMessage());
         }
         return null;
+    }
+    
+    public synchronized List<Order> getOrders() throws OrderNotFound {
+        return orderRepository.getALlOrders();
     }
 
 }
