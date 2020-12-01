@@ -20,7 +20,7 @@ public class Navbar {
             new Item("Orders", "/Ordre", true, false),
             new Item("Customers", "/Customers", true, false),
             new Item("Users", "/Users", true, true),
-            new Item("Stats", "/Statestic", true, true),
+            new Item("Stats", "/Stats", true, true),
             new Item("Log ud", "/", true, false)
 
     );

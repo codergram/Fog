@@ -92,14 +92,12 @@ public class IntergrationTest {
 
         //Create user
         try {
-            user = api.createUser(name, email, password1, password2);
+            user = api.createUser(name, email, password1, User.Role.Employee);
             assertEquals(email, user.getEmail());
-        } catch (UserExists | DBException userExists) {
+        } catch (UserExists userExists) {
             userExists.printStackTrace();
-        } catch (InvalidPassword invalidPassword) {
-            invalidPassword.printStackTrace();
         }
-
+    
         //Login user
         try {
             user = api.login(user.getEmail(), password1);

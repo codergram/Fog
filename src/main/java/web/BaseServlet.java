@@ -6,6 +6,7 @@ import infrastructure.DBUser;
 import infrastructure.Database;
 import infrastructure.JavaXEmailService;
 import infrastructure.PDFService;
+import org.slf4j.Logger;
 import web.widget.Navbar;
 
 import javax.servlet.ServletException;
@@ -15,9 +16,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 public class BaseServlet extends HttpServlet {
 
     protected static final Api api;
+    private static final Logger log = getLogger(BaseServlet.class);
 
     static {
         api = createFogApi();
@@ -45,8 +49,12 @@ public class BaseServlet extends HttpServlet {
         
     }
     
-    protected void oldLog(HttpServletRequest req, String str){
-        System.err.print("(" + LocalDateTime.now() + ")" + this.getClass().getCanonicalName() + " - " + req.getRequestURI() + " - " + str);
+    protected void redirect(HttpServletRequest req, HttpServletResponse resp, String servletName){
+        try {
+            resp.sendRedirect(req.getContextPath() + "/" + servletName);
+        } catch (IOException ee){
+            log.info(ee.getMessage());
+        }
     }
     
     

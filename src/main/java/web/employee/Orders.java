@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "Ordre", urlPatterns = { "/Ordre" } )
-public class Ordrers extends BaseServlet {
+public class Orders extends BaseServlet {
 
     public User curUser;
 
@@ -32,7 +32,7 @@ public class Ordrers extends BaseServlet {
                 resp.sendError(401);
             } else {
                 log("User is admin: " + curUser);
-                render("Ordre", "/WEB-INF/pages/salesteam/ordre.jsp", req, resp);
+                render("Ordre", "/WEB-INF/pages/sales/orders.jsp", req, resp);
             }
 
         } catch (Exception e){

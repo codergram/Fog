@@ -1,6 +1,7 @@
 package web.employee;
 
 import domain.user.User;
+import org.slf4j.Logger;
 import web.BaseServlet;
 
 import javax.servlet.ServletException;
@@ -9,8 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 @WebServlet(name = "Customers", urlPatterns = { "/Customers" } )
 public class Customers extends BaseServlet {
+    
+    private static final Logger log = getLogger(Customers.class);
 
     public User curUser;
 
@@ -32,7 +37,7 @@ public class Customers extends BaseServlet {
                 resp.sendError(401);
             } else {
                 log("User is admin: " + curUser);
-                render("Customers", "/WEB-INF/pages/salesteam/costumers.jsp", req, resp);
+                render("Customers", "/WEB-INF/pages/sales/customers.jsp", req, resp);
             }
 
         } catch (Exception e){
