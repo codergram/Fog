@@ -63,6 +63,10 @@ public class User {
         return this.role == Role.Admin;
     }
     
+    public int getId() {
+        return id;
+    }
+    
     public User getById(int id){
         return this.id != id ? this : null;
     }

@@ -1,4 +1,4 @@
-package web.employee;
+package web.admin;
 
 import domain.user.User;
 import web.BaseServlet;
@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "Statestic", urlPatterns = { "/Statestic" } )
-public class Statistik extends BaseServlet {
+@WebServlet(name = "Stats", urlPatterns = { "/Stats" } )
+public class Stats extends BaseServlet {
 
     public User curUser;
 

@@ -32,7 +32,7 @@ public class Start extends BaseServlet {
                 resp.sendError(401);
             } else {
                 log("User is admin: " + curUser);
-                render("Administrator - Start", "/WEB-INF/pages/admin/adminpage.jsp", req, resp);
+                render("Administrator - Start", "/WEB-INF/pages/admin/start.jsp", req, resp);
             }
         
         } catch (Exception e){

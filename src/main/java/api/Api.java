@@ -12,6 +12,7 @@ import infrastructure.exceptions.DBException;
 import org.slf4j.Logger;
 
 import java.io.File;
+import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -51,24 +52,18 @@ public class Api {
     }
 
     
-    public synchronized User createUser(String name, String email, String password1, String password2) throws UserExists, InvalidPassword, DBException {
-        //Generate salt
-        byte[] salt = User.generateSalt();
-        //Generate secret
-        byte[] secret = User.calculateSecret(salt, password1);
-        //Create user
-
-        //Validate user input
-        if (!password1.equals(password2)){
-            throw new InvalidPassword();
-
-        } else {
+    public synchronized User createUser(String name, String email, String password, User.Role role) throws UserExists {
+        var salt = User.generateSalt();
+        
             //Create user
-            User user = new User(0, name, email,User.Role.Employee, salt, secret);
+            User user = new User(0, name, email,role, salt, User.calculateSecret(salt, password));
             //Save/create the user in the DB and return the users (No longer id -1)
             user = userRepository.createUser(user);
             return user;
-        }
+    }
+    
+    public synchronized void deleteUser(int id) throws UserNotFound {
+        userRepository.deleteUserById(id);
     }
 
     
@@ -88,6 +83,15 @@ public class Api {
             //Return user if password is validated
             return user;
         }
+    }
+    
+    public synchronized List<User> getUsers(){
+        try {
+            return userRepository.getAllUsersFromDB();
+        } catch (UserNotFound e){
+            log.info(e.getMessage());
+        }
+        return null;
     }
 
 }
