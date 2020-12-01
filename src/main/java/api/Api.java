@@ -2,7 +2,9 @@ package api;
 
 import api.exceptions.EmailNotSent;
 import api.exceptions.PDFNotCreated;
+import domain.carport.Carport;
 import domain.order.Order;
+import domain.svg.SVGFactory;
 import domain.user.User;
 import domain.user.*;
 import domain.user.exceptions.InvalidPassword;
@@ -23,19 +25,21 @@ public class Api {
     private final UserRepository userRepository;
     private final EmailService emailService;
     private final FileService fileService;
+    private final SVGFactory svgFactory;
     
-    public Api(UserRepository userRepository, EmailService emailService, FileService fileService) {
+    public Api(UserRepository userRepository, EmailService emailService, FileService fileService, SVGFactory svgFactory) {
         this.userRepository = userRepository;
         this.emailService = emailService;
         this.fileService = fileService;
+        this.svgFactory = svgFactory;
     }
     
-    public File testPdf(String path) throws PDFNotCreated {
+    public synchronized File testPdf(String path) throws PDFNotCreated {
         Order order = new Order(1,200,300,null,null,null,null,null);
         return fileService.generatePdf(path, order);
     }
     
-    public boolean sendMail(String mailAddress, String title, String subject, String msg, File file){
+    public synchronized boolean sendMail(String mailAddress, String title, String subject, String msg, File file){
         try {
             String message = Utils.fileToString("mail/mailtemplate.html")
                     .replace("$$TITEL$$", title)
@@ -88,6 +92,14 @@ public class Api {
             //Return user if password is validated
             return user;
         }
+    }
+
+    public synchronized String getSVGSide(Carport carport, boolean isCustomer){
+        return svgFactory.createSVGSideCarport(carport, isCustomer).getSvgSide();
+    }
+
+    public synchronized String getSVGTop(Carport carport, boolean isCustomer){
+        return svgFactory.createSVGTopCarport(carport, isCustomer).getSvgTop();
     }
 
 }
