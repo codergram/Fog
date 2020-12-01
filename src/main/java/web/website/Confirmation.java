@@ -75,7 +75,6 @@ public class Confirmation extends BaseServlet {
         if(withShed){
             shed = new Shed(shedLength, shedWidth);
         } else {
-            //shed = new Shed(0.0,0.0);
             shed = null;
         }
 
