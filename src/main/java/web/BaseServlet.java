@@ -2,7 +2,6 @@ package web;
 
 import api.Api;
 import domain.partslist.Partslist;
-import domain.user.User;
 import infrastructure.DBUser;
 import infrastructure.Database;
 import infrastructure.JavaXEmailService;
@@ -43,11 +42,13 @@ public class BaseServlet extends HttpServlet {
         }
         request.setAttribute("navbar", new Navbar(request));
         request.getRequestDispatcher("/WEB-INF/includes/base.jsp").forward(request, response);
-
+        
     }
     
-    protected void log(HttpServletRequest req, String str){
+    protected void oldLog(HttpServletRequest req, String str){
         System.err.print("(" + LocalDateTime.now() + ")" + this.getClass().getCanonicalName() + " - " + req.getRequestURI() + " - " + str);
     }
+    
+    
 
 }

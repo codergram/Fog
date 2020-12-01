@@ -1,6 +1,12 @@
 package domain.material.materials;
 
 public abstract class Material {
+    
+    protected enum Usage {
+        Roof,
+        Raft,
+        Pole
+    }
 
     protected final int id;
     protected final String name;

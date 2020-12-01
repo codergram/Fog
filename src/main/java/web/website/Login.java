@@ -3,6 +3,7 @@ package web.website;
 import domain.user.User;
 import domain.user.exceptions.InvalidPassword;
 import domain.user.exceptions.UserNotFound;
+import org.slf4j.Logger;
 import web.BaseServlet;
 import infrastructure.exceptions.DBException;
 
@@ -13,8 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 @WebServlet(name = "Login", urlPatterns = { "/Login" } )
 public class Login extends BaseServlet {
+    
+    private static final Logger log = getLogger(Login.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -68,10 +73,12 @@ public class Login extends BaseServlet {
                 redirectWithMessage(checkoutProcess, messageSignIn, request, response);
             }
 
-        } catch(NullPointerException | UserNotFound | InvalidPassword | DBException e){
+        } catch(UserNotFound | InvalidPassword e){
             //Unknown username or password
             messageSignIn = "Unknown username or password";
             redirectWithMessage(checkoutProcess, messageSignIn, request, response);
+        } catch (NullPointerException | DBException e){
+            log(e.getMessage());
         }
     }
 

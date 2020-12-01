@@ -2,6 +2,7 @@ package web.website;
 
 import api.exceptions.PDFNotCreated;
 import domain.user.User;
+import org.slf4j.Logger;
 import web.BaseServlet;
 
 import javax.servlet.ServletException;
@@ -11,8 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 @WebServlet(name = "Test", urlPatterns = { "/Test" } )
 public class FeatureTest extends BaseServlet {
+    
+    private static final Logger log = getLogger(FeatureTest.class);
     
     private void testUserLoggedIn(User.Role role, HttpServletRequest request) {
     
@@ -44,9 +49,10 @@ public class FeatureTest extends BaseServlet {
             //api.sendMail("cph-en93@cphbusiness.dk", "Test mail", "Test mail", "Hej se filen.", api.testPdf(fileDir));
             api.testPdf(fileDir);
         } catch (PDFNotCreated pdfNotCreated) {
-            pdfNotCreated.printStackTrace();
+            log.warn(pdfNotCreated.getMessage());
         }
     
+        log.info("Serving page {}", req.getRequestURI());
         render("Startside", "/WEB-INF/pages/test.jsp", req, resp);
     
     }
