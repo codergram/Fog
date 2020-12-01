@@ -2,6 +2,9 @@ package web.website;
 
 import api.exceptions.PDFNotCreated;
 import domain.user.User;
+import domain.user.exceptions.InvalidPassword;
+import domain.user.exceptions.UserExists;
+import infrastructure.exceptions.DBException;
 import org.slf4j.Logger;
 import web.BaseServlet;
 
@@ -43,6 +46,7 @@ public class FeatureTest extends BaseServlet {
         System.out.println("Test user: " + testUser);
         System.out.println("isAdmin: " + testUser.isAdmin());
         System.out.println("isEmployee: " + testUser.isEmployee());
+        
     
         try {
             String fileDir = System.getProperty("java.io.tmpdir");

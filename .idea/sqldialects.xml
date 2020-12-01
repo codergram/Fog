@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/src/main/resources/migrate/0.sql" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/migrate/2.sql" dialect="Redshift" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/migrate/4.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/src/main/resources/migrate/reset.sql" dialect="GenericSQL" />
   </component>
 </project>

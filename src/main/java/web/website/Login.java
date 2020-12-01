@@ -20,78 +20,58 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class Login extends BaseServlet {
     
     private static final Logger log = getLogger(Login.class);
+    
 
+    protected void render(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            super.render("Log ind", "/WEB-INF/pages/login.jsp", request, response);
+        } catch (ServletException | IOException e){
+            log.error(e.getMessage());
+        }
+        
+    }
+    
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-
-//        if(req.getParameter("messageSignIn") != null){
-//            String messageSignIn = req.getParameter("messageSignIn");
-//            req.setAttribute("messageSignIn", messageSignIn);
-//        }
-
-        render("Log Ind", "/WEB-INF/pages/login.jsp", req, resp);
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+            render(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //Error message and destination page
-        String messageSignIn = "";
-        String errorMessage = "";
-
-        String user_email = request.getParameter( "email" );
-        String password = request.getParameter( "password" );
-        String checkoutProcess = request.getParameter("checkoutProcess");
-
-        //Check the username and password that is provided, and the user from DB
         try {
-
-            User user = api.login(user_email, password);
-
-            HttpSession session = request.getSession();
-            session.setAttribute("user", user);
-
-            //Redirect by user_role and get session data
-            if(user.getRole().equals(User.Role.Admin)){
-                if(checkoutProcess.equals("true")){
-                    response.sendRedirect(request.getContextPath() + "/CheckoutPage?user_role=admin");
-
-                } else {
-                    response.sendRedirect(request.getContextPath() + "/Start");
-                }
-
-            } else if (user.getRole().equals(User.Role.Employee)){
-                if(checkoutProcess.equals("true")){
-                    response.sendRedirect(request.getContextPath() + "/CheckoutPage?user_role=sælger");
-
-                } else {
-                    response.sendRedirect(request.getContextPath() + "/EmployeePage");
-                }
-
+            request.setAttribute("providedMail", request.getParameter("inputEmail"));
+            User curUser = login(request);
+            
+            if(curUser.isAdmin()) {
+                response.sendRedirect(request.getContextPath() + "/AdminStart");
+            } else if (curUser.isEmployee()){
+                response.sendRedirect(request.getContextPath() + "/EmployeeStart");
             } else {
-                messageSignIn = "Unknown username or password";
-                redirectWithMessage(checkoutProcess, messageSignIn, request, response);
+                response.sendRedirect(request.getContextPath() + "/");
             }
-
-        } catch(UserNotFound | InvalidPassword e){
-            //Unknown username or password
-            messageSignIn = "Unknown username or password";
-            redirectWithMessage(checkoutProcess, messageSignIn, request, response);
-        } catch (NullPointerException | DBException e){
-            log(e.getMessage());
+        
+        } catch (InvalidPassword | UserNotFound i) {
+            log.info(i.getMessage());
+            request.setAttribute("errorMsg", i.getMessage());
+            request.setAttribute("error", true);
+            render(request, response);
+        } catch (DBException e){
+            log.warn(e.getMessage());
         }
     }
-
-    private void redirectWithMessage(String checkoutProcess, String messageSignIn, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(checkoutProcess.equals("true")){
-            request.setAttribute("messageSignIn", messageSignIn);
-//            response.sendRedirect(request.getContextPath() + "/LoginRegisterPage?user_role=&messageSignIn=" + messageSignIn);
-            render("Log Ind/Opret Konto", "/WEB-INF/pages/loginregisterpage.jsp", request, response);
-        } else {
-            request.setAttribute("messageSignIn", messageSignIn);
-//            response.sendRedirect(request.getContextPath() + "/Login?messageSignIn=" + messageSignIn);
-            render("Log Ind", "/WEB-INF/pages/login.jsp", request, response);
-        }
+    
+    private User login(HttpServletRequest req) throws InvalidPassword, UserNotFound, DBException {
+        HttpSession session = req.getSession();
+        
+        String usrEmail = req.getParameter("inputEmail");
+        String usrPassword = req.getParameter("inputPassword");
+        
+        User curUsr = api.login(usrEmail, usrPassword);
+        
+        session.setAttribute("user", curUsr);
+        session.setAttribute("userrole", curUsr.getRole().name());
+        
+        return curUsr;
     }
 
 

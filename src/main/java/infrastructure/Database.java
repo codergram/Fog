@@ -11,10 +11,10 @@ public class Database {
     private final String PSW;
 
     // Database version
-    private static final int version = 2;
+    private static final int version = 1;
 
     public Database(String url, String user, String psw) {
-        this.URL = url == null ? "jdbc:mysql://localhost:3306/fog?serverTimezone=CET" : url;
+        this.URL = url == null ? "jdbc:mysql://localhost:3306/fog?serverTimezone=Europe/Copenhagen" : url;
         this.USER = user == null ? "fog" : user;
         this.PSW = psw == null ? "codergram" : psw;
         try {

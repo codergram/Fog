@@ -23,17 +23,17 @@ public class DBUser implements UserRepository {
     
         try (Connection conn = database.getConnection()){
         
-            String query = "SELECT * FROM Users";
+            String query = "SELECT * FROM users";
         
             PreparedStatement ps = conn.prepareStatement( query );
         
             ResultSet rs = ps.executeQuery();
         
             while ( rs.next() ) {
-                int userId = rs.getInt("Users.id");
-                String usersName = rs.getString("Users.name");
-                String userEmail = rs.getString( "Users.email" );
-                String userRole = rs.getString( "Users.role" );
+                int userId = rs.getInt("users.id");
+                String usersName = rs.getString("users.name");
+                String userEmail = rs.getString( "users.email" );
+                String userRole = rs.getString( "users.role" );
             
                 User user = new User( userId, usersName, userEmail, User.Role.valueOf(userRole));
             
@@ -52,7 +52,7 @@ public class DBUser implements UserRepository {
     
         try (Connection conn = database.getConnection()){
         
-            String query = "SELECT * FROM Users "
+            String query = "SELECT * FROM users "
                     + "WHERE id = ?";
         
             PreparedStatement ps = conn.prepareStatement( query );
@@ -60,9 +60,9 @@ public class DBUser implements UserRepository {
             ResultSet rs = ps.executeQuery();
         
             if ( rs.next() ) {
-                String usersName = rs.getString("Users.name");
-                String userEmail = rs.getString( "Users.email" );
-                String userRole = rs.getString( "Users.role" );
+                String usersName = rs.getString("users.name");
+                String userEmail = rs.getString( "users.email" );
+                String userRole = rs.getString( "users.role" );
             
                 user = new User( userId, usersName, userEmail, User.Role.valueOf(userRole));
             
@@ -80,7 +80,7 @@ public class DBUser implements UserRepository {
         try (Connection conn = database.getConnection()){
         
             //Prepare a SQL statement from the DB connection
-            String query = "INSERT INTO Users (name, email, role, salt, secret) VALUES (?, ?, ?, ?, ?)";
+            String query = "INSERT INTO users (name, email, role, salt, secret) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement ps = conn.prepareStatement( query, Statement.RETURN_GENERATED_KEYS );
         
             //Link variables to the SQL statement
@@ -115,7 +115,7 @@ public class DBUser implements UserRepository {
         try (Connection conn = database.getConnection()){
         
             //Prepare a SQL statement from the DB connection
-            String query = "UPDATE Users SET role = ?"
+            String query = "UPDATE users SET role = ?"
                     + " WHERE id = ? ";
             PreparedStatement ps = conn.prepareStatement( query );
         
@@ -136,7 +136,7 @@ public class DBUser implements UserRepository {
         try (Connection conn = database.getConnection()){
         
             //Prepare a SQL statement from the DB connection
-            String query = "DELETE FROM Users WHERE id = ?";
+            String query = "DELETE FROM users WHERE id = ?";
             PreparedStatement ps = conn.prepareStatement( query );
         
             //Link variables to the SQL statement
@@ -155,7 +155,7 @@ public class DBUser implements UserRepository {
         try (Connection conn = database.getConnection()){
         
             //Prepare a SQL statement from the DB connection
-            String query = "UPDATE Users SET role = ? "
+            String query = "UPDATE users SET role = ? "
                     + " WHERE id = ? ";
             PreparedStatement ps = conn.prepareStatement( query );
         
@@ -178,7 +178,7 @@ public class DBUser implements UserRepository {
         try (Connection conn = database.getConnection()){
         
             //Prepare a SQL statement from the DB connection
-            String query = "SELECT * FROM Users WHERE email = ?";
+            String query = "SELECT * FROM users WHERE email = ?";
             PreparedStatement ps = conn.prepareStatement( query );
         
             //Link variables to the SQL statement
@@ -189,12 +189,12 @@ public class DBUser implements UserRepository {
         
             //Search if there is a result from the DB execution
             if (rs.next()) {
-                int userId = rs.getInt("Users.id");
-                String usersName = rs.getString("Users.name");
-                String userMail = rs.getString( "Users.email" );
-                User.Role userRole = User.Role.valueOf(rs.getString("Users.role"));
-                byte[] userSalt = rs.getBytes("Users.salt");
-                byte[] userSecret = rs.getBytes("Users.secret");
+                int userId = rs.getInt("users.id");
+                String usersName = rs.getString("users.name");
+                String userMail = rs.getString( "users.email" );
+                User.Role userRole = User.Role.valueOf(rs.getString("users.role"));
+                byte[] userSalt = rs.getBytes("users.salt");
+                byte[] userSecret = rs.getBytes("users.secret");
                 
                 return new User(userId, usersName, userMail,userRole,userSalt,userSecret);
             
