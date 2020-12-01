@@ -1,6 +1,11 @@
 package domain.material.materials;
 
 public class Tree extends Material {
+    
+    public enum Type {
+        Pole,
+        Board
+    }
 
     private final double length;
     

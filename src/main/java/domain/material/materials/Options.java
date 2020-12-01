@@ -2,6 +2,11 @@ package domain.material.materials;
 
 public class Options extends Material {
     
+    public enum Type{
+        Screw,
+        Fitting
+    }
+    
     public Options(int id, String name, double price) {
         super(id, name, price);
     }

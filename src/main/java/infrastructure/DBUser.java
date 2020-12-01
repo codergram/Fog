@@ -162,6 +162,8 @@ public class DBUser implements UserRepository {
             //Link variables to the SQL statement
             ps.setString(1, role.name());
             ps.setInt(2, userId);
+            
+            
         
             //Execute the SQL statement to update the DB
             ps.executeUpdate();
