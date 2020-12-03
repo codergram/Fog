@@ -18,6 +18,18 @@ public class DBMaterial implements MaterielRepository {
     
     @Override
     public List<Material> getAllMaterials() throws DBException {
+    
+        Material mat = new Tree();
+        
+        
+        mat.asType(Tree.Type.Pole).getLength()
+        
+        if (mat instanceof Tree) {
+            Tree.Type
+        } else {
+            Options.Type
+        }
+        
         return null;
     }
     
