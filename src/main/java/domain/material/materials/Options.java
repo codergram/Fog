@@ -8,7 +8,7 @@ public class Options extends Material {
     }
     
     public Options(int id, String name, double price) {
-        super(id, name, price);
+        super(id, name, price, Usage.Roof);
     }
     
     public Options(String name, double price) {
