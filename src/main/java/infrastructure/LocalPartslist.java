@@ -3,6 +3,8 @@ package infrastructure;
 import domain.carport.Carport;
 import domain.material.materials.Material;
 //import domain.material.materials.Tree;
+import domain.material.materials.Options;
+import domain.material.materials.Tree;
 import domain.partslist.Part;
 import domain.partslist.exceptions.PartslistServices;
 
@@ -11,7 +13,23 @@ import java.util.Collections;
 import java.util.List;
 
 public class LocalPartslist implements PartslistServices {
-
+    
+    private final List<Tree> treeMaterials = new ArrayList<Tree>();
+    private final List<Options> optionsMaterials = new ArrayList<Options>();
+    
+    
+    public LocalPartslist(List<Material> materialsFromDb) {
+        List<Material> materials = List.copyOf(materialsFromDb);
+        
+        for(Material m: materials){
+            if(m instanceof Tree){
+                treeMaterials.add((Tree) m);
+            } else {
+                optionsMaterials.add((Options) m);
+            }
+        }
+    }
+    
     @Override
     public List<Part> createPartsList() {
         List<Part> partslist = new ArrayList<>();
@@ -23,7 +41,7 @@ public class LocalPartslist implements PartslistServices {
 
         Collections.reverse(allMaterialsFromDB);
 
-        if(carport.getRoofType().equals("Flat")){
+        if(carport.getRoofType() == Carport.Roof.Flat){
             localPartlist.add(calculateBoardsUnderStarFronBack(carport, allMaterialsFromDB));
             localPartlist.add(calculateBoardsUnderStarSide(carport,allMaterialsFromDB));
             localPartlist.add(calculateBoardsOverStarFronBack(carport, allMaterialsFromDB));
@@ -90,25 +108,31 @@ public class LocalPartslist implements PartslistServices {
                 localPartlist.add(calculateHingeShed(carport, allMaterialsFromDB));
                 localPartlist.add(calculateAngleBracketShed(carport, allMaterialsFromDB));
                 localPartlist.add(calculateScrewOuterCladding200(carport, allMaterialsFromDB));
-                localPartlist.add(calculateScrewInnerCladding350(carport, allMaterialsFromDB));
+                localPartlist.add(calculateScrewInnerCladding350(carport));
             }
         }
 
         return localPartlist;
     }
 
-    private Part calculateScrewInnerCladding350(Carport carport, List<Material> allMaterialsFromDB) {
+    private Part calculateScrewInnerCladding350(Carport carport) {
         Material material = null;
 
         int amount = (int) Math.ceil(((carport.getLength() * carport.getWidth()))  / 10000  /12);
         String des = "til montering af inderste beklædning";
-
-        for(Material curretElement: allMaterialsFromDB){
-            if(curretElement.getType().equals("Screw") && curretElement.getUsage().equals("InnerCladding350")){
-                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), "Pk.", "InnerCladding350", "Screw");
-                break;
+        
+        for(Options o: optionsMaterials){
+            if(o.getType() == Options.Type.Screw && o.getUsage() == Material.Usage.InnerCladding350){
+                material = o;
             }
         }
+
+//        for(Material curretElement: allMaterialsFromDB){
+//            if(curretElement.getType().equals("Screw") && curretElement.getUsage().equals("InnerCladding350")){
+//                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), "Pk.", "InnerCladding350", "Screw");
+//                break;
+//            }
+//        }
 
         return new Part(material, amount, des);
     }
@@ -121,7 +145,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Screw") && curretElement.getUsage().equals("OuterCladding200")){
-                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnit(),"OuterCladding200", "Screw");
+                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnitString(),"OuterCladding200", "Screw");
                 break;
             }
         }
@@ -129,19 +153,27 @@ public class LocalPartslist implements PartslistServices {
         return new Part(material, amount, des);
     }
 
-    private Part calculateLathsDoorPeak(Carport carport, List<Material> allMaterialsFromDB) {
+    private Part calculateLathsDoorPeak(Carport carport) {
         Material material = null;
 
         int amount = 1;
         double length = carport.getLength() - 150;
         String des = "til z på bagside af dør";
-
-        for(Material curretElement: allMaterialsFromDB){
-            if(curretElement.getType().equals("Laths") && curretElement.getUsage().equals("Door")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(), "Door", "Laths");
+        
+        for(Tree t: treeMaterials){
+            if(t.getType() == Tree.Type.Laths && t.getUsage() == Material.Usage.Door){
+                t.setLength(length);
+                material = t;
                 break;
             }
         }
+
+//        for(Material curretElement: allMaterialsFromDB){
+//            if(curretElement.getType().equals("Laths") && curretElement.getUsage().equals("Door")){
+//                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(), "Door", "Laths");
+//                break;
+//            }
+//        }
 
         return new Part(material, amount, des);
     }
@@ -155,7 +187,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Boards") && curretElement.getUsage().equals("ShedCladding")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(), "ShedCladding", "Boards");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(), "ShedCladding", "Boards");
                 break;
             }
         }
@@ -172,7 +204,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Rules") && curretElement.getUsage().equals("ShedGables")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(), "ShedGables", "Rules");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(), "ShedGables", "Rules");
                 break;
             }
         }
@@ -189,7 +221,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Rules") && curretElement.getUsage().equals("ShedSide")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(),"ShedSide", "Rules");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(),"ShedSide", "Rules");
                 break;
             }
         }
@@ -206,7 +238,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Rafts") && curretElement.getUsage().equals("ShedStraps")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(),"ShedStraps", "Rafts");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(),"ShedStraps", "Rafts");
                 break;
             }
         }
@@ -223,7 +255,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("SquareDiscs") && curretElement.getUsage().equals("Pole")){
-                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnit(),"Pole", "SquareDiscs");
+                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnitString(),"Pole", "SquareDiscs");
                 break;
             }
         }
@@ -240,7 +272,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("BoardBolt") && curretElement.getUsage().equals("Pole")){
-                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnit(),"Pole", "BoardBolt");
+                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnitString(),"Pole", "BoardBolt");
                 break;
             }
         }
@@ -257,7 +289,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Screw") && curretElement.getUsage().equals("RoofBattens")){
-                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnit(),"RoofBattens", "Screw");
+                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnitString(),"RoofBattens", "Screw");
                 break;
             }
         }
@@ -274,7 +306,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("FittingScrews") && curretElement.getUsage().equals("UniversalFittings")){
-                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnit(),"UniversalFittings", "FittingScrews");
+                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnitString(),"UniversalFittings", "FittingScrews");
                 break;
             }
         }
@@ -291,7 +323,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Screw") && curretElement.getUsage().equals("StarWaterBoard")){
-                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnit(),"StarWaterBoard", "Screw");
+                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnitString(),"StarWaterBoard", "Screw");
                 break;
             }
         }
@@ -308,7 +340,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Universal") && curretElement.getUsage().equals("RaftersLeft")){
-                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnit(),"RaftersLeft", "Universal");
+                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnitString(),"RaftersLeft", "Universal");
                 break;
             }
         }
@@ -325,7 +357,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Universal") && curretElement.getUsage().equals("RaftersRight")){
-                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnit(),"RaftersRight", "Universal");
+                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnitString(),"RaftersRight", "Universal");
                 break;
             }
         }
@@ -342,7 +374,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("RoofBinder") && curretElement.getUsage().equals("RoofTiles")){
-                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnit(),"RoofTiles", "RoofBinder");
+                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnitString(),"RoofTiles", "RoofBinder");
                 break;
             }
         }
@@ -359,7 +391,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("BackstoneFittings") && curretElement.getUsage().equals("BackStone")){
-                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnit(),"BackStone", "BackstoneFittings");
+                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnitString(),"BackStone", "BackstoneFittings");
                 break;
             }
         }
@@ -376,7 +408,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Rafters") && curretElement.getUsage().equals("TopLayer")){
-                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnit(),"TopLayer", "Rafters");
+                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnitString(),"TopLayer", "Rafters");
                 break;
             }
         }
@@ -393,7 +425,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("BackStone") && curretElement.getUsage().equals("TopLath")){
-                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnit(),"TopLath", "BackStone");
+                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnitString(),"TopLath", "BackStone");
                 break;
             }
         }
@@ -410,7 +442,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Dobbelt") && curretElement.getUsage().equals("RoofBattens")){
-                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnit(),"RoofBattens", "Dobbelt");
+                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnitString(),"RoofBattens", "Dobbelt");
                 break;
             }
         }
@@ -427,7 +459,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Laths") && curretElement.getUsage().equals("TopLath")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(),"TopLath", "Laths");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(),"TopLath", "Laths");
                 break;
             }
         }
@@ -444,7 +476,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Laths") && curretElement.getUsage().equals("Roof")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(),"Roof", "Laths");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(),"Roof", "Laths");
                 break;
             }
         }
@@ -461,7 +493,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Boards") && curretElement.getUsage().equals("RoofBattens")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(),"RoofBattens", "Boards");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(),"RoofBattens", "Boards");
                 break;
             }
         }
@@ -478,7 +510,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Boards") && curretElement.getUsage().equals("WindshieldsGavel")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(),"WindshieldsGavel", "Boards");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(),"WindshieldsGavel", "Boards");
                 break;
             }
         }
@@ -495,7 +527,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Boards") && curretElement.getUsage().equals("WindshieldsBoard")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(),"WindshieldsBoard", "Boards");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(),"WindshieldsBoard", "Boards");
                 break;
             }
         }
@@ -512,7 +544,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Rafts") && curretElement.getUsage().equals("Straps")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(),"Straps", "Rafts");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(),"Straps", "Rafts");
                 break;
             }
         }
@@ -529,7 +561,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Rafts") && curretElement.getUsage().equals("CustomRoof")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(),"CustomRoof", "Rafts");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(),"CustomRoof", "Rafts");
                 break;
             }
         }
@@ -546,7 +578,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Boards") && curretElement.getUsage().equals("WaterStartEndPeak")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(),"WaterStartEndPeak", "Boards");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(),"WaterStartEndPeak", "Boards");
                 break;
             }
         }
@@ -563,7 +595,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Boards") && curretElement.getUsage().equals("StarSide")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(),curretElement.getUnit(), "StarSide", "Boards");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(),curretElement.getUnitString(), "StarSide", "Boards");
                 break;
             }
         }
@@ -580,7 +612,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Boards") && curretElement.getUsage().equals("Windshield")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(),"Windshield", "Boards");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(),"Windshield", "Boards");
                 break;
             }
         }
@@ -596,7 +628,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("AngleBracket") && curretElement.getUsage().equals("Shed")){
-                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnit(),"Shed", "AngleBracket");
+                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnitString(),"Shed", "AngleBracket");
                 break;
             }
         }
@@ -612,7 +644,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Hinge") && curretElement.getUsage().equals("Shed")){
-                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnit(),"Shed", "Hinge");
+                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnitString(),"Shed", "Hinge");
                 break;
             }
         }
@@ -628,7 +660,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("BarnDoorHandle") && curretElement.getUsage().equals("Shed")){
-                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnit(),"Shed", "BarnDoorHandle");
+                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnitString(),"Shed", "BarnDoorHandle");
                 break;
             }
         }
@@ -644,7 +676,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Screw") && curretElement.getUsage().equals("InnerCladding300")){
-                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnit(),"InnerCladding300", "Screw");
+                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnitString(),"InnerCladding300", "Screw");
                 break;
             }
         }
@@ -660,7 +692,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Screw") && curretElement.getUsage().equals("OuterCladding400")){
-                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnit(),"OuterCladding400", "Screw");
+                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnitString(),"OuterCladding400", "Screw");
                 break;
             }
         }
@@ -677,7 +709,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Boards") && curretElement.getUsage().equals("ShedCladding")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(),"ShedCladding", "Boards");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(),"ShedCladding", "Boards");
                 break;
             }
         }
@@ -694,7 +726,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Rafts") && curretElement.getUsage().equals("ShedStraps")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(),"ShedStraps", "Rafts");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(),"ShedStraps", "Rafts");
                 break;
             }
         }
@@ -711,7 +743,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Rules") && curretElement.getUsage().equals("ShedSide")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(),"ShedSide", "Rules");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(),"ShedSide", "Rules");
                 break;
             }
         }
@@ -728,7 +760,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Rules") && curretElement.getUsage().equals("ShedGables")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(),"ShedGables", "Rules");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(),"ShedGables", "Rules");
                 break;
             }
         }
@@ -745,7 +777,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Laths") && curretElement.getUsage().equals("Door")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(),"Door", "Laths");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(),"Door", "Laths");
                 break;
             }
         }
@@ -761,7 +793,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("SquareDiscs") && curretElement.getUsage().equals("Pole")){
-                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnit(),"Pole", "SquareDiscs");
+                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnitString(),"Pole", "SquareDiscs");
                 break;
             }
         }
@@ -777,7 +809,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("BoardBolt") && curretElement.getUsage().equals("Pole")){
-                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnit(),"Pole", "BoardBolt");
+                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnitString(),"Pole", "BoardBolt");
                 break;
             }
         }
@@ -793,7 +825,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("FittingScrews") && curretElement.getUsage().equals("UniversalFittings")){
-                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnit(),"UniversalFittings", "FittingScrews");
+                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnitString(),"UniversalFittings", "FittingScrews");
                 break;
             }
         }
@@ -809,7 +841,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Screw") && curretElement.getUsage().equals("StarWaterBoard")){
-                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnit(),"StarWaterBoard", "Screw");
+                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnitString(),"StarWaterBoard", "Screw");
                 break;
             }
         }
@@ -825,7 +857,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Universal") && curretElement.getUsage().equals("RaftersLeft")){
-                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnit(),"RaftersLeft", "Universal");
+                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnitString(),"RaftersLeft", "Universal");
                 break;
             }
         }
@@ -841,7 +873,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Universal") && curretElement.getUsage().equals("RaftersRight")){
-                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnit(),"RaftersRight", "Universal");
+                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnitString(),"RaftersRight", "Universal");
                 break;
             }
         }
@@ -857,7 +889,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("PerforatedTape") && curretElement.getUsage().equals("Windshield")){
-                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnit(),"Windshield", "PerforatedTape");
+                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnitString(),"Windshield", "PerforatedTape");
                 break;
             }
         }
@@ -873,7 +905,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Screws") && curretElement.getUsage().equals("Roof")){
-                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnit(),"Roof", "Screws");
+                material = new Material(curretElement.getId(), curretElement.getName(), curretElement.getPrice(), curretElement.getUnitString(),"Roof", "Screws");
                 break;
             }
         }
@@ -890,7 +922,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Roofing") && curretElement.getUsage().equals("RoffingSmall")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(),"RoffingSmall", "Roofing");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(),"RoffingSmall", "Roofing");
                 break;
             }
         }
@@ -907,7 +939,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Roofing") && curretElement.getUsage().equals("RoffingBig")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(),"RoffingBig", "Roofing");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(),"RoffingBig", "Roofing");
                 break;
             }
         }
@@ -924,7 +956,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Boards") && curretElement.getUsage().equals("WaterStartEnd")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(),"WaterStartEnd", "Boards");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(),"WaterStartEnd", "Boards");
                 break;
             }
         }
@@ -941,7 +973,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Boards") && curretElement.getUsage().equals("WaterStarSide")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(),"WaterStarSide", "Boards");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(),"WaterStarSide", "Boards");
                 break;
             }
         }
@@ -963,7 +995,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Poles") && curretElement.getUsage().equals("Foundation")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(),"Foundation", "Poles");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(),"Foundation", "Poles");
                 break;
             }
         }
@@ -980,7 +1012,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Rafts") && curretElement.getUsage().equals("Roof")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(),"Roof", "Rafts");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(),"Roof", "Rafts");
                 break;
             }
         }
@@ -997,7 +1029,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Rafts") && curretElement.getUsage().equals("Straps")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(),"Straps", "Rafts");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(),"Straps", "Rafts");
                 break;
             }
         }
@@ -1014,7 +1046,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Boards") && curretElement.getUsage().equals("OverStarSide")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(),"OverStarSide", "Boards");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(),"OverStarSide", "Boards");
                 break;
             }
         }
@@ -1031,7 +1063,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Boards") && curretElement.getUsage().equals("OverStarFronBack")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(),"OverStarFronBack", "Boards");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(),"OverStarFronBack", "Boards");
                 break;
             }
         }
@@ -1048,7 +1080,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Boards") && curretElement.getUsage().equals("UnderStarSide")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(),"UnderStarSide", "Boards");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(),"UnderStarSide", "Boards");
                 break;
             }
         }
@@ -1065,7 +1097,7 @@ public class LocalPartslist implements PartslistServices {
 
         for(Material curretElement: allMaterialsFromDB){
             if(curretElement.getType().equals("Boards") && curretElement.getUsage().equals("UnderStarFronBack")){
-                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnit(),"UnderStarFronBack", "Boards");
+                material = new Material(curretElement.getId(), curretElement.getName(), length, curretElement.getPrice(), curretElement.getUnitString(),"UnderStarFronBack", "Boards");
                 break;
             }
         }

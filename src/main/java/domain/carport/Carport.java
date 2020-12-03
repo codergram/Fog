@@ -5,16 +5,16 @@ import domain.partslist.Part;
 import domain.partslist.Partslist;
 
 public class Carport {
-//    public enum Roof {
-//        Flat,
-//        Peak
-//    }
+    public enum Roof {
+        Flat,
+        Peak
+    }
 
     private final int id;
     private final double length;
     private final double width;
-//    private final Enum<Roof> roofType;
-    private final String roofType;
+    private final Enum<Roof> roofType;
+    //private final String roofType;
     private final Shed shed;
     private double price;
     private final Partslist partslist;
@@ -23,7 +23,7 @@ public class Carport {
         this.id = id;
         this.length = length;
         this.width = width;
-        this.roofType = roofType;
+        this.roofType = Roof.valueOf(roofType);
         this.shed = shed;
         this.partslist = partslist;
         this.price = calculatePrice(partslist);
@@ -33,7 +33,7 @@ public class Carport {
         this.id = -1;
         this.length = length;
         this.width = width;
-        this.roofType = roofType;
+        this.roofType = Roof.valueOf(roofType);
         this.shed = shed;
         this.partslist = partslist;
         this.price = calculatePrice(partslist);
@@ -43,7 +43,7 @@ public class Carport {
         this.id = -1;
         this.length = length;
         this.width = width;
-        this.roofType = roofType;
+        this.roofType = Roof.valueOf(roofType);
         this.shed = shed;
         this.partslist = null;
         this.price = calculatePrice(partslist);
@@ -70,8 +70,8 @@ public class Carport {
         return width;
     }
     
-    public String getRoofType() {
-        return roofType;
+    public Enum<Roof> getRoofType() {
+        return this.roofType;
     }
     
     public boolean hasShed(){
