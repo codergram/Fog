@@ -102,7 +102,7 @@ public class SVGSide {
                     "\n" +
                     "    <!--    Hvid ramme (heøjde + 100 og bredde +150)-->\n" +
                     "    <rect x=\"0\" y=\"0\" height=\""+ headerHeight + "\" width=\""+ headerLength + "\"\n" +
-                    "          style=\"stroke:#000000; fill: #fff\"/>\n" +
+                    "          style=\"stroke:#fff; fill: #fff\"/>\n" +
                     "\n" +
                     "\n" +
                     "\n" +

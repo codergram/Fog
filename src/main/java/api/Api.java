@@ -3,7 +3,11 @@ package api;
 import api.exceptions.EmailNotSent;
 import api.exceptions.PDFNotCreated;
 import domain.carport.Carport;
+import domain.material.MaterielRepository;
+import domain.material.materials.Material;
 import domain.order.Order;
+import domain.partslist.Part;
+import domain.partslist.exceptions.PartslistServices;
 import domain.svg.SVGFactory;
 import domain.user.User;
 import domain.user.*;
@@ -14,6 +18,8 @@ import infrastructure.exceptions.DBException;
 import org.slf4j.Logger;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -26,12 +32,17 @@ public class Api {
     private final EmailService emailService;
     private final FileService fileService;
     private final SVGFactory svgFactory;
+    private final MaterielRepository materielRepository;
+    private final PartslistServices partslistServices;
     
-    public Api(UserRepository userRepository, EmailService emailService, FileService fileService, SVGFactory svgFactory) {
+    public Api(UserRepository userRepository, EmailService emailService, FileService fileService, SVGFactory svgFactory,
+               MaterielRepository materielRepository, PartslistServices partslistServices) {
         this.userRepository = userRepository;
         this.emailService = emailService;
         this.fileService = fileService;
         this.svgFactory = svgFactory;
+        this.materielRepository = materielRepository;
+        this.partslistServices = partslistServices;
     }
     
     public synchronized File testPdf(String path) throws PDFNotCreated {
@@ -100,6 +111,18 @@ public class Api {
 
     public synchronized String getSVGTop(Carport carport, boolean isCustomer){
         return svgFactory.createSVGTopCarport(carport, isCustomer).getSvgTop();
+    }
+
+    public synchronized List<Material> getAllMaterielsFromDB() throws DBException {
+        return materielRepository.getAllMaterials();
+    }
+
+    public synchronized List<Part> getLocalPartslist(){
+        return partslistServices.createPartsList();
+    }
+
+    public synchronized List<Part> addToLocalPartslist(Carport carport, List<Material> allMaterialsFromDB, List<Part> LocalPartlist){
+        return partslistServices.addToPartslist(carport, allMaterialsFromDB, LocalPartlist);
     }
 
 }
