@@ -14,7 +14,7 @@ Status: ${order.status.name()}
 
 <br>
 <br>
-<a href="<c:url value="${pageContext.request.contextPath}"/>">Tilbage til alle ordre</a>
+<a href="<c:url value="${pageContext.request.contextPath}"/><Tilbage til alle ordre</a>
 
 </body>
 </html>
