@@ -137,19 +137,15 @@ public abstract class Material {
         ShedCladding,
         WaterStarSide,
         WaterStartEnd,
+            RoffingSmall,
         RoffingBig,
         FoffingSmall,
-
-        //Peak roof
         Windshield,
         StarSide,
         ShedStarSide,
         GablesCladding,
         WindshieldsBoard,
         WindshieldsGavel,
-
-
-        //Shed
         Crossings,
         RaftersRight,
         RaftersLeft,
@@ -163,14 +159,13 @@ public abstract class Material {
             OuterCladding200,
             OuterCladding400,
         Shed,
-
-        //Shed with peak roof
         RoofBattens,
         TopLath,
         Rafters,
         BackStone,
         RoofTiles,
-        Star
+        Star,
+            TopLayer
     }
 
     protected final int id;

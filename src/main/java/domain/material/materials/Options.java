@@ -10,6 +10,7 @@ public class Options extends Material {
         FittingScrews,
         BoardBolt,
         SquareDiscs,
+        RoofBinder,
         BarnDoorHandle,
         Hinge,
         AngleBracket,
@@ -18,6 +19,7 @@ public class Options extends Material {
         TopLayer,
         BackstoneFittings,
         RoofBinders,
+        Rafters
     }
 
     private final Enum<Type> type;
