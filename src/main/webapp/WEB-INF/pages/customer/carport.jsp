@@ -2,8 +2,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <div class="row">
-    <div class="col-md-3"></div>
-    <div class="col-md-6">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
         <h2 class="mt-4 mb-4 text-center">Sammensæt din helt egen carport herunder</h2>
         <br>
         <form class="form-carport" action="Confirmation" method="GET">
@@ -96,7 +96,7 @@
             </div>
         </form>
     </div>
-    <div class="col-md-3"></div>
+    <div class="col-md-2"></div>
 </div>
 
 

@@ -108,7 +108,7 @@ public class SVGTop {
                     "\n" +
                     "    <!--    Hvid ramme-->\n" +
                     "    <rect x=\"0\" y=\"0\" height=\"" + headerWidth + "\" width=\"" + headerLengt + "\"\n" +
-                    "          style=\"stroke:#000000; fill: #fff\"/>\n" +
+                    "          style=\"stroke:#fff; fill: #fff\"/>\n" +
                     "    \n" +
                     "    <defs>\n" +
                     "        <marker\n" +

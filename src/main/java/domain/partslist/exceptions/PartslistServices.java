@@ -1,13 +1,13 @@
 package domain.partslist.exceptions;
 
 import domain.carport.Carport;
+import domain.material.materials.Material;
 import domain.partslist.Part;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public interface PartslistServices {
+public interface PartslistServices extends PartslistFactory{
 
-    ArrayList<Part> addToPartslist(Carport carport, List<Part> materialList);
+    List<Part> addToPartslist(Carport carport, List<Material> allMaterialsFromDB, List<Part> localPartlist);
 
 }
