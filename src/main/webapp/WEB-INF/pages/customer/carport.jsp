@@ -10,90 +10,74 @@
             <div class="form-group">
                 <label for="length">Carportens længde</label>
                 <select class="form-control" id="length" name="length" required>
-                    <option value="580">580</option>
-                    <option value="590">590</option>
-                    <option value="600">600</option>
-                    <option value="610">610</option>
-                    <option value="620">620</option>
-                    <option value="630">630</option>
-                    <option value="640">640</option>
-                    <option value="650">650</option>
-                    <option value="660">660</option>
-                    <option value="670">670</option>
-                    <option value="680">680</option>
-                    <option value="690">690</option>
-                    <option value="700">700</option>
-                    <option value="710">710</option>
-                    <option value="720">720</option>
-                    <option value="730">730</option>
-                    <option value="740">740</option>
-                    <option value="750">750</option>
-                    <option value="760">760</option>
-                    <option value="770">770</option>
-                    <option value="780">780</option>
+                    <c:forEach begin="580" end="780" step="10" varStatus="lengthLoop">
+                        <option value="${lengthLoop.index}" <c:if test ="${sessionScope.carport.length == lengthLoop.index}"> selected </c:if>>${lengthLoop.index}</option>
+                    </c:forEach>
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="width">Carportens bredde</label>
                 <select class="form-control" id="width" name="width" required>
-                    <option value="300">300</option>
-                    <option value="310">310</option>
-                    <option value="320">320</option>
-                    <option value="330">330</option>
-                    <option value="340">340</option>
-                    <option value="350">350</option>
-                    <option value="360">360</option>
-                    <option value="370">370</option>
-                    <option value="380">380</option>
-                    <option value="390">390</option>
-                    <option value="400">400</option>
-                    <option value="410">410</option>
-                    <option value="420">420</option>
-                    <option value="430">430</option>
-                    <option value="440">440</option>
-                    <option value="450">450</option>
-                    <option value="460">460</option>
-                    <option value="470">470</option>
-                    <option value="480">480</option>
-                    <option value="490">490</option>
-                    <option value="500">500</option>
-                    <option value="510">510</option>
-                    <option value="520">520</option>
-                    <option value="530">530</option>
-                    <option value="540">540</option>
-                    <option value="550">550</option>
-                    <option value="560">560</option>
-                    <option value="570">570</option>
-                    <option value="580">580</option>
-                    <option value="590">590</option>
-                    <option value="600">600</option>
+                    <c:forEach begin="300" end="600" step="10" varStatus="widthLoop">
+                        <option value="${widthLoop.index}" <c:if test ="${sessionScope.carport.width == widthLoop.index}"> selected </c:if>>${widthLoop.index}</option>
+                    </c:forEach>
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="roof">Carportens tagtype</label>
                 <select class="form-control" id="roof" name="roof" required>
-                    <option value="flat">Fladt</option>
-                    <option value="peak">Med 15 graders hældning</option>
+                    <option value="flat" <c:if test ="${sessionScope.carport.roofType.name() == 'flat'}"> selected </c:if>>Fladt</option>
+                    <option value="peak" <c:if test ="${sessionScope.carport.roofType.name() == 'peak'}"> selected </c:if>>Med 15 graders hældning</option>
                 </select>
             </div>
 
             <div class="custom-control custom-switch">
-                <input type="checkbox" class="custom-control-input" id="shedOption" name="shedOption" onchange="document.getElementById('shedSize').disabled = !this.checked;">
+                <input type="checkbox" class="custom-control-input" id="shedOption" name="shedOption" onchange="document.getElementById('shedSize').disabled = !this.checked;" <c:if test ="${sessionScope.carport.hasShed()}"> checked </c:if>>
                 <label class="custom-control-label" for="shedOption">Jeg ønsker et skur</label>
             </div>
             <div class="form-group">
                 <label for="shedSize">Skur type</label>
-                <select class="form-control" id="shedSize" name="shedSize" disabled>
-                    <option value="whole">Hel bredde</option>
-                    <option value="half">Halv bredde</option>
+                <c:choose>
+                    <c:when test="${sessionScope.carport.hasShed()}">
+                        <select class="form-control" id="shedSize" name="shedSize">
+                    </c:when>
+                    <c:otherwise>
+                        <select class="form-control" id="shedSize" name="shedSize" disabled>
+                    </c:otherwise>
+                </c:choose>
+
+                        <c:choose>
+                            <c:when test="${sessionScope.carport.roofType.name() == 'peak'}}">
+                                <option value="whole" <c:if test ="${sessionScope.carport.shed.width == sessionScope.carport.width-40.0}"> selected </c:if>>Hel bredde</option>
+                                <option value="half" <c:if test ="${sessionScope.carport.shed.width == (sessionScope.carport.width / 2 ) - 40.0}"> selected </c:if>>Halv bredde</option>
+                            </c:when>
+                            <c:otherwise>
+                                <option value="whole" <c:if test ="${sessionScope.carport.shed.width == sessionScope.carport.width-75.0}"> selected </c:if>>Hel bredde</option>
+                                <option value="half" <c:if test ="${sessionScope.carport.shed.width == (sessionScope.carport.width / 2 ) - 75.0}"> selected </c:if>>Halv bredde</option>
+                            </c:otherwise>
+                        </c:choose>
                 </select>
             </div>
 
             <div style="text-align: center">
-                <button type="submit" class="btn btn-primary">Se forespørgelse</button>
+                <button type="submit" name="action" value="preview" class="btn btn-primary">Se forespørgelse</button>
+                <button type="submit" name="action" value="continue" class="btn btn-primary">Fortsæt din bestilling</button>
             </div>
+
+
+            <c:if test ="${requestScope.showCarport == true}">
+                <br><br>
+                <div>
+                    <div style="text-align: center">
+                            ${requestScope.svgSide}
+                    </div>
+                    <div style="text-align: center">
+                            ${requestScope.svgTop}
+                    </div>
+                </div>
+            </c:if>
         </form>
     </div>
     <div class="col-md-2"></div>

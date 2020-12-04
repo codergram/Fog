@@ -15,7 +15,7 @@ public class Tree extends Material {
     private final Enum<Type> type;
 
     public Tree(int id, String name, double length, double price, Enum<Usage> usage, Enum<Type> type, Enum<Unit> unit) {
-        super(id, name, length * price, usage, unit);
+        super(id, name, price, usage, unit);
         this.length = length;
         this.type = type;
     }

@@ -4,7 +4,6 @@ import domain.material.materials.Material;
 import domain.material.MaterielRepository;
 import domain.material.materials.Options;
 import domain.material.materials.Tree;
-import domain.user.User;
 import infrastructure.exceptions.DBException;
 import org.slf4j.Logger;
 

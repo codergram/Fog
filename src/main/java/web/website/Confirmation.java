@@ -34,12 +34,14 @@ public class Confirmation extends BaseServlet {
         double width = 0.0;
         double shedLength = 0.0;
         double shedWidth = 0.0;
+        String actionVal = null;
 //        Enum<Carport.Roof> roofType = null;
         String roofType = "";
         Carport carport = null;
         Shed shed = null;
         
         try {
+            actionVal = req.getParameter("action");
             length = Double.parseDouble(req.getParameter("length"));
             width = Double.parseDouble(req.getParameter("width"));
             withShed = req.getParameter("shedOption").equalsIgnoreCase("on");
@@ -49,6 +51,7 @@ public class Confirmation extends BaseServlet {
         String roof = req.getParameter("roof");
         String shedSize = req.getParameter("shedSize");
     
+        System.out.println("action: " + actionVal);
         System.out.println("width: " + width);
         System.out.println("length: " + length);
         System.out.println("shedSize: " + shedSize);
@@ -121,7 +124,13 @@ public class Confirmation extends BaseServlet {
         req.setAttribute("svgTop", svgTop);
         req.getSession().setAttribute("carport", carport);
 
-        render("Bekræft Carport", "/WEB-INF/pages/customer/confirmation.jsp", req, resp);
+        if(actionVal.equals("preview")){
+            System.out.println("preview carport");
+            req.setAttribute("showCarport", true);
+            render("Se din carport", "/WEB-INF/pages/customer/carport.jsp", req, resp);
+        } else {
+            render("Bekræft Carport", "/WEB-INF/pages/customer/confirmation.jsp", req, resp);
+        }
     }
 
     @Override

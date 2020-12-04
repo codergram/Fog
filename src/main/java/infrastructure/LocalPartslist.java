@@ -843,7 +843,7 @@ public class LocalPartslist implements PartslistServices {
     private Part calculateBottomScrewsRoof(Carport carport) {
         Material material = null;
 
-        int amount = (int) Math.ceil(((carport.getLength() * carport.getWidth()) / 10000 /15));
+        int amount = (int) Math.ceil(((carport.getLength() * carport.getWidth()) / 10000.0 /15.0));
         String des = "Skruer til tagplader";
 
         for(Options o: optionsMaterials){
@@ -858,7 +858,7 @@ public class LocalPartslist implements PartslistServices {
         Material material = null;
 
         int amount = 6;
-        double length = carport.getLength()/2 - 30;
+        double length = (carport.getLength()/2.0) - 30.0;
         String des = "tagplader monteres på spær";
 
         for(Tree t: treeMaterials){
