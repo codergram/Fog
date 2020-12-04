@@ -15,8 +15,8 @@ import java.util.List;
 
 public class LocalPartslist implements PartslistServices {
     
-    private final List<Tree> treeMaterials = new ArrayList<Tree>();
-    private final List<Options> optionsMaterials = new ArrayList<Options>();
+    private final List<Tree> treeMaterials = new ArrayList<>();
+    private final List<Options> optionsMaterials = new ArrayList<>();
     
     
     public LocalPartslist(MaterielRepository materielRepository) {
