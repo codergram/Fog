@@ -3,6 +3,8 @@ package domain.order;
 import domain.carport.Carport;
 import domain.customer.Customer;
 import domain.material.materials.Material;
+import domain.material.materials.Options;
+import domain.material.materials.Tree;
 import domain.partslist.Part;
 import domain.partslist.Partslist;
 import domain.user.User;
@@ -26,15 +28,15 @@ class OrderTest {
         Partslist partslist = new Partslist();
         partslist.addItem(
                 new Part(
-                        new Material("20x20 bjælke", 550, 20, "stk.", "Door", "Boards"), 15, "Bjælke til siden" //total price: 300
+                        new Tree("20x20 bjælke", 550, 20, Tree.Usage.Door, Tree.Type.Boards, Material.Unit.Stk), 15, "Bjælke til siden" //total price: 300
                 ));
         partslist.addItem(
                 new Part(
-                        new Material("30x10 spær", 430, 12.5, "stk.","Door", "Boards"), 30, "Spær til tagkonstruktion" //total price: 375
+                        new Tree("30x10 spær", 430, 12.5, Tree.Usage.Door, Tree.Type.Boards, Material.Unit.Stk), 30, "Spær til tagkonstruktion" //total price: 375
                 ));
         partslist.addItem(
                 new Part(
-                        new Material("Søm", 0.25,"stk.", "Door", "Boards"), 200, "Søm til vægbeklædning" //total price: 50
+                        new Options("Søm", 0.25,Options.Usage.Door, Options.Type.Screw, Material.Unit.Stk), 200, "Søm til vægbeklædning" //total price: 50
                 ));
 //        partslist.addItem(
 //                new Part(

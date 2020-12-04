@@ -20,10 +20,12 @@ public class Tree extends Material {
         this.type = type;
     }
     public Tree(String name, double length, double price, Enum<Usage> usage, Enum<Type> type, Enum<Unit> unit) {
-        super(name, length * price, usage, unit);
-        this.length = length;
-        this.type = type;
+        this(-1,name, length, price, usage, type, unit);
 
+    }
+    
+    public Tree(int id, String name, double price, Enum<Usage> usage, Enum<Type> type, Enum<Unit> unit){
+        this(id, name, 0.0, price, usage, type, unit);
     }
 
     public double getLength() {
@@ -42,9 +44,12 @@ public class Tree extends Material {
     public String toString() {
         return "Tree{" +
                 "length=" + length +
+                ", type=" + type +
                 ", id=" + id +
-                ", navn='" + name + '\'' +
-                ", pris=" + price +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", usage=" + usage +
+                ", unit=" + unit +
                 '}';
     }
 }

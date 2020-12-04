@@ -37,13 +37,16 @@ public class Options extends Material {
     public Enum<Type> getType() {
         return type;
     }
-
+    
     @Override
     public String toString() {
         return "Options{" +
-                "id=" + id +
-                ", navn='" + name + '\'' +
-                ", pris=" + price +
+                "type=" + type +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", usage=" + usage +
+                ", unit=" + unit +
                 '}';
     }
 }

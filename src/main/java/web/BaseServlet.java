@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -29,7 +28,7 @@ public class BaseServlet extends HttpServlet {
         Database database = new Database();
 
         return new Api(new DBUser(database), new JavaXEmailService(), new PDFService(), new LocalSVG(),
-                new DBMaterial(database), new LocalPartslist(), new DBOrder(database));
+                new DBMaterial(database), new DBOrder(database));
     }
 
     protected void render(String title, String content, HttpServletRequest request, HttpServletResponse response)
@@ -39,9 +38,6 @@ public class BaseServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         request.setAttribute("title", Api.genericSiteTitle + " - " + title);
         request.setAttribute("content", content);
-//        if(request.getSession().getAttribute("partlist") == null) {
-//            request.getSession().setAttribute("partlist", new Partslist());
-//        }
         request.setAttribute("navbar", new Navbar(request));
         request.getRequestDispatcher("/WEB-INF/includes/base.jsp").forward(request, response);
         

@@ -1,12 +1,13 @@
 package infrastructure;
 
 import domain.carport.Carport;
+import domain.material.MaterielRepository;
 import domain.material.materials.Material;
-//import domain.material.materials.Tree;
 import domain.material.materials.Options;
 import domain.material.materials.Tree;
 import domain.partslist.Part;
 import domain.partslist.exceptions.PartslistServices;
+import infrastructure.exceptions.DBException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,14 +19,22 @@ public class LocalPartslist implements PartslistServices {
     private final List<Options> optionsMaterials = new ArrayList<Options>();
     
     
-    public LocalPartslist(List<Material> materialsFromDb) {
-        List<Material> materials = List.copyOf(materialsFromDb);
+    public LocalPartslist(MaterielRepository materielRepository) {
+        List<Material> materials = null;
         
-        for(Material m: materials){
-            if(m instanceof Tree){
-                treeMaterials.add((Tree) m);
-            } else {
-                optionsMaterials.add((Options) m);
+        try {
+            materials = List.copyOf(materielRepository.getAllMaterials());
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
+        
+        if(materials != null) {
+            for (Material m : materials) {
+                if (m instanceof Tree) {
+                    treeMaterials.add((Tree) m);
+                } else {
+                    optionsMaterials.add((Options) m);
+                }
             }
         }
     }

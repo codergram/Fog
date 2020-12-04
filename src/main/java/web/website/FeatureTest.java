@@ -1,6 +1,8 @@
 package web.website;
 
 import api.exceptions.PDFNotCreated;
+import domain.material.materials.Material;
+import domain.material.materials.Tree;
 import domain.user.User;
 import domain.user.exceptions.InvalidPassword;
 import domain.user.exceptions.UserExists;
@@ -46,7 +48,22 @@ public class FeatureTest extends BaseServlet {
         System.out.println("Test user: " + testUser);
         System.out.println("isAdmin: " + testUser.isAdmin());
         System.out.println("isEmployee: " + testUser.isEmployee());
-        
+    
+    
+        try {
+            for(Material m: api.getAllMaterielsFromDB()){
+                if(m instanceof Tree){
+                    System.out.println("Træ: ");
+                    System.out.println(m.toString());
+                } else {
+                    System.out.println("Option: ");
+                    System.out.println(m.toString());
+                }
+            }
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
+    
     
         try {
             String fileDir = System.getProperty("java.io.tmpdir");
