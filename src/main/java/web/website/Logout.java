@@ -19,7 +19,7 @@ public class Logout extends BaseServlet {
         try {
             req.getSession().setAttribute("user", null);
             req.getSession().invalidate();
-            oldLog(req, "logged out");
+            log.info("logged out");
             resp.sendRedirect(req.getContextPath() + "/");
         } catch (IOException e){
             log.warn(e.getMessage());

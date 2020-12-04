@@ -17,13 +17,13 @@ public class Navbar {
             new Item("Home", "/", false, false),
             new Item("Byg din carport", "/Shop", false, false),
             new Item("Log ind", "/Login", false, false),
-            new Item("Log ud", "/", true, false),
-            new Item("Employee", "/lists", true, false),
-            new Item("Admin", "/AdminStart", true, true),
-            new Item("Orders", "/Orders", true, false),
+            new Item("Orders", "/Ordre", true, false),
             new Item("Customers", "/Customers", true, false),
-            new Item("Users", "/Users", true, false),
-            new Item("Stats", "/Statestic", true, true)
+            new Item("Users", "/Users", true, true),
+            new Item("Stats", "/Stats", true, true),
+            new Item("Materialer", "/Materialer", true, true),
+            new Item("Log ud", "/Logout", true, false)
+
     );
     
     public List<Item> getItems() {

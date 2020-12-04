@@ -3,6 +3,7 @@ package web;
 import api.Api;
 import domain.partslist.Partslist;
 import infrastructure.*;
+import org.slf4j.Logger;
 import web.widget.Navbar;
 
 import javax.servlet.ServletException;
@@ -12,9 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 public class BaseServlet extends HttpServlet {
 
     protected static final Api api;
+    private static final Logger log = getLogger(BaseServlet.class);
 
     static {
         api = createFogApi();
@@ -25,7 +29,7 @@ public class BaseServlet extends HttpServlet {
         Database database = new Database();
 
         return new Api(new DBUser(database), new JavaXEmailService(), new PDFService(), new LocalSVG(),
-                new DBMaterial(database), new LocalPartslist());
+                new DBMaterial(database), new LocalPartslist(), new DBOrder(database));
     }
 
     protected void render(String title, String content, HttpServletRequest request, HttpServletResponse response)
@@ -43,8 +47,12 @@ public class BaseServlet extends HttpServlet {
         
     }
     
-    protected void oldLog(HttpServletRequest req, String str){
-        System.err.print("(" + LocalDateTime.now() + ")" + this.getClass().getCanonicalName() + " - " + req.getRequestURI() + " - " + str);
+    protected void redirect(HttpServletRequest req, HttpServletResponse resp, String servletName){
+        try {
+            resp.sendRedirect(req.getContextPath() + "/" + servletName);
+        } catch (IOException ee){
+            log.info(ee.getMessage());
+        }
     }
     
     
