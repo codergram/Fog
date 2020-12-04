@@ -54,11 +54,11 @@ class OrderTest {
         //Total of parts: 725
         
         
-        Carport carportOne = new Carport(1,6500, 3020, "Flat", null, partslist);
+        Carport carportOne = new Carport(1,6500, 3020, Carport.Roof.Flat, null, partslist);
         
         Order expectedOrder = new Order(1,3000,6500,ts, employee, customer, Order.Status.New, carportOne);
     
-        Carport carportTwo = new Carport(1, expectedOrder.getLength(), expectedOrder.getWidth(), "Flat", null, partslist);
+        Carport carportTwo = new Carport(1, expectedOrder.getLength(), expectedOrder.getWidth(), Carport.Roof.Flat, null, partslist);
         Order actualOrder = new Order(2,3000,6500,ts, employee, customer, Order.Status.New, carportOne);
         
         

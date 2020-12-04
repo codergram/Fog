@@ -14,36 +14,35 @@ public class Carport {
     private final double length;
     private final double width;
     private final Enum<Roof> roofType;
-    //private final String roofType;
     private final Shed shed;
     private double price;
-    private final Partslist partslist;
+    private Partslist partslist;
     
-    public Carport(int id, double length, double width, String roofType, Shed shed, Partslist partslist) {
+    public Carport(int id, double length, double width, Enum<Roof> roofType, Shed shed, Partslist partslist) {
         this.id = id;
         this.length = length;
         this.width = width;
-        this.roofType = Roof.valueOf(roofType);
+        this.roofType = roofType;
         this.shed = shed;
         this.partslist = partslist;
         this.price = calculatePrice(partslist);
     }
 
-    public Carport(double length, double width, String roofType, Shed shed, Partslist partslist) {
+    public Carport(double length, double width, Enum<Roof> roofType, Shed shed, Partslist partslist) {
         this.id = -1;
         this.length = length;
         this.width = width;
-        this.roofType = Roof.valueOf(roofType);
+        this.roofType = roofType;
         this.shed = shed;
         this.partslist = partslist;
         this.price = calculatePrice(partslist);
     }
 
-    public Carport(double length, double width, String roofType, Shed shed) {
+    public Carport(double length, double width, Enum<Roof> roofType, Shed shed) {
         this.id = -1;
         this.length = length;
         this.width = width;
-        this.roofType = Roof.valueOf(roofType);
+        this.roofType = roofType;
         this.shed = shed;
         this.partslist = null;
         this.price = calculatePrice(partslist);
@@ -56,6 +55,14 @@ public class Carport {
         //  x += p.getPrice();
         //}
         return x;
+    }
+    
+    public Partslist getPartslist() {
+        return partslist;
+    }
+    
+    public void setPartslist(Partslist partslist) {
+        this.partslist = partslist;
     }
     
     public int getId() {

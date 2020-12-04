@@ -65,7 +65,8 @@ public class SVGSide {
             svgText = "<svg version=\"1.1\"\n" +
                     "     xmlns=\"http://www.w3.org/2000/svg\"\n" +
                     "     height=\"" + headerHeight + "\"  width=\""+ headerLength + "\" viewBox=\"0 0 "+ headerLength + " "+ headerHeight + "\"\n" +
-                    "     preserveAspectRatio=\"xMinYMin\">\n" +
+                    "     preserveAspectRatio=\"xMinYMin\" " +
+                    "     style=\"width:100%; height:100%\">\n" +
                     "\n" +
                     "    <!--    Hvid ramme-->\n" +
                     "    <rect x=\"0\" y=\"0\" height=\""+ headerHeight + "\" width=\""+ headerLength + "\"\n" +
