@@ -7,32 +7,54 @@ import domain.partslist.Partslist;
 public class Carport {
     public enum Roof {
         Flat,
-        Sloping
+        Peak
     }
 
     private final int id;
     private final double length;
     private final double width;
     private final Enum<Roof> roofType;
+    //private final String roofType;
     private final Shed shed;
     private double price;
     private final Partslist partslist;
     
-    public Carport(int id, double length, double width, Enum<Roof> roofType, Shed shed, Partslist partslist) {
+    public Carport(int id, double length, double width, String roofType, Shed shed, Partslist partslist) {
         this.id = id;
         this.length = length;
         this.width = width;
-        this.roofType = roofType;
+        this.roofType = Roof.valueOf(roofType);
         this.shed = shed;
         this.partslist = partslist;
+        this.price = calculatePrice(partslist);
+    }
+
+    public Carport(double length, double width, String roofType, Shed shed, Partslist partslist) {
+        this.id = -1;
+        this.length = length;
+        this.width = width;
+        this.roofType = Roof.valueOf(roofType);
+        this.shed = shed;
+        this.partslist = partslist;
+        this.price = calculatePrice(partslist);
+    }
+
+    public Carport(double length, double width, String roofType, Shed shed) {
+        this.id = -1;
+        this.length = length;
+        this.width = width;
+        this.roofType = Roof.valueOf(roofType);
+        this.shed = shed;
+        this.partslist = null;
         this.price = calculatePrice(partslist);
     }
     
     private double calculatePrice(Partslist partslist) {
         double x = 0.0;
-        for(Part p: partslist.getMaterialList()){
-            x += p.getPrice();
-        }
+        //TODO: Implement partslist
+        //for(Part p: partslist.getMaterialList()){
+        //  x += p.getPrice();
+        //}
         return x;
     }
     
@@ -48,8 +70,8 @@ public class Carport {
         return width;
     }
     
-    public String getRoofType() {
-        return roofType.name();
+    public Enum<Roof> getRoofType() {
+        return this.roofType;
     }
     
     public boolean hasShed(){

@@ -5,6 +5,7 @@ import domain.carport.Carport;
 import domain.customer.Customer;
 import domain.user.User;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 public class Order {
@@ -35,6 +36,17 @@ public class Order {
         this.salesEmployee = salesEmployee;
         this.customer = customer;
         this.status = status;
+        this.carport = carport;
+    }
+
+    public Order(double width, double length, Customer customer, Carport carport) {
+        this.id = -1;
+        this.width = width;
+        this.length = length;
+        this.timestamp = new Timestamp(System.currentTimeMillis());
+        this.salesEmployee = null;
+        this.customer = customer;
+        this.status = Status.valueOf("New");
         this.carport = carport;
     }
     
