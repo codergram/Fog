@@ -1,0 +1,44 @@
+@startuml
+Title Domænemodel
+
+hide circle
+hide methods
+
+class Carport {
+Længde
+Bredde
+}
+
+class Spær {
+
+}
+
+class Stolpe {
+
+}
+
+class Brædt {
+
+}
+
+class Lægte {
+
+}
+
+class Reglar {
+
+}
+
+class Skur {
+
+}
+
+Carport "1" -- "*" Spær
+Carport "1" -- "*" Stolpe
+Carport "1" -- "*" Brædt
+Carport "1" -- "*" Lægte
+Carport "1" -- "*" Reglar
+Carport "1" -- "*" Skur
+
+
+@enduml

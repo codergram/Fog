@@ -7,22 +7,22 @@
         <div class="col-md-6">
             <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
-                    <a href="Shop">
                     <div class="carousel-item active">
+                        <a href="${pageContext.request.contextPath}/Shop">
                         <img class="d-block w-100" src="${pageContext.request.contextPath}/images/carport_1.jpg" alt="Første slide">
+                        </a>
                         <div class="carousel-caption d-none d-md-block">
-                            <a class="btn btn-light" href="Shop">Bestil Nu</a>
+                            <a class="btn btn-light" href="${pageContext.request.contextPath}/Shop">Bestil Nu</a>
                         </div>
                     </div>
-                    </a>
-                    <a href="Shop">
                     <div class="carousel-item">
+                        <a href="${pageContext.request.contextPath}/Shop">
                         <img class="d-block w-100" src="${pageContext.request.contextPath}/images/carport_2.jpg" alt="Anden slide">
+                        </a>
                         <div class="carousel-caption d-none d-md-block">
-                            <a class="btn btn-light" href="Shop">Bestil Nu</a>
+                            <a class="btn btn-light" href="${pageContext.request.contextPath}/Shop">Bestil Nu</a>
                         </div>
                     </div>
-                    </a>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>

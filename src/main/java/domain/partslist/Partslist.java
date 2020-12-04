@@ -11,6 +11,10 @@ public class Partslist {
     public Partslist() {
         materialList = new LinkedList<>();
     }
+
+    public Partslist( List<Part> materialList) {
+        this.materialList = materialList;
+    }
     
     public void addItem(Part part) {
         if (! materialList.contains(part)) {
