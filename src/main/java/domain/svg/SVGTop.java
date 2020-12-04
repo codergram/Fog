@@ -70,7 +70,8 @@ public class SVGTop {
                     "     xmlns=\"http://www.w3.org/2000/svg\"\n" +
                     "     xmlns:xlink=\"http://www.w3.org/1999/xlink\"\n" +
                     "     height=\"" + headerWidth + "\"  width=\"" + headerLengt + "\" viewBox=\"0 0 " + headerLengt + " " + headerWidth + "\"\n" +
-                    "     preserveAspectRatio=\"xMinYMin\">\n" +
+                    "     preserveAspectRatio=\"xMinYMin\" " +
+                    "     style=\"width:100%; height:100%\">\n" +
                     "\n" +
                     "    <!--    Hvid ramme-->\n" +
                     "    <rect x=\"0\" y=\"0\" height=\"" + headerWidth + "\" width=\"" + headerLengt + "\"\n" +

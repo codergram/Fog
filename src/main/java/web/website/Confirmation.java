@@ -35,8 +35,7 @@ public class Confirmation extends BaseServlet {
         double shedLength = 0.0;
         double shedWidth = 0.0;
         String actionVal = null;
-//        Enum<Carport.Roof> roofType = null;
-        String roofType = "";
+        Enum<Carport.Roof> roofType = null;
         Carport carport = null;
         Shed shed = null;
         
@@ -49,15 +48,22 @@ public class Confirmation extends BaseServlet {
             log.warn(e.getMessage());
         }
         String roof = req.getParameter("roof");
+        if(roof.equalsIgnoreCase("peak")) {
+            roofType = Carport.Roof.Peak;
+        } else {
+            roofType = Carport.Roof.Flat;
+        }
+        
         String shedSize = req.getParameter("shedSize");
     
         System.out.println("action: " + actionVal);
         System.out.println("width: " + width);
         System.out.println("length: " + length);
         System.out.println("shedSize: " + shedSize);
+        System.out.println("roofType: " + roofType.name());
         
         //Calculate Shed dimensions
-        if(roof.equals("peak")){
+        if(roofType == Carport.Roof.Peak){
             shedLength = 225.0;
             if(shedSize != null) {
                 if (shedSize.equals("whole")) {
@@ -77,18 +83,9 @@ public class Confirmation extends BaseServlet {
             }
         }
 
-        //Validate roof type
-        if(roof.equals("peak")){
-            roofType = "Peak";
-        } else {
-            roofType = "Flat";
-        }
-
         //Create shed
         if(withShed){
             shed = new Shed(shedLength, shedWidth);
-        } else {
-            shed = null;
         }
 
         try{
@@ -107,8 +104,8 @@ public class Confirmation extends BaseServlet {
             //Create partslist
             Partslist partslist = new Partslist(carportPartslist);
 
-            //Create new Carport with the created Partslist
-            carport = new Carport(length, width, roofType, shed, partslist);
+            //Adds created partlist to the carport
+            carport.setPartslist(partslist);
 
 
         } catch (DBException e) {

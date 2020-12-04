@@ -28,8 +28,8 @@
             <div class="form-group">
                 <label for="roof">Carportens tagtype</label>
                 <select class="form-control" id="roof" name="roof" required>
-                    <option value="flat" <c:if test ="${sessionScope.carport.roofType.name() == 'flat'}"> selected </c:if>>Fladt</option>
-                    <option value="peak" <c:if test ="${sessionScope.carport.roofType.name() == 'peak'}"> selected </c:if>>Med 15 graders hældning</option>
+                    <option value="flat" <c:if test ="${sessionScope.carport.roofType.name() == 'Flat'}"> selected </c:if>>Fladt</option>
+                    <option value="peak" <c:if test ="${sessionScope.carport.roofType.name() == 'Peak'}"> selected </c:if>>Med 15 graders hældning</option>
                 </select>
             </div>
 
@@ -49,7 +49,7 @@
                 </c:choose>
 
                         <c:choose>
-                            <c:when test="${sessionScope.carport.roofType.name() == 'peak'}}">
+                            <c:when test="${sessionScope.carport.roofType.name() == 'Peak'}}">
                                 <option value="whole" <c:if test ="${sessionScope.carport.shed.width == sessionScope.carport.width-40.0}"> selected </c:if>>Hel bredde</option>
                                 <option value="half" <c:if test ="${sessionScope.carport.shed.width == (sessionScope.carport.width / 2 ) - 40.0}"> selected </c:if>>Halv bredde</option>
                             </c:when>
@@ -62,8 +62,8 @@
             </div>
 
             <div style="text-align: center">
-                <button type="submit" name="action" value="preview" class="btn btn-primary">Se forespørgelse</button>
-                <button type="submit" name="action" value="continue" class="btn btn-primary">Fortsæt din bestilling</button>
+                <button type="submit" name="action" value="preview" class="btn btn-primary">Vis tegning af carporten</button>
+                <button type="submit" name="action" value="continue" class="btn btn-success">Fortsæt din bestilling</button>
             </div>
 
 

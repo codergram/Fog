@@ -1,19 +1,40 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-        <h2 class="mt-4 mb-4 text-center">Tegning af din helt egen carport herunder</h2>
+    <div class="col-md-12">
+        <h2 class="mt-6 mb-6 text-center">Tegning af din helt egen carport herunder</h2>
         <br>
-        <div>
-            <div style="text-align: center">
-                ${requestScope.svgSide}
+        <div class="row">
+            <p>
+                <div class="col-md-12 text-center">
+                    <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#sideDrawing" aria-expanded="false" aria-controls="sideDrawing">Se tegning fra siden</button>
+                    <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#topDrawing" aria-expanded="false" aria-controls="topDrawing">Se tegning fra toppen</button>
+                    <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="sideDrawing topDrawing">Se begge</button>
+                </div>
+            </p>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="collapse multi-collapse" id="sideDrawing">
+                    <div style="text-align: center">
+                        ${requestScope.svgSide}
+                    </div>
+                </div>
             </div>
-            <div style="text-align: center">
-                ${requestScope.svgTop}
+            <div class="col-md-6">
+                <div class="collapse multi-collapse" id="topDrawing">
+                    <div style="text-align: center">
+                        ${requestScope.svgTop}
+                    </div>
+                </div>
             </div>
         </div>
+        <div>
+
+
+        </div>
         <br>
+        <h3>Indtast dine oplysninger</h3>
         <form action="${pageContext.request.contextPath}/Confirmation" method="POST">
             <div class="form-group">
                 <label for="name">Dit navn</label>
