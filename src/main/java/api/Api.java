@@ -9,6 +9,8 @@ import domain.order.Order;
 import domain.partslist.Part;
 import domain.partslist.exceptions.PartslistServices;
 import domain.svg.SVGFactory;
+import domain.order.OrderRepository;
+import domain.order.exceptions.OrderNotFound;
 import domain.user.User;
 import domain.user.*;
 import domain.user.exceptions.InvalidPassword;
@@ -16,7 +18,6 @@ import domain.user.exceptions.UserExists;
 import domain.user.exceptions.UserNotFound;
 import infrastructure.exceptions.DBException;
 import org.slf4j.Logger;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,15 +35,17 @@ public class Api {
     private final SVGFactory svgFactory;
     private final MaterielRepository materielRepository;
     private final PartslistServices partslistServices;
+    private final OrderRepository orderRepository;
     
     public Api(UserRepository userRepository, EmailService emailService, FileService fileService, SVGFactory svgFactory,
-               MaterielRepository materielRepository, PartslistServices partslistServices) {
+               MaterielRepository materielRepository, PartslistServices partslistServices, , OrderRepository orderRepository) {
         this.userRepository = userRepository;
         this.emailService = emailService;
         this.fileService = fileService;
         this.svgFactory = svgFactory;
         this.materielRepository = materielRepository;
         this.partslistServices = partslistServices;
+        this.orderRepository = orderRepository;
     }
     
     public synchronized File testPdf(String path) throws PDFNotCreated {
@@ -66,24 +69,18 @@ public class Api {
     }
 
     
-    public synchronized User createUser(String name, String email, String password1, String password2) throws UserExists, InvalidPassword, DBException {
-        //Generate salt
-        byte[] salt = User.generateSalt();
-        //Generate secret
-        byte[] secret = User.calculateSecret(salt, password1);
-        //Create user
-
-        //Validate user input
-        if (!password1.equals(password2)){
-            throw new InvalidPassword();
-
-        } else {
+    public synchronized User createUser(String name, String email, String password, User.Role role) throws UserExists {
+        var salt = User.generateSalt();
+        
             //Create user
-            User user = new User(0, name, email,User.Role.Employee, salt, secret);
+            User user = new User(0, name, email,role, salt, User.calculateSecret(salt, password));
             //Save/create the user in the DB and return the users (No longer id -1)
             user = userRepository.createUser(user);
             return user;
-        }
+    }
+    
+    public synchronized void deleteUser(int id) throws UserNotFound {
+        userRepository.deleteUserById(id);
     }
 
     
@@ -103,6 +100,19 @@ public class Api {
             //Return user if password is validated
             return user;
         }
+    }
+    
+    public synchronized List<User> getUsers(){
+        try {
+            return userRepository.getAllUsersFromDB();
+        } catch (UserNotFound e){
+            log.info(e.getMessage());
+        }
+        return null;
+    }
+    
+    public synchronized List<Order> getOrders() throws OrderNotFound {
+        return orderRepository.getALlOrders();
     }
 
     public synchronized String getSVGSide(Carport carport, boolean isCustomer){
