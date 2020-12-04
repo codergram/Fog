@@ -28,7 +28,7 @@ public class BaseServlet extends HttpServlet {
         Database database = new Database();
 
         return new Api(new DBUser(database), new JavaXEmailService(), new PDFService(), new LocalSVG(),
-                new DBMaterial(database), new DBOrder(database));
+                new DBMaterial(database), new DBOrder(database), new DBCustomer(database));
     }
 
     protected void render(String title, String content, HttpServletRequest request, HttpServletResponse response)

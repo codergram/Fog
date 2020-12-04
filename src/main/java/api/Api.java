@@ -3,9 +3,12 @@ package api;
 import api.exceptions.EmailNotSent;
 import api.exceptions.PDFNotCreated;
 import domain.carport.Carport;
+import domain.customer.Customer;
+import domain.customer.CustomerRepository;
 import domain.material.MaterielRepository;
 import domain.material.materials.Material;
 import domain.order.Order;
+import domain.order.exceptions.OrderException;
 import domain.partslist.Part;
 import domain.partslist.exceptions.PartslistServices;
 import domain.svg.SVGFactory;
@@ -37,9 +40,10 @@ public class Api {
     private final MaterielRepository materielRepository;
     private final PartslistServices partslistServices;
     private final OrderRepository orderRepository;
+    private final CustomerRepository customererRepository;
     
     public Api(UserRepository userRepository, EmailService emailService, FileService fileService, SVGFactory svgFactory,
-               MaterielRepository materielRepository, OrderRepository orderRepository) {
+               MaterielRepository materielRepository, OrderRepository orderRepository, CustomerRepository customerRepository) {
         this.userRepository = userRepository;
         this.emailService = emailService;
         this.fileService = fileService;
@@ -47,6 +51,7 @@ public class Api {
         this.materielRepository = materielRepository;
         this.orderRepository = orderRepository;
         this.partslistServices = new LocalPartslist(materielRepository);
+        customererRepository = customerRepository;
     }
     
     public synchronized File testPdf(String path) throws PDFNotCreated {
@@ -110,6 +115,37 @@ public class Api {
             log.info(e.getMessage());
         }
         return null;
+    }
+    
+    public synchronized Customer createCustomer(Customer customer) throws DBException {
+        return customererRepository.createCustomer(customer);
+    }
+    
+    public synchronized Order createOrder(Order order, Customer customer) throws OrderException, DBException {
+        List<Customer> customerList = new ArrayList();
+        Customer tmpCustomer = customer;
+        try {
+             customerList = customererRepository.getAllCustomers();
+        } catch (DBException e) {
+            log.error(e.getMessage());
+        }
+        
+        boolean found = false;
+        for(Customer c: customerList){
+            if(c.getName().equals(customer.getName()) || c.getEmail().equals(customer.getEmail())){
+                tmpCustomer = c;
+                found = true;
+                break;
+            }
+        }
+        
+        if(!found){
+            tmpCustomer = createCustomer(customer);
+        }
+        
+        Order tmpOrder = new Order(order.getWidth(), order.getLength(), tmpCustomer, order.getCarport());
+    
+        return orderRepository.createNewOrder(tmpOrder);
     }
     
     public synchronized List<Order> getOrders() throws OrderNotFound {

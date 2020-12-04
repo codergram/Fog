@@ -30,6 +30,10 @@ public class Customer {
         this.email = email;
     }
     
+    public Customer(int id, Customer customer){
+        this(id, customer.getName(), customer.getAddress(), customer.getPostalCode(), customer.getCity(), customer.getPhoneNo(), customer.getEmail());
+    }
+    
     public int getId() {
         return id;
     }

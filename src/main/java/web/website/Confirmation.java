@@ -5,6 +5,7 @@ import domain.carport.shed.Shed;
 import domain.customer.Customer;
 import domain.material.materials.Material;
 import domain.order.Order;
+import domain.order.exceptions.OrderException;
 import domain.partslist.Part;
 import domain.partslist.Partslist;
 import infrastructure.exceptions.DBException;
@@ -134,20 +135,37 @@ public class Confirmation extends BaseServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         Carport carport = (Carport) req.getSession().getAttribute("carport");
-
-        String name = req.getParameter("name");
-        String email = req.getParameter("email");
-        String address = req.getParameter("address");
-        int zip = Integer.parseInt(req.getParameter("zip"));
-        String city = req.getParameter("city");
-        int phone = Integer.parseInt(req.getParameter("phone"));
+        
+        String name = "";
+        String email = "";
+        String address = "";
+        String city = "";
+        int zip = 0;
+        int phone = 0;
+        
+        try {
+            name = req.getParameter("name");
+            email = req.getParameter("email");
+            address = req.getParameter("address");
+            zip = Integer.parseInt(req.getParameter("zip"));
+            city = req.getParameter("city");
+            phone = Integer.parseInt(req.getParameter("phone"));
+        } catch (NumberFormatException e){
+            log.error(e.getMessage());
+        }
 
         Customer customer = new Customer(name, address, zip, city, phone, email);
 
         Order order = new Order(carport.getWidth(), carport.getLength(), customer, carport);
-
-
-        //**** DO SOMETHING HERE ******
+    
+        try {
+            order = api.createOrder(order, customer);
+        } catch (OrderException | DBException e) {
+            log.error(e.getMessage());
+        }
+        
+        req.setAttribute("order", order);
+        
 
         render("Bekræft Carport", "/WEB-INF/pages/customer/thankyou.jsp", req, resp);
 
