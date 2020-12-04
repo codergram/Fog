@@ -1,47 +1,41 @@
 package domain.material.materials;
 
-import java.util.List;
-
 public class Tree extends Material {
-    
-    public static final List<Usage> usages = List.of(Usage.Pole, Usage.Raft);
-    
+
     public enum Type {
-        Pole,
-        Board
+        Poles,
+        Boards,
+        Laths,
+        Rules,
+        Rafts,
+        Roofing
     }
 
-    private final double length;
-    private final Type type;
-    
-    public Tree(int id, String name, int length, double price, Usage usage) {
-        super(id, name, price, usage);
+    private double length;
+    private final Enum<Type> type;
+
+    public Tree(int id, String name, double length, double price, Enum<Usage> usage, Enum<Type> type, Enum<Unit> unit) {
+        super(id, name, length * price, usage, unit);
         this.length = length;
-        if (usages.contains(usage)) {
-            throw  new IllegalStateException("");
-        }
+        this.type = type;
     }
-    public Tree(String name, int length, double price) {
-        super(name, price);
+    public Tree(String name, double length, double price, Enum<Usage> usage, Enum<Type> type, Enum<Unit> unit) {
+        super(name, length * price, usage, unit);
         this.length = length;
+        this.type = type;
+
     }
-    
-    @Override
-    public Tree asType(Type type) throws NotMyTypeExecption {
-        if (isType(type)) {
-            return this;
-        } else {
-            throw new NotMyTypeExecption();
-        }
-    }
-    
+
     public double getLength() {
         return length;
     }
+
+    public Enum<Type> getType() {
+        return type;
+    }
     
-    @Override
-    public boolean isType(Type type) {
-        return type == this.type;
+    public void setLength(double length) {
+        this.length = length;
     }
     
     @Override

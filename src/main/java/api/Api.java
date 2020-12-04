@@ -2,7 +2,13 @@ package api;
 
 import api.exceptions.EmailNotSent;
 import api.exceptions.PDFNotCreated;
+import domain.carport.Carport;
+import domain.material.MaterielRepository;
+import domain.material.materials.Material;
 import domain.order.Order;
+import domain.partslist.Part;
+import domain.partslist.exceptions.PartslistServices;
+import domain.svg.SVGFactory;
 import domain.order.OrderRepository;
 import domain.order.exceptions.OrderNotFound;
 import domain.user.User;
@@ -12,8 +18,8 @@ import domain.user.exceptions.UserExists;
 import domain.user.exceptions.UserNotFound;
 import infrastructure.exceptions.DBException;
 import org.slf4j.Logger;
-
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -26,21 +32,28 @@ public class Api {
     private final UserRepository userRepository;
     private final EmailService emailService;
     private final FileService fileService;
+    private final SVGFactory svgFactory;
+    private final MaterielRepository materielRepository;
+    private final PartslistServices partslistServices;
     private final OrderRepository orderRepository;
     
-    public Api(UserRepository userRepository, EmailService emailService, FileService fileService, OrderRepository orderRepository) {
+    public Api(UserRepository userRepository, EmailService emailService, FileService fileService, SVGFactory svgFactory,
+               MaterielRepository materielRepository, PartslistServices partslistServices, , OrderRepository orderRepository) {
         this.userRepository = userRepository;
         this.emailService = emailService;
         this.fileService = fileService;
+        this.svgFactory = svgFactory;
+        this.materielRepository = materielRepository;
+        this.partslistServices = partslistServices;
         this.orderRepository = orderRepository;
     }
     
-    public File testPdf(String path) throws PDFNotCreated {
+    public synchronized File testPdf(String path) throws PDFNotCreated {
         Order order = new Order(1,200,300,null,null,null,null,null);
         return fileService.generatePdf(path, order);
     }
     
-    public boolean sendMail(String mailAddress, String title, String subject, String msg, File file){
+    public synchronized boolean sendMail(String mailAddress, String title, String subject, String msg, File file){
         try {
             String message = Utils.fileToString("mail/mailtemplate.html")
                     .replace("$$TITEL$$", title)
@@ -100,6 +113,26 @@ public class Api {
     
     public synchronized List<Order> getOrders() throws OrderNotFound {
         return orderRepository.getALlOrders();
+    }
+
+    public synchronized String getSVGSide(Carport carport, boolean isCustomer){
+        return svgFactory.createSVGSideCarport(carport, isCustomer).getSvgSide();
+    }
+
+    public synchronized String getSVGTop(Carport carport, boolean isCustomer){
+        return svgFactory.createSVGTopCarport(carport, isCustomer).getSvgTop();
+    }
+
+    public synchronized List<Material> getAllMaterielsFromDB() throws DBException {
+        return materielRepository.getAllMaterials();
+    }
+
+    public synchronized List<Part> getLocalPartslist(){
+        return partslistServices.createPartsList();
+    }
+
+    public synchronized List<Part> addToLocalPartslist(Carport carport, List<Material> allMaterialsFromDB, List<Part> LocalPartlist){
+        return partslistServices.addToPartslist(carport, allMaterialsFromDB, LocalPartlist);
     }
 
 }

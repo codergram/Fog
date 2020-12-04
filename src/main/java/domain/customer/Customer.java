@@ -19,6 +19,16 @@ public class Customer {
         this.phoneNo = phoneNo;
         this.email = email;
     }
+
+    public Customer(String name, String address, int postalCode, String city, int phoneNo, String email) {
+        this.id = -1;
+        this.name = name;
+        this.address = address;
+        this.postalCode = postalCode;
+        this.city = city;
+        this.phoneNo = phoneNo;
+        this.email = email;
+    }
     
     public int getId() {
         return id;
