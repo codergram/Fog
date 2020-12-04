@@ -16,6 +16,7 @@ import domain.user.*;
 import domain.user.exceptions.InvalidPassword;
 import domain.user.exceptions.UserExists;
 import domain.user.exceptions.UserNotFound;
+import infrastructure.LocalPartslist;
 import infrastructure.exceptions.DBException;
 import org.slf4j.Logger;
 import java.io.File;
@@ -38,14 +39,14 @@ public class Api {
     private final OrderRepository orderRepository;
     
     public Api(UserRepository userRepository, EmailService emailService, FileService fileService, SVGFactory svgFactory,
-               MaterielRepository materielRepository, PartslistServices partslistServices, , OrderRepository orderRepository) {
+               MaterielRepository materielRepository, OrderRepository orderRepository) {
         this.userRepository = userRepository;
         this.emailService = emailService;
         this.fileService = fileService;
         this.svgFactory = svgFactory;
         this.materielRepository = materielRepository;
-        this.partslistServices = partslistServices;
         this.orderRepository = orderRepository;
+        this.partslistServices = new LocalPartslist(materielRepository);
     }
     
     public synchronized File testPdf(String path) throws PDFNotCreated {
