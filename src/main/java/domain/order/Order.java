@@ -46,7 +46,7 @@ public class Order {
         this.timestamp = new Timestamp(System.currentTimeMillis());
         this.salesEmployee = null;
         this.customer = customer;
-        this.status = Status.valueOf("New");
+        this.status = Order.Status.New;
         this.carport = carport;
     }
     

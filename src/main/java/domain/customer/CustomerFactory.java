@@ -4,6 +4,6 @@ import infrastructure.exceptions.DBException;
 
 public interface CustomerFactory {
 
-    Customer createKunde(Customer customer) throws DBException;
+    Customer createCustomer(Customer customer) throws DBException;
 
 }

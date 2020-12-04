@@ -2,12 +2,12 @@ package domain.customer;
 
 import infrastructure.exceptions.DBException;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface CustomerRepository extends CustomerFactory {
 
-    ArrayList<Customer> getAllKunderFromDB() throws DBException;
+    List<Customer> getAllCustomers() throws DBException;
 
-    Customer getKundeById(int kunde_id) throws DBException;
+    Customer getCustomerById(int id) throws DBException;
 
 }
