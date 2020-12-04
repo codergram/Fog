@@ -11,7 +11,7 @@ public class Part {
         public Part(Material material, int amount, String description) {
             this.material = material;
             this.amount = amount;
-            this.price = material.getPrice() * amount;
+            this.price = 0.0; //TODO: Fix nullpointer
             this.description = description;
         }
         
