@@ -165,7 +165,6 @@ public class Confirmation extends BaseServlet {
         }
         
         req.setAttribute("order", order);
-        
 
         render("Bekræft Carport", "/WEB-INF/pages/customer/thankyou.jsp", req, resp);
 

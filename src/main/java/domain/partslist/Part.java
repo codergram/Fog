@@ -9,10 +9,17 @@ public class Part {
         private final String description;
         
         public Part(Material material, int amount, String description) {
-            this.material = material;
-            this.amount = amount;
-            this.price = 0.0; //TODO: Fix nullpointer
-            this.description = description;
+            if(material != null) {
+                this.material = material;
+                this.amount = amount;
+                this.price = material.getPrice() * amount;
+                this.description = description;
+            } else {
+                this.material = material;
+                this.amount = amount;
+                this.price = 0.0;
+                this.description = description;
+            }
         }
         
         public Material getMaterial() {
@@ -30,4 +37,14 @@ public class Part {
         public String getDescription() {
             return description;
         }
+    
+    @Override
+    public String toString() {
+        return "Part{" +
+                "material=" + material +
+                ", amount=" + amount +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }
