@@ -35,13 +35,15 @@ public class Partslist {
         materialList.remove(index);
     }
     
-    public List<Part> getMaterialList() {
+    public List<Part> getPartList() {
         return materialList;
     }
     
     public Part getItem(int index) {
         return materialList.get(index);
     }
+    
+    
     
     
     

@@ -847,7 +847,7 @@ public class LocalPartslist implements PartslistServices {
         String des = "Skruer til tagplader";
 
         for(Options o: optionsMaterials){
-            if(o.getType() == Options.Type.Screw && o.getUsage() == Material.Usage.Roof){
+            if(o.getType() == Options.Type.Screw && o.getUsage() == Material.Usage.RoofBattens){
                 material = o;
             }
         }

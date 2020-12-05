@@ -45,15 +45,14 @@ public class Carport {
         this.roofType = roofType;
         this.shed = shed;
         this.partslist = null;
-        this.price = calculatePrice(partslist);
+        this.price = 0.0;
     }
     
     private double calculatePrice(Partslist partslist) {
         double x = 0.0;
-        //TODO: Implement partslist
-        //for(Part p: partslist.getMaterialList()){
-        //  x += p.getPrice();
-        //}
+        for(Part p: partslist.getPartList()){
+            x += p.getPrice();
+        }
         return x;
     }
     
@@ -63,6 +62,7 @@ public class Carport {
     
     public void setPartslist(Partslist partslist) {
         this.partslist = partslist;
+        this.price = calculatePrice(partslist);
     }
     
     public int getId() {

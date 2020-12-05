@@ -18,7 +18,7 @@ public class Order {
         Completed
     }
 
-    private final int id;
+    private int id;
     private final double width;
     private final double length;
     private final Timestamp timestamp;
@@ -80,5 +80,9 @@ public class Order {
     
     public Carport getCarport() {
         return carport;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
     }
 }
