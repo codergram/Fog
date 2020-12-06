@@ -1,44 +1,123 @@
 @startuml
-Title Domænemodel
+Title Domænemodel (Carport)
 
 hide circle
 hide methods
 
 class Carport {
-Længde
-Bredde
+    længde
+    bredde
+}
+
+class Tag {
+    højde
+    bredde
+    længde
+    type
+}
+
+class Tagbeklædning {
+    længde
+    bredde
+}
+
+class BærendeElementer {
+    spær
+    stern
+    rem
+    lægte
+}
+
+class TagMontering {
+    skruer
+    universal
 }
 
 class Spær {
-
+    længde
 }
 
-class Stolpe {
-
+class Rem {
+    længde
 }
 
-class Brædt {
-
+class Stern {
+    længde
 }
 
 class Lægte {
-
+    længde
 }
 
-class Reglar {
+class Fundament {
+   stolper
+}
 
+class fundamentKonstruktion {
+    bolte
+    skiver
+}
+
+class Stolper {
+   højde
 }
 
 class Skur {
 
 }
 
-Carport "1" -- "*" Spær
-Carport "1" -- "*" Stolpe
-Carport "1" -- "*" Brædt
-Carport "1" -- "*" Lægte
-Carport "1" -- "*" Reglar
-Carport "1" -- "*" Skur
+class Skur {
+    længde
+    bredde
+}
+
+class Dør {
+    Bredde
+}
+
+class DørMontering {
+    beslag
+    hængsler
+}
+
+class Lås {
+    greb
+}
+
+class Beklædning {
+    længde
+}
+
+class Hjørner {
+    stolper
+}
+
+class SkurMontering {
+    skruer
+}
+
+Carport "1" -- "1" Tag
+Tag "1" -- "*" Tagbeklædning
+Tag "1" -- "*" BærendeElementer
+Tag "1" -- "*" TagMontering
+BærendeElementer "1" -- "*" Spær
+BærendeElementer "1" -- "*" Rem
+BærendeElementer "1" -- "*" Stern
+BærendeElementer "1" -- "*" Lægte
+
+
+Carport "1" -- "1" Fundament
+Fundament "1" -- "*" fundamentKonstruktion
+Fundament "1" -- "6" Stolper
+
+Carport "1" -- "0..1" Skur
+Skur "1" -- "1" Dør
+Skur "1" -- "1" Beklædning
+Skur "1" -- "*" SkurMontering
+Skur "1" -- "2..3" Hjørner
+Hjørner "1" -- "2..3" Stolper
+Dør "1" -- "1" Lås
+Dør "1" -- "*" DørMontering
 
 
 @enduml
