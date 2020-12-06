@@ -38,27 +38,27 @@
         <form action="${pageContext.request.contextPath}/Confirmation" method="POST">
             <div class="form-group">
                 <label for="name">Dit navn</label>
-                <input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp" required value="Emil test">
+                <input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp" required>
             </div>
             <div class="form-group">
                 <label for="email">Din email</label>
-                <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" required value="emil@test.dk">
+                <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" required>
             </div>
             <div class="form-group">
                 <label for="address">Adresse</label>
-                <input type="text" class="form-control" id="address" name="address" aria-describedby="addressHelp" required value="Vejnavn 123">
+                <input type="text" class="form-control" id="address" name="address" aria-describedby="addressHelp" required>
             </div>
             <div class="form-group">
                 <label for="zip">Post nummer</label>
-                <input type="number" class="form-control" id="zip" name="zip" required value="1234">
+                <input type="number" class="form-control" id="zip" name="zip" required>
             </div>
             <div class="form-group">
                 <label for="city">By</label>
-                <input type="text" class="form-control" id="city" name="city" aria-describedby="addressHelp" required value="Bynavn">
+                <input type="text" class="form-control" id="city" name="city" aria-describedby="addressHelp" required>
             </div>
             <div class="form-group">
                 <label for="phone">Dit telefon nummer</label>
-                <input type="tel" class="form-control" id="phone" pattern="[0-9]{8}" name="phone" required value="12345678">
+                <input type="tel" class="form-control" id="phone" pattern="[0-9]{8}" name="phone" required>
             </div>
 
             <div style="text-align: center">

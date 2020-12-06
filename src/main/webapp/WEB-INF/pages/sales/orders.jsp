@@ -9,12 +9,14 @@
     <thead>
     <th>Ordrenummer</th>
     <th>Kundenavn</th>
-    <th>Pris</th>
+    <th>Salgspris</th>
     <th>Status</th>
+    <th> </th>
     </tr>
     </thead>
     <tbody>
     <c:forEach items="${requestScope.orderlist}" var="order" varStatus="vs">
+        <c:if test ="${order.salesEmployee.email == sessionScope.user.email || !order.hasSalesman()}">
     <tr>
         <td>
             <a href="Ordre/View/${order.id}">
@@ -22,9 +24,20 @@
             </a>
         </td>
         <td>${order.customer.name}</td>
-        <td>${order.carport.price}</td>
+        <td>${order.carport.price }</td>
+        <td>${order.carport.price + (order.margin/100) * order.carport.price}</td>
         <td>${order.status.name()}</td>
+        <td>
+            <c:if test ="${!order.hasSalesman()}">
+                <form action="Ordre" method="POST">
+                    <input type="hidden" name="action" id="action" value="assignOrder">
+                    <input type="hidden" name="ordrenummer" id="ordrenummer" value="${order.id}" />
+                    <input type="submit" class="btn-secondary" value="Tag ordre"/>
+                </form>
+            </c:if>
+        </td>
     </tr>
+    </c:if>
     </c:forEach>
 </table>
 

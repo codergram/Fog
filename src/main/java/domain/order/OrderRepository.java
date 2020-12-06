@@ -14,5 +14,5 @@ public interface OrderRepository extends OrderFactory {
     Order updateOrderStatusById(int id, Order.Status status) throws OrderException;
     
     
-
+    void assignOrder(int ordrenummer, int userId) throws OrderNotFound;
 }

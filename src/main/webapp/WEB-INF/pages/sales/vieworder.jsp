@@ -10,6 +10,8 @@
 Order id: ${order.id}<br>
 Customer name: ${requestScope.order.customer.name}<br>
 Salesperson: ${order.salesEmployee.name}<br>
+Salgspris: ${order.carport.price + (order.margin/100) * order.carport.price}<br>
+Kostpris: ${order.carport.price}<br>
 Status: ${order.status.name()}
 
 <br>

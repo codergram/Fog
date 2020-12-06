@@ -27,6 +27,16 @@ public class Carport {
         this.partslist = partslist;
         this.price = calculatePrice(partslist);
     }
+    
+    public Carport(int id, double length, double width, Enum<Roof> roofType, Shed shed, Partslist partslist, double price) {
+        this.id = id;
+        this.length = length;
+        this.width = width;
+        this.roofType = roofType;
+        this.shed = shed;
+        this.partslist = partslist;
+        this.price = price;
+    }
 
     public Carport(double length, double width, Enum<Roof> roofType, Shed shed, Partslist partslist) {
         this.id = -1;
