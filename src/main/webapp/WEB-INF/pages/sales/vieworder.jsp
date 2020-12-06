@@ -4,7 +4,7 @@
 <c:set var="order" value="${requestScope.order}"/>
 
 <div class="row">
-    <a href="<c:url value="${pageContext.request.contextPath}/Ordre"/>" class="btn-danger">Tilbage til alle ordre</a>
+    <a href="javascript:history.back()" class="btn-danger">Tilbage til alle ordre</a>
 </div>
 <h2 class="mt-4 mb-4 text-center">Order ${order.id}</h2>
 <br>
@@ -16,6 +16,7 @@ Customer name: ${requestScope.order.customer.name}<br>
 Salesperson: ${order.salesEmployee.name}<br>
 Salgspris: <fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${order.carport.price + (order.margin/100) * order.carport.price}" /> kr<br>
 Kostpris: <fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${order.carport.price}" /> kr<br>
+Avance: <fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${(order.carport.price + (order.margin/100) * order.carport.price) - order.carport.price}" /> kr<br>
 Status: ${order.status.name()}
 <br>
 <br>
@@ -30,14 +31,14 @@ Status: ${order.status.name()}
     </p>
 </div>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <div class="collapse multi-collapse" id="sideDrawing">
             <div style="text-align: center">
                 ${requestScope.svgSide}
             </div>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-12">
         <div class="collapse multi-collapse" id="topDrawing">
             <div style="text-align: center">
                 ${requestScope.svgTop}
