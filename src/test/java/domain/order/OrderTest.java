@@ -56,10 +56,10 @@ class OrderTest {
         
         Carport carportOne = new Carport(1,6500, 3020, Carport.Roof.Flat, null, partslist);
         
-        Order expectedOrder = new Order(1,3000,6500,ts, employee, customer, Order.Status.New, carportOne);
+        Order expectedOrder = new Order(1,3000,6500,ts, employee, customer, Order.Status.New, carportOne, 0.0);
     
         Carport carportTwo = new Carport(1, expectedOrder.getLength(), expectedOrder.getWidth(), Carport.Roof.Flat, null, partslist);
-        Order actualOrder = new Order(2,3000,6500,ts, employee, customer, Order.Status.New, carportOne);
+        Order actualOrder = new Order(2,3000,6500,ts, employee, customer, Order.Status.New, carportOne, 0.0);
         
         
         assertEquals(expectedOrder.getCarport().getLength(), actualOrder.getCarport().getLength());

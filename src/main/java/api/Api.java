@@ -56,7 +56,7 @@ public class Api {
     }
     
     public synchronized File testPdf(String path) throws PDFNotCreated {
-        Order order = new Order(1,200,300,null,null,null,null,null);
+        Order order = new Order(1,200,300,null,null,null,null,null,0.0);
         return fileService.generatePdf(path, order);
     }
     
