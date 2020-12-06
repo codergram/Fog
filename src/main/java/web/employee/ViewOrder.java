@@ -53,6 +53,7 @@ public class ViewOrder extends BaseServlet {
                 //Save requests and sessions
                 req.setAttribute("svgSide", svgSide);
                 req.setAttribute("svgTop", svgTop);
+                req.setAttribute("carport", order.getCarport());
                 
                 render("Ordre", "/WEB-INF/pages/sales/vieworder.jsp", req, resp);
             }

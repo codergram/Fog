@@ -1,3 +1,5 @@
+<%@ page import="domain.material.materials.Tree" %>
+<%@ page import="domain.carport.Carport" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -45,4 +47,40 @@ Status: ${order.status.name()}
             </div>
         </div>
     </div>
+</div>
+
+<div class="row">
+    <table id="example" name="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+        <th>Materiale</th>
+        <th>Længde</th>
+        <th>Antal</th>
+        <th>Enhed</th>
+        <th>Beskrivelse</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${requestScope.carport.partslist.partList}" var="part" varStatus="vs">
+        <tr>
+            <td>
+               ${part.material.name}
+            </td>
+            <td>
+                <!-- TODO: Fix -->
+                <c:if test ="${part.material.getClass().name == 'Tree'}">
+                ${part.material.length}
+                </c:if>
+            </td>
+            <td>
+                ${part.amount}
+            </td>
+            <td>
+               ${part.material.unitString}
+            </td>
+            <td>
+                ${part.description}
+            </td>
+        </tr>
+        </c:forEach>
+    </table>
 </div>

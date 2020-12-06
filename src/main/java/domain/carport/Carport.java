@@ -106,8 +106,4 @@ public class Carport {
     public void setPrice(double price) {
         this.price = price;
     }
-    
-    public Partslist getListOfItems() {
-        return partslist;
-    }
 }
