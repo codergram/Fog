@@ -12,7 +12,7 @@
     <th>Kundenavn</th>
     <th>Salgspris</th>
     <th>Status</th>
-    <th>Handling</th>
+    <th class="no-sort">Handling</th>
     </tr>
     </thead>
     <tbody>
