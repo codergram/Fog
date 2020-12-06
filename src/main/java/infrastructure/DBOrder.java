@@ -1,7 +1,9 @@
 package infrastructure;
 
+import api.Api;
 import api.Utils;
 import domain.carport.Carport;
+import domain.carport.shed.Shed;
 import domain.customer.Customer;
 import domain.material.materials.Material;
 import domain.material.materials.Options;
@@ -71,10 +73,9 @@ public class DBOrder implements OrderRepository {
                 } else {
                     ps.setString(1,((Options) mat).getType().name());
                 }
-        
-                ps.executeUpdate();
-        
-                ResultSet rs = ps.getGeneratedKeys();
+                
+                ResultSet rs = ps.executeQuery();
+                
                 if (rs.next()) {
                     typeId = rs.getInt(1);
                 }
@@ -86,9 +87,9 @@ public class DBOrder implements OrderRepository {
                 ps.setInt(2,matId);
                 ps.setInt(3,typeId);
             
-                ps.executeUpdate();
+                
             
-                ResultSet rs = ps.getGeneratedKeys();
+                ResultSet rs = ps.executeQuery();
                 if (rs.next()) {
                     return rs.getInt(1);
                 }
@@ -103,14 +104,18 @@ public class DBOrder implements OrderRepository {
         List<Integer> partIdsInDb = new ArrayList<>();
             try (Connection conn = database.getConnection()) {
                 String sql = "INSERT INTO parts (description, usage_id, amount, length, partlist_id) " +
-                        "VALUE (?,?,?,?);";
+                        "VALUE (?,?,?,?,?);";
                 for(Part p: partlist.getPartList()) {
                     try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
         
                         ps.setString(1, p.getDescription());
                         ps.setInt(2, getPartUsageId(p));
                         ps.setInt(3, p.getAmount());
-                        ps.setInt(4, p.getAmount());
+                        if(p.getMaterial() instanceof Tree) {
+                            ps.setDouble(4, ((Tree) p.getMaterial()).getLength());
+                        } else {
+                            ps.setDouble(4,0.0);
+                        }
                         ps.setInt(5, partlistId);
         
                         ps.executeUpdate();
@@ -147,31 +152,69 @@ public class DBOrder implements OrderRepository {
         return -1;
     }
     
+    private int createShedInDb(Shed shed){
+        try (Connection conn = database.getConnection()) {
+            String sql = "INSERT INTO sheds (length, width) VALUES (?,?);";
+            
+            try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                
+                ps.setDouble(1,shed.getLength());
+                ps.setDouble(2,shed.getWidth());
+                
+                ps.executeUpdate();
+                
+                ResultSet rs = ps.getGeneratedKeys();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            log.error(e.getMessage());
+        }
+        return -1;
+    }
+    
     @Override
     public Order createNewOrder(Order order) throws OrderException {
-        double margin = 30.0; //TODO: Make dynamic
+        double margin = Api.MARGIN;
         
         int partListId = createPartlistInDb();
         Customer customer = order.getCustomer();
         Carport carport = order.getCarport();
         int carportId = -1;
         
-        int shedId = 0;
+        int shedId = -1;
         
         createPartsInDb(carport.getPartslist(), partListId);
+        
+        String carportSql = "INSERT INTO carports(length, width, roof, price, partlist_id) " +
+                "VALUE (?,?,?,?,?);";
+        
+        if(carport.hasShed()) {
+            shedId = createShedInDb(carport.getShed());
+            carportSql = "INSERT INTO carports(length, width, roof, shed_id, price, partlist_id) " +
+                    "VALUE (?,?,?,?,?,?);";
+        }
     
         try (Connection conn = database.getConnection()) {
     
-            try(PreparedStatement ps = conn.prepareStatement("INSERT INTO carports(length, width, roof, shed_id, price, partlist_id) " +
-                            "VALUE (?,?,?,?,?,?);",
+            try(PreparedStatement ps = conn.prepareStatement(carportSql,
                     Statement.RETURN_GENERATED_KEYS)){
         
-                ps.setDouble(1, carport.getWidth());
-                ps.setDouble(2,carport.getLength());
-                ps.setString(3,carport.getRoofType().name());
-                ps.setInt(4,shedId); //TODO: Make dynamic
-                ps.setDouble(5, order.getCarport().getPrice());
-                ps.setInt(6,partListId);
+                if(carport.hasShed()) {
+                    ps.setDouble(1, carport.getWidth());
+                    ps.setDouble(2, carport.getLength());
+                    ps.setString(3, carport.getRoofType().name());
+                    ps.setInt(4, shedId);
+                    ps.setDouble(5, order.getCarport().getPrice());
+                    ps.setInt(6, partListId);
+                } else {
+                    ps.setDouble(1, carport.getWidth());
+                    ps.setDouble(2, carport.getLength());
+                    ps.setString(3, carport.getRoofType().name());
+                    ps.setDouble(4, order.getCarport().getPrice());
+                    ps.setInt(5, partListId);
+                }
         
                 ps.executeUpdate();
         
@@ -181,17 +224,16 @@ public class DBOrder implements OrderRepository {
                 }
             }
         
-            try(PreparedStatement ps = conn.prepareStatement("INSERT INTO orders(width, length, employee_id, customer_id, status, carport_id, margin) " +
-                    "VALUE (?,?,?,?,?,?,?);",
+            try(PreparedStatement ps = conn.prepareStatement("INSERT INTO orders(width, length, customer_id, status, carport_id, margin) " +
+                    "VALUE (?,?,?,?,?,?);",
                     Statement.RETURN_GENERATED_KEYS)){
                 
                 ps.setDouble(1, carport.getWidth());
                 ps.setDouble(2,carport.getLength());
-                ps.setInt(3,0);
-                ps.setInt(4,customer.getId());
-                ps.setString(5, Order.Status.New.name());
-                ps.setInt(6,carportId);
-                ps.setDouble(7,margin);
+                ps.setInt(3,customer.getId());
+                ps.setString(4, Order.Status.New.name());
+                ps.setInt(5,carportId);
+                ps.setDouble(6,margin);
             
                 ps.executeUpdate();
             
