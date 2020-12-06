@@ -3,8 +3,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <c:set var="order" value="${requestScope.order}"/>
 
-<div class="row" align="left">
-    <a href="<c:url value="${pageContext.request.contextPath}"/ >" class="btn-danger">Tilbage til alle ordre</a>
+<div class="row">
+    <a href="<c:url value="${pageContext.request.contextPath}/Ordre"/>" class="btn-danger">Tilbage til alle ordre</a>
 </div>
 <h2 class="mt-4 mb-4 text-center">Order ${order.id}</h2>
 <br>

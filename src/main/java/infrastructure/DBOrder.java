@@ -83,7 +83,6 @@ public class DBOrder implements OrderRepository {
                     Carport tmpCarport = null;
                     Shed tmpShed = null;
                     
-                    System.out.println("SQL has id: " + rs.getInt(1));
                     //Order data
                     int orderId = rs.getInt("orderId");
                     Timestamp timestamp = rs.getTimestamp("timestamp");
@@ -355,7 +354,7 @@ public class DBOrder implements OrderRepository {
     
     @Override
     public Order createNewOrder(Order order) throws OrderException {
-        double margin = Api.MARGIN;
+        double margin = order.getMargin();
         
         int partListId = createPartlistInDb();
         Customer customer = order.getCustomer();
@@ -381,15 +380,15 @@ public class DBOrder implements OrderRepository {
                     Statement.RETURN_GENERATED_KEYS)){
         
                 if(carport.hasShed()) {
-                    ps.setDouble(1, carport.getWidth());
-                    ps.setDouble(2, carport.getLength());
+                    ps.setDouble(1, carport.getLength());
+                    ps.setDouble(2, carport.getWidth());
                     ps.setString(3, carport.getRoofType().name());
                     ps.setInt(4, shedId);
                     ps.setDouble(5, order.getCarport().getPrice());
                     ps.setInt(6, partListId);
                 } else {
-                    ps.setDouble(1, carport.getWidth());
-                    ps.setDouble(2, carport.getLength());
+                    ps.setDouble(1, carport.getLength());
+                    ps.setDouble(2, carport.getWidth());
                     ps.setString(3, carport.getRoofType().name());
                     ps.setDouble(4, order.getCarport().getPrice());
                     ps.setInt(5, partListId);
