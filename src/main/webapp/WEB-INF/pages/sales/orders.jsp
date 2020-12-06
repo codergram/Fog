@@ -1,4 +1,5 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <h2 class="mt-4 mb-4 text-center">Ordre</h2>
@@ -11,7 +12,7 @@
     <th>Kundenavn</th>
     <th>Salgspris</th>
     <th>Status</th>
-    <th> </th>
+    <th>Handling</th>
     </tr>
     </thead>
     <tbody>
@@ -24,8 +25,9 @@
             </a>
         </td>
         <td>${order.customer.name}</td>
-        <td>${order.carport.price }</td>
-        <td>${order.carport.price + (order.margin/100) * order.carport.price}</td>
+        <td>
+            <fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${order.carport.price + (order.margin/100) * order.carport.price}" /> kr
+        </td>
         <td>${order.status.name()}</td>
         <td>
             <c:if test ="${!order.hasSalesman()}">

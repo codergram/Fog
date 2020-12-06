@@ -46,6 +46,14 @@ public class ViewOrder extends BaseServlet {
                 }
                 req.setAttribute("order", order);
                 log("User is admin: " + curUser);
+    
+                String svgSide = api.getSVGSide(order.getCarport(), false);
+                String svgTop = api.getSVGTop(order.getCarport(), false);
+    
+                //Save requests and sessions
+                req.setAttribute("svgSide", svgSide);
+                req.setAttribute("svgTop", svgTop);
+                
                 render("Ordre", "/WEB-INF/pages/sales/vieworder.jsp", req, resp);
             }
             
