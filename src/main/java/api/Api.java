@@ -74,6 +74,21 @@ public class Api {
             return false;
         }
     }
+    
+    public synchronized boolean sendMail(String mailAddress, String title, String subject, String msg){
+        try {
+            String message = Utils.fileToString("mail/mailtemplate.html")
+                    .replace("$$TITEL$$", title)
+                    .replace("$$OVERSKRIFT$$", subject)
+                    .replace("$$TEKST$$", msg);
+            
+            emailService.sendEmail(mailAddress, title, message, null);
+            return true;
+        } catch (EmailNotSent e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
 
     
     public synchronized User createUser(String name, String email, String password, User.Role role) throws UserExists {
@@ -174,5 +189,8 @@ public class Api {
     public synchronized List<Part> addToLocalPartslist(Carport carport, List<Material> allMaterialsFromDB, List<Part> LocalPartlist){
         return partslistServices.addToPartslist(carport, allMaterialsFromDB, LocalPartlist);
     }
-
+    
+    public synchronized void assignOrder(int ordrenummer, int userId) throws OrderNotFound {
+        orderRepository.assignOrder(ordrenummer, userId);
+    }
 }

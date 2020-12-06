@@ -54,17 +54,21 @@ public class JavaXEmailService implements EmailService {
             MimeBodyPart messageBodyPart = new MimeBodyPart();
             messageBodyPart.setContent(message, "text/html");
             
-    
-            //Bodypart for attacthment
-            BodyPart attachment = new MimeBodyPart();
-            String filename = file.getAbsolutePath();
-            DataSource source = new FileDataSource(filename);
-            attachment.setDataHandler(new DataHandler(source));
-            attachment.setFileName(file.getName());
-    
-            //Combine the two bodyparts into one Message
+            
+            if(file != null) {
+                //Bodypart for attacthment
+                BodyPart attachment = new MimeBodyPart();
+                String filename = file.getAbsolutePath();
+                DataSource source = new FileDataSource(filename);
+                attachment.setDataHandler(new DataHandler(source));
+                attachment.setFileName(file.getName());
+                
+                //Add multipart to bodypart.
+                multipart.addBodyPart(attachment);
+            }
+            
             multipart.addBodyPart(messageBodyPart);
-            multipart.addBodyPart(attachment);
+            
             
             //Sets content of message
             msg.setContent(multipart);

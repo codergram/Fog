@@ -2,56 +2,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <c:choose>
-    <c:when test="${sessionScope.user.role.name() == 'Employee'}">
-
-
-        <div class="row mt-4">
-            <div class="col-sm-12 col-md-2" style="border-right: 1px solid gray;">
-                <nav class="nav flex-column">
-                    <a class="nav-link" href="CustomerPage?target=viewProfile">View Profile</a>
-                    <a class="nav-link" href="CustomerPage?target=orderHistory">Order History</a>
-                </nav>
-            </div>
-
-            <div class="col-sm-12 col-md-10" style="">
-
-                <c:choose>
-                    <c:when test="${requestScope.profileMenu == 'viewProfile'}">
-                        <jsp:include page="../includes/view_profile.jsp" flush="true"/>
-                    </c:when>
-                    <c:when test="${requestScope.profileMenu == 'orderHistory'}">
-                        <jsp:include page="../includes/allorderscustomer.jsp" flush="true"/>
-                    </c:when>
-                    <c:when test="${requestScope.profileMenu == 'viewOrder'}">
-                        <jsp:include page="../includes/view_order.jsp" flush="true"/>
-                    </c:when>
-                    <c:otherwise>
-                        <h1 class="text-center">Welcome: ${sessionScope.user.userEmail}</h1>
-                        <br>
-                        <br>
-                        <p>In the profile area you can see your profile and credit. You can also view your order history and see order statuses.</p>
-                    </c:otherwise>
-                </c:choose>
-
-                <div>
-                    <c:if test ="${requestScope.errorMessage != null}">
-                        <div class="alert alert-danger" style="padding-bottom: inherit;">
-                            <p>${requestScope.errorMessage}</p>
-                        </div>
-                    </c:if>
-                </div>
-
-            </div>
-        </div>
-        <br>
-        <br>
-        <br>
+    <c:when test="${sessionScope.userrole == 'Employee'}">
+        <!-- ADMIN HTML HER -->>
+        <h1>Hej Sælger!</h1>
+        <h3>Current user object:</h3>
+        <p>${sessionScope.user}</p>
     </c:when>
-
     <c:otherwise>
-    <script>
-        window.location = "${pageContext.request.contextPath}";
-    </script>
+        <script>
+            window.location = "${pageContext.request.contextPath}";
+        </script>
     </c:otherwise>
-    </c:choose>
-<%@include file="../../includes/footer.jsp"%>
+</c:choose>

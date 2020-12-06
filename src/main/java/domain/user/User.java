@@ -56,7 +56,7 @@ public class User {
     }
     
     public boolean isEmployee(){
-        return this.role == Role.Employee;
+        return this.role == Role.Employee || this.role == Role.Admin;
     }
     
     public boolean isAdmin(){

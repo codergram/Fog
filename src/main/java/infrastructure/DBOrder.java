@@ -1,7 +1,6 @@
 package infrastructure;
 
 import api.Api;
-import api.Utils;
 import domain.carport.Carport;
 import domain.carport.shed.Shed;
 import domain.customer.Customer;
@@ -19,6 +18,7 @@ import org.slf4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -34,14 +34,179 @@ public class DBOrder implements OrderRepository {
     
     @Override
     public List<Order> getALlOrders() throws OrderNotFound {
-        //TODO: MySQL implementation
-        List<Order> orders = new ArrayList<>();
-        orders.add(new Order(1,400,500,null,
-                new User(1,"Emil", "emil@emil.dk", User.Role.Admin),
-                new Customer(1,"Kurt Verner", "Vejnavn 1", 1234, "Bynavn", 12345678, "kurt@verner.dk"),
-                Order.Status.New,
-                null));
+        List<Order> orders = new LinkedList<>();
+        
+        try (Connection conn = database.getConnection()) {
+            
+            String getOrdersQuery = "SELECT\n" +
+                    "	orders.id AS \"orderId\",\n" +
+                    "	orders.`timestamp`,\n" +
+                    "	orders.`status` AS \"orderStatus\",\n" +
+                    "	orders.length AS \"orderLength\",\n" +
+                    "	orders.width AS \"orderWidth\",\n" +
+                    "	orders.margin AS \"orderMargin\",\n" +
+                    "	users.id AS \"employeeId\",\n" +
+                    "	users.`name` AS \"employeeName\",\n" +
+                    "	users.email AS \"employeeMail\",\n" +
+                    "	users.role AS \"employeeRole\",\n" +
+                    "	customers.id AS \"customerId\",\n" +
+                    "	customers.`name` AS \"customerName\",\n" +
+                    "	customers.address AS \"customerAddress\",\n" +
+                    "	customers.postal AS \"customerZip\",\n" +
+                    "	customers.city AS \"customerCity\",\n" +
+                    "	customers.phone AS \"customerPhone\",\n" +
+                    "	customers.email AS \"customerEmail\",\n" +
+                    "	carports.id AS \"carportId\",\n" +
+                    "	carports.length AS \"carportLength\",\n" +
+                    "	carports.width AS \"carportWidth\",\n" +
+                    "	carports.roof AS \"carportRoof\",\n" +
+                    "	carports.price AS \"carportPrice\",\n" +
+                    "	sheds.length AS \"shedLength\",\n" +
+                    "	sheds.width AS \"shedWidth\",\n" +
+                    "	carports.partlist_id AS \"partlistId\" \n" +
+                    "FROM\n" +
+                    "	orders\n" +
+                    "	LEFT JOIN users ON users.id = orders.employee_id\n" +
+                    "	JOIN customers ON customers.id = orders.customer_id\n" +
+                    "	JOIN carports ON carports.id = orders.carport_id\n" +
+                    "	JOIN partlists ON carports.partlist_id = partlists.id\n" +
+                    "  LEFT JOIN sheds ON sheds.id = carports.shed_id\n" +
+                    "	ORDER BY orders.id DESC";
+            
+            try (PreparedStatement s = conn.prepareStatement(getOrdersQuery)){
+                ResultSet rs = s.executeQuery();
+            
+                while (rs.next()) {
+                    Order tmpOrder = null;
+                    User tmpUser = null;
+                    Customer tmpCustomer = null;
+                    Carport tmpCarport = null;
+                    Shed tmpShed = null;
+                    
+                    System.out.println("SQL has id: " + rs.getInt(1));
+                    //Order data
+                    int orderId = rs.getInt("orderId");
+                    Timestamp timestamp = rs.getTimestamp("timestamp");
+                    double orderMargin = rs.getDouble("orderMargin");
+                    double orderLength = rs.getDouble("orderLength");
+                    double orderWidth = rs.getDouble("orderWidth");
+                    Order.Status orderStatus = Order.Status.valueOf(rs.getString("orderStatus"));
+                    int employeeId = rs.getInt("employeeId");
+                    int customerId = rs.getInt("customerId");
+                    int carportId = rs.getInt("carportId");
+                    int partlistId = rs.getInt("partlistId");
+    
+                    //Employee data
+                    if(employeeId != 0) {
+                        String employeeName = rs.getString("employeeName");
+                        String employeeMail = rs.getString("employeeMail");
+                        Enum<User.Role> employeeRole = User.Role.valueOf(rs.getString("employeeRole"));
+                        tmpUser = new User(employeeId, employeeName, employeeMail, employeeRole);
+                    }
+                    
+                    //Customer data
+                    String customerName = rs.getString("customerName");
+                    String customerAddress = rs.getString("customerAddress");
+                    int customerZip = rs.getInt("customerZip");
+                    String customerCity = rs.getString("customerCity");
+                    int customerPhone = rs.getInt("customerPhone");
+                    String customerEmail = rs.getString("customerEmail");
+                    
+                    tmpCustomer = new Customer(customerId, customerName, customerAddress, customerZip, customerCity, customerPhone, customerEmail);
+    
+                    
+                    //Carport data
+                    double carportLength = rs.getDouble("carportLength");
+                    double carportWidth = rs.getDouble("carportWidth");
+                    Carport.Roof carportRoof = Carport.Roof.valueOf(rs.getString("carportRoof"));
+                    double carportPrice = rs.getDouble("carportPrice");
+                    
+                        //Shed data
+                        double shedLength = rs.getDouble("shedLength");
+                        double shedWidth = rs.getDouble("shedWidth");
+                        
+                        if(shedLength != 0 && shedWidth != 0) {
+                            tmpShed = new Shed(shedLength, shedWidth);
+                        }
+                        
+                        List<Part> matList = getPartsOnOrder(partlistId);
+                        
+                        Partslist partslist = new Partslist(matList);
+                        
+                    tmpCarport = new Carport(carportId, carportLength, carportWidth, carportRoof, tmpShed, partslist, carportPrice);
+                    
+                    tmpOrder = new Order(orderId, orderWidth, orderLength, timestamp, tmpUser, tmpCustomer, orderStatus, tmpCarport, orderMargin);
+                    
+                    //Add order to list
+                    orders.add(tmpOrder);
+                }
+            }
+            } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         return orders;
+    }
+    
+    private List<Part> getPartsOnOrder(int partlistId) {
+        List<Part> parts = new ArrayList<>();
+    
+        try (Connection conn = database.getConnection()) {
+        
+            String getOrdersQuery = "SELECT \n" +
+                    "parts.id AS \"partId\", parts.description AS \"description\", parts.amount AS \"amount\", parts.length AS \"length\",\n" +
+                    "`usage`.`name` AS \"usageName\",\n" +
+                    "materiale.`name` AS \"materialName\", materiale.price AS \"materialPrice\",\n" +
+                    "type.`name` AS \"typeName\"\n" +
+                    "FROM parts\n" +
+                    "JOIN `usage` ON `usage`.id = parts.usage_id\n" +
+                    "JOIN materiale ON materiale.id = `usage`.material_id\n" +
+                    "JOIN type ON type.id = `usage`.type_id\n" +
+                    "WHERE parts.partlist_id = ?";
+        
+            try (PreparedStatement s = conn.prepareStatement(getOrdersQuery)){
+                s.setInt(1, partlistId);
+                
+                
+                ResultSet rs = s.executeQuery();
+                
+                while (rs.next()) {
+                    int partId = rs.getInt("partId");
+                    int amount = rs.getInt("amount");
+                    String description = rs.getString("description");
+                    int length = rs.getInt("length");
+                    Material.Usage materialUsage = Material.Usage.valueOf(rs.getString("usageName"));
+                    String materialName = rs.getString("materialName");
+                    double materialPrice = rs.getDouble("materialPrice");
+                    String typeName = rs.getString("typeName");
+                    
+                    Material.Unit materialUnit = Material.Unit.Stk; //TODO: Fix
+    
+                    Material tmpMaterial = null;
+                    
+                    boolean materialTypeFound = false;
+                    
+                    for(Tree.Type t: Tree.Type.values()){
+                        if(t.name().equals(typeName)){
+                            tmpMaterial = new Tree(materialName, length, materialPrice, materialUsage, t, materialUnit);
+                            materialTypeFound = true;
+                            break;
+                        }
+                    }
+                    
+                    if(!materialTypeFound){
+                        tmpMaterial = new Options(materialName, materialPrice, materialUsage, Options.Type.valueOf(typeName), materialUnit);
+                    }
+                    
+                    Part tmpPart = new Part(tmpMaterial, amount, description);
+                    
+                    //Add part to list
+                    parts.add(tmpPart);
+                }}
+        
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return parts;
     }
     
     @Override
@@ -57,6 +222,20 @@ public class DBOrder implements OrderRepository {
     @Override
     public Order updateOrderStatusById(int id, Order.Status status) throws OrderException {
         return null;
+    }
+    
+    @Override
+    public void assignOrder(int ordrenummer, int userId) throws OrderNotFound {
+        try (Connection conn = database.getConnection()) {
+            try(PreparedStatement ps = conn.prepareStatement("UPDATE orders SET orders.employee_id=? WHERE orders.id=?;")){
+            
+                ps.setInt(1, userId);
+                ps.setInt(2,ordrenummer);
+                ps.executeUpdate();
+                
+            }} catch (Exception e) {
+            throw new OrderNotFound(e.getMessage());
+        }
     }
     
     private int getPartUsageId(Part part){
