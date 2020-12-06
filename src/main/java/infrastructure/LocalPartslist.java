@@ -380,7 +380,7 @@ public class LocalPartslist implements PartslistServices {
         String des = "monteres på toppen af spæret (til toplægte)";
 
         for(Options o: optionsMaterials){
-            if(o.getType() == Options.Type.Rafters && o.getUsage() == Material.Usage.TopLayer){
+            if(o.getType() == Options.Type.TopLayer && o.getUsage() == Material.Usage.Rafters){
                 material = o;
             }
         }
@@ -470,9 +470,11 @@ public class LocalPartslist implements PartslistServices {
 
     private Part calculateBoardsWindshieldsGavel(Carport carport) {
         Material material = null;
+    
+        System.out.println("Shed: " + carport.getShed().toString());
 
         int amount = (int) Math.floor(carport.getLength()/19);
-        double length = carport.getShed().getLength() + 15;
+        double length = carport.getShed().getLength() + 15.0;
         String des = "beklædning af gavle 1 på 2";
 
         for(Tree t: treeMaterials){

@@ -31,6 +31,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class Api {
     
     public final static String genericSiteTitle = "Fog Trælast";
+    public final static double MARGIN = 30.0;
     private static final Logger log = getLogger(Api.class);
 
     private final UserRepository userRepository;
