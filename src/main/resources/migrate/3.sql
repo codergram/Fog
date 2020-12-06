@@ -40,8 +40,8 @@ CREATE TABLE `carports` (
 -- Records of carports
 -- ----------------------------
 BEGIN;
-INSERT INTO `carports` VALUES (1, 600, 780, 'Peak', 5, 11767.05, 1);
-INSERT INTO `carports` VALUES (2, 300, 610, 'Flat', NULL, 4280.00, 2);
+INSERT INTO `carports` VALUES (1, 780, 600, 'Peak', 5, 11767.05, 1);
+INSERT INTO `carports` VALUES (2, 610, 300, 'Flat', NULL, 4280.00, 2);
 COMMIT;
 
 -- ----------------------------
