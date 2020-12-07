@@ -90,6 +90,21 @@ public class Api {
             return false;
         }
     }
+    
+    public synchronized boolean sendLinkByMail(Order order, String link){
+        try {
+            String message = Utils.fileToString("mail/mailtemplate.html")
+                    .replace("$$TITEL$$", "Ordre " + order.getId())
+                    .replace("$$OVERSKRIFT$$", "Dit nye link til ordren")
+                    .replace("$$TEKST$$", link);
+            
+            emailService.sendEmail(order.getCustomer().getEmail(), "Ordre " + order.getId(), message, null);
+            return true;
+        } catch (EmailNotSent e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
 
     
     public synchronized User createUser(String name, String email, String password, User.Role role) throws UserExists {
