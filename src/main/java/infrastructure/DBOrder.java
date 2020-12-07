@@ -219,8 +219,18 @@ public class DBOrder implements OrderRepository {
     }
     
     @Override
-    public Order updateOrderStatusById(int id, Order.Status status) throws OrderException {
-        return null;
+    public boolean updateOrderStatusById(int id, Order.Status status) throws OrderException {
+        try (Connection conn = database.getConnection()) {
+            try(PreparedStatement ps = conn.prepareStatement("UPDATE orders SET status=? WHERE id=?;")){
+            
+                ps.setString(1, status.name());
+                ps.setInt(2,id);
+                ps.executeUpdate();
+            }
+            return true;
+        } catch (Exception e) {
+            throw new OrderException(e.getMessage());
+        }
     }
     
     @Override
