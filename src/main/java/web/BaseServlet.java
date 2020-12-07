@@ -43,6 +43,7 @@ public class BaseServlet extends HttpServlet {
         
     }
     
+    // TODO : fix this methode
     protected void redirect(HttpServletRequest req, HttpServletResponse resp, String servletName){
         try {
             resp.sendRedirect(req.getContextPath() + "/" + servletName);
