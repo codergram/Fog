@@ -33,7 +33,7 @@
                         <input type="hidden" name="ordrenummer" value="${order.id}" />
                         <select class="custom-select" name="statusvalue" onchange="this.form.submit()">
                             <c:forEach items="${requestScope.statuslist}" var="status" varStatus="vs">
-                                <option value="${status}"<c:if test ="${order.status.name() == status}"> selected</c:if>>${status}</option>
+                                <option value="${status}"<c:if test ="${order.status.name() == status}"> selected</c:if><c:if test ="${!order.hasSalesman()}">disabled</c:if>>${status}</option>
                             </c:forEach>
                         </select>
                     </form>
