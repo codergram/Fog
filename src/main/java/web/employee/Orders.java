@@ -2,7 +2,6 @@ package web.employee;
 
 import domain.order.Order;
 import domain.user.User;
-import domain.user.exceptions.UserNotFound;
 import org.slf4j.Logger;
 import web.BaseServlet;
 
@@ -32,28 +31,25 @@ public class Orders extends BaseServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        
         try {
             curUser = (User) req.getSession().getAttribute("user");
             
             log("Trying to log into admin :" + curUser);
             
-            if (curUser == null || !curUser.isAdmin()) {
+            if (curUser == null || !curUser.isEmployee()) {
                 log("User is not admin: " + curUser );
                 resp.sendError(401);
             } else {
                 orders = List.copyOf(api.getOrders());
-                List<Order> sorted = new ArrayList<>();
-
-                for(Order o: orders){
-                    if(o.getSalesEmployee().getName().equals(curUser.getName())){
-                        sorted.add(o);
-                    }
+                
+                List<String> statuslist = new ArrayList<>();
+                for(Order.Status s: Order.Status.values()){
+                    statuslist.add(s.name());
                 }
-                if(curUser.isAdmin()){
-                    req.setAttribute("orderlist", orders);
-                } else {
-                    req.setAttribute("orderlist", sorted);
-                }
+                
+                req.setAttribute("orderlist", orders);
+                req.setAttribute("statuslist", statuslist);
                 
                 log("User is admin: " + curUser);
                 render("Ordre", "/WEB-INF/pages/sales/orders.jsp", req, resp);
@@ -68,7 +64,14 @@ public class Orders extends BaseServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         try {
+            int orderId = Integer.parseInt(req.getParameter("ordrenummer"));
             switch (req.getParameter("action")) {
+                case "assignOrder":
+                    api.assignOrder(orderId, curUser.getId());
+                    break;
+                case "changeStatus":
+                    api.changeOrderStatus(orderId, req.getParameter("statusvalue"));
+                    break;
                 default:
                     break;
             }

@@ -40,4 +40,15 @@ public class Part {
                 return material.getPrice() * amount;
             }
         }
+
+    
+    @Override
+    public String toString() {
+        return "Part{" +
+                "material=" + material +
+                ", amount=" + amount +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

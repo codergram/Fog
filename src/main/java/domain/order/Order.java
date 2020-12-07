@@ -1,6 +1,7 @@
 package domain.order;
 
 
+import api.Api;
 import domain.carport.Carport;
 import domain.customer.Customer;
 import domain.user.User;
@@ -18,7 +19,7 @@ public class Order {
         Completed
     }
 
-    private final int id;
+    private int id;
     private final double width;
     private final double length;
     private final Timestamp timestamp;
@@ -26,9 +27,10 @@ public class Order {
     private final Customer customer;
     private final Enum<Status> status;
     private final Carport carport;
+    private double margin;
     
     
-    public Order(int id, double width, double length, Timestamp timestamp, User salesEmployee, Customer customer, Enum<Status> status, Carport carport) {
+    public Order(int id, double width, double length, Timestamp timestamp, User salesEmployee, Customer customer, Enum<Status> status, Carport carport, double margin) {
         this.id = id;
         this.width = width;
         this.length = length;
@@ -37,6 +39,7 @@ public class Order {
         this.customer = customer;
         this.status = status;
         this.carport = carport;
+        this.margin = margin;
     }
 
     public Order(double width, double length, Customer customer, Carport carport) {
@@ -48,6 +51,7 @@ public class Order {
         this.customer = customer;
         this.status = Order.Status.New;
         this.carport = carport;
+        this.margin = 30.0;
     }
     
     public int getId() {
@@ -80,5 +84,35 @@ public class Order {
     
     public Carport getCarport() {
         return carport;
+    }
+    
+    public double getMargin() {
+        return margin;
+    }
+    
+    public void setMargin(double margin) {
+        this.margin = margin;
+    }
+    
+    public boolean hasSalesman(){
+        return salesEmployee != null;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", width=" + width +
+                ", length=" + length +
+                ", timestamp=" + timestamp +
+                ", salesEmployee=" + salesEmployee +
+                ", customer=" + customer +
+                ", status=" + status +
+                ", carport=" + carport +
+                '}';
     }
 }
