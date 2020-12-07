@@ -21,7 +21,7 @@ public class Navbar {
             new Item("Customers", "/Customers", true, false),
             new Item("Users", "/Users", true, true),
             new Item("Stats", "/Stats", true, true),
-            new Item("Materialer", "/Materialer", true, true),
+            new Item("Materialer", "/Materials", true, true),
             new Item("Log ud", "/Logout", true, false)
 
     );
