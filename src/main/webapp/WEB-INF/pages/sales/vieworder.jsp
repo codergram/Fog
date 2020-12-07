@@ -33,14 +33,14 @@ Status: ${order.status.name()}
     </p>
 </div>
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
         <div class="collapse multi-collapse" id="sideDrawing">
             <div style="text-align: center">
                 ${requestScope.svgSide}
             </div>
         </div>
     </div>
-    <div class="col-md-12">
+    <div class="col-md-6">
         <div class="collapse multi-collapse" id="topDrawing">
             <div style="text-align: center">
                 ${requestScope.svgTop}
