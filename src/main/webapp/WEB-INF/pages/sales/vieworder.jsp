@@ -31,6 +31,11 @@ Salesperson: ${order.salesEmployee.name}<br>
         </div>
     </form>
 </div>
+<c:if test="${requestScope.error}">
+    <div class="alert alert-danger" role="alert">
+            ${requestScope.errorMsg}
+    </div>
+</c:if>
 
 <label for="kostpris">Kostpris</label>
 <div class="input-group mb-3">

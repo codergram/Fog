@@ -227,7 +227,6 @@ public class DBOrder implements OrderRepository {
     public boolean updateOrderStatusById(int id, Order.Status status) throws OrderException {
         try (Connection conn = database.getConnection()) {
             try(PreparedStatement ps = conn.prepareStatement("UPDATE orders SET status=? WHERE id=?;")){
-            
                 ps.setString(1, status.name());
                 ps.setInt(2,id);
                 ps.executeUpdate();
@@ -254,7 +253,6 @@ public class DBOrder implements OrderRepository {
     
     @Override
     public void updateMargin(int orderId, double newMargin) throws OrderException {
-        System.out.println("inside updateMargin in DBOrder");
         try (Connection conn = database.getConnection()) {
             try(PreparedStatement ps = conn.prepareStatement("UPDATE orders SET margin=? WHERE id=?;")){
             
