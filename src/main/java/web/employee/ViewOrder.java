@@ -10,6 +10,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -50,6 +52,13 @@ public class ViewOrder extends BaseServlet {
                 String svgSide = api.getSVGSide(order.getCarport(), false);
                 String svgTop = api.getSVGTop(order.getCarport(), false);
     
+                List<String> statuslist = new ArrayList<>();
+                for(Order.Status s: Order.Status.values()){
+                    statuslist.add(s.name());
+                }
+                
+                req.setAttribute("statuslist", statuslist);
+    
                 //Save requests and sessions
                 req.setAttribute("svgSide", svgSide);
                 req.setAttribute("svgTop", svgTop);
@@ -67,14 +76,20 @@ public class ViewOrder extends BaseServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         try {
+            int orderId = Integer.parseInt(req.getParameter("ordrenummer"));
             switch (req.getParameter("action")) {
+                case "assignOrder":
+                    api.assignOrder(orderId, curUser.getId());
+                    break;
+                case "changeStatus":
+                    api.changeOrderStatus(orderId, req.getParameter("statusvalue"));
+                    break;
                 default:
                     break;
             }
-            redirect(req,resp,"Ordre");
+                redirect(req, resp, "Ordre/View/"+orderId);
         } catch (Exception e){
             log.error(e.getMessage());
         }
-        
     }
 }
