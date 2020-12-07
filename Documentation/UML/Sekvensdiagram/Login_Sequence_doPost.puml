@@ -1,7 +1,7 @@
 @startuml
 
 autonumber
-Title Login Sequence POST
+Title Login Sekvensdiagram POST
 actor customer
 
 boundary Tomcat
@@ -23,23 +23,23 @@ end box
 'end box
 
 box infrastructure
-api -> DBUserServices:login(email)
+api -> DBUser:login(email)
 database DB
-DBUserServices -> DB:executeQuery()
+DBUser -> DB:executeQuery()
 end box
 
 
 
 
 
-DB --> DBUserServices:result (User)
-DBUserServices --> api:result
+DB --> DBUser:result (User)
+DBUser --> api:result
 'DBUserServices --> userServices:result
 'userServices --> api:result
 api -> api: validate User
 api -> api: validate Password
 api --> Login: result
-Login --> customer:OK Session=User + redirect
+Login --> customer: Redirect
 
 
 
