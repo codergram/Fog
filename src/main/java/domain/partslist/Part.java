@@ -1,6 +1,8 @@
 package domain.partslist;
 
 import domain.material.materials.Material;
+import domain.material.materials.Options;
+import domain.material.materials.Tree;
 
 public class Part {
         private final Material material;
@@ -11,7 +13,7 @@ public class Part {
         public Part(Material material, int amount, String description) {
             this.material = material;
             this.amount = amount;
-            this.price = 0.0; //TODO: Fix nullpointer
+            this.price = calculatePrice(material, amount);
             this.description = description;
         }
         
@@ -29,5 +31,13 @@ public class Part {
     
         public String getDescription() {
             return description;
+        }
+
+        private double calculatePrice(Material material, int amount){
+            if (material instanceof Tree) {
+                return (((Tree) material).getLength()/100) * amount * material.getPrice();
+            } else {
+                return material.getPrice() * amount;
+            }
         }
 }
