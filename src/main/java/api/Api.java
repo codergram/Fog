@@ -202,4 +202,8 @@ public class Api {
         }
         return null;
     }
+    
+    public synchronized void changeOrderStatus(int orderId, String status) throws OrderException {
+        orderRepository.updateOrderStatusById(orderId, Order.Status.valueOf(status));
+    }
 }

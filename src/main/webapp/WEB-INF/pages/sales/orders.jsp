@@ -27,12 +27,22 @@
         <td>
             <fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${order.carport.price + (order.margin/100) * order.carport.price}" /> kr
         </td>
-        <td>${order.status.name()}</td>
+        <td>
+                    <form action="Ordre" method="POST">
+                        <input type="hidden" name="action" value="changeStatus">
+                        <input type="hidden" name="ordrenummer" value="${order.id}" />
+                        <select class="custom-select" name="statusvalue" onchange="this.form.submit()">
+                            <c:forEach items="${requestScope.statuslist}" var="status" varStatus="vs">
+                                <option value="${status}"<c:if test ="${order.status.name() == status}"> selected</c:if>>${status}</option>
+                            </c:forEach>
+                        </select>
+                    </form>
+        </td>
         <td>
             <c:if test ="${!order.hasSalesman()}">
                 <form action="Ordre" method="POST">
-                    <input type="hidden" name="action" id="action" value="assignOrder">
-                    <input type="hidden" name="ordrenummer" id="ordrenummer" value="${order.id}" />
+                    <input type="hidden" name="action" value="assignOrder">
+                    <input type="hidden" name="ordrenummer" value="${order.id}" />
                     <input type="submit" class="btn-secondary" value="Tag ordre"/>
                 </form>
             </c:if>

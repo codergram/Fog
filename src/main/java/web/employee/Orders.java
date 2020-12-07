@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -42,7 +43,13 @@ public class Orders extends BaseServlet {
             } else {
                 orders = List.copyOf(api.getOrders());
                 
+                List<String> statuslist = new ArrayList<>();
+                for(Order.Status s: Order.Status.values()){
+                    statuslist.add(s.name());
+                }
+                
                 req.setAttribute("orderlist", orders);
+                req.setAttribute("statuslist", statuslist);
                 
                 log("User is admin: " + curUser);
                 render("Ordre", "/WEB-INF/pages/sales/orders.jsp", req, resp);
@@ -57,9 +64,13 @@ public class Orders extends BaseServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         try {
+            int orderId = Integer.parseInt(req.getParameter("ordrenummer"));
             switch (req.getParameter("action")) {
                 case "assignOrder":
-                    api.assignOrder(Integer.parseInt(req.getParameter("ordrenummer")), curUser.getId());
+                    api.assignOrder(orderId, curUser.getId());
+                    break;
+                case "changeStatus":
+                    api.changeOrderStatus(orderId, req.getParameter("statusvalue"));
                     break;
                 default:
                     break;
