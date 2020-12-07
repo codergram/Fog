@@ -42,10 +42,8 @@ public class Login extends BaseServlet {
             request.setAttribute("providedMail", request.getParameter("inputEmail"));
             User curUser = login(request);
             
-            if(curUser.isAdmin()) {
-                response.sendRedirect(request.getContextPath() + "/AdminStart");
-            } else if (curUser.isEmployee()){
-                response.sendRedirect(request.getContextPath() + "/EmployeeStart");
+            if(curUser.isAdmin() || curUser.isEmployee()) {
+                response.sendRedirect(request.getContextPath() + "/Ordre");
             } else {
                 response.sendRedirect(request.getContextPath() + "/");
             }
