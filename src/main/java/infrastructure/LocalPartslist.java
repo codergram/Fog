@@ -171,8 +171,8 @@ public class LocalPartslist implements PartslistServices {
 
     private Part calculateBoardsShedCladdingPeak(Carport carport) {
         Material material = null;
-
-        int amount = (int) Math.ceil(carport.getWidth()/2 - 32);
+    
+        int amount = (int) Math.ceil((((carport.getLength() * carport.getWidth()))  / 10000) * 5.6);
         double length = carport.getShed().getLength();
         String des = "til beklædning af skur 1 på 2";
 
@@ -661,8 +661,8 @@ public class LocalPartslist implements PartslistServices {
 
     private Part calculateBoardsShedCladding(Carport carport) {
         Material material = null;
-
-        int amount = (int) Math.ceil(carport.getLength() - carport.getWidth() + 20);
+    
+        int amount = (int) Math.ceil((((carport.getLength() * carport.getWidth()))  / 10000) * 4.2);
         double length = carport.getShed().getLength();
         String des = "til beklædning af skur 1 på 2";
 
