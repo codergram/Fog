@@ -90,6 +90,9 @@ public class ViewOrder extends BaseServlet {
                 redirect(req, resp, "Ordre/View/"+orderId);
         } catch (Exception e){
             log.error(e.getMessage());
+            req.setAttribute("errorMsg", e.getMessage());
+            req.setAttribute("error", true);
+            render("Ordre", "/WEB-INF/pages/sales/vieworder.jsp", req, resp);
         }
     }
 }

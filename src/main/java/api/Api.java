@@ -31,7 +31,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class Api {
     
     public final static String genericSiteTitle = "Fog Trælast";
-    public final static double MARGIN = 30.0;
+    public final static double requiredMargin = 15.0;
     private static final Logger log = getLogger(Api.class);
 
     private final UserRepository userRepository;
@@ -211,6 +211,11 @@ public class Api {
         Order tmpOrder = orderRepository.getOrderById(orderId);
         double oldPrice = tmpOrder.getCarport().getPrice();
         double newMargin = ((newPrice / oldPrice) - 1.0) * 100;
-        orderRepository.updateMargin(orderId, newMargin);
+        if(newMargin >= requiredMargin){
+            orderRepository.updateMargin(orderId, newMargin);
+        } else {
+            throw new OrderException("Dækningsgrad er for lav!");
+        }
+        
     }
 }
