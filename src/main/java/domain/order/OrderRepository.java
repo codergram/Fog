@@ -4,10 +4,13 @@ import domain.order.exceptions.OrderException;
 import domain.order.exceptions.OrderNotFound;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface OrderRepository extends OrderFactory {
-
-    List<Order> getALlOrders() throws OrderNotFound;
+    
+    int getOrderNumberFromUUID(UUID uuid);
+    
+    List<Order> getAllOrders() throws OrderNotFound;
     Order getOrderById(int id) throws OrderNotFound;
     
     boolean deleteOrderById(int id) throws OrderException;

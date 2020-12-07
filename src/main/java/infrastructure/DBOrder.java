@@ -1,6 +1,5 @@
 package infrastructure;
 
-import api.Api;
 import domain.carport.Carport;
 import domain.carport.shed.Shed;
 import domain.customer.Customer;
@@ -20,6 +19,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -31,47 +31,67 @@ public class DBOrder implements OrderRepository {
         this.database = database;
     }
     
+    @Override
+    public int getOrderNumberFromUUID(UUID uuid){
+        try (Connection conn = database.getConnection()) {
+        
+            try(PreparedStatement ps = conn.prepareStatement("SELECT order_id FROM links WHERE uuid=?")){
+                ps.setString(1, uuid.toString());
+            
+                ResultSet rs = ps.executeQuery();
+            
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            log.error(e.getMessage());
+        }
+        return -1;
+    }
     
     @Override
-    public List<Order> getALlOrders() throws OrderNotFound {
+    public List<Order> getAllOrders() throws OrderNotFound {
         List<Order> orders = new LinkedList<>();
         
         try (Connection conn = database.getConnection()) {
             
             String getOrdersQuery = "SELECT\n" +
-                    "	orders.id AS \"orderId\",\n" +
-                    "	orders.`timestamp`,\n" +
-                    "	orders.`status` AS \"orderStatus\",\n" +
-                    "	orders.length AS \"orderLength\",\n" +
-                    "	orders.width AS \"orderWidth\",\n" +
-                    "	orders.margin AS \"orderMargin\",\n" +
-                    "	users.id AS \"employeeId\",\n" +
-                    "	users.`name` AS \"employeeName\",\n" +
-                    "	users.email AS \"employeeMail\",\n" +
-                    "	users.role AS \"employeeRole\",\n" +
-                    "	customers.id AS \"customerId\",\n" +
-                    "	customers.`name` AS \"customerName\",\n" +
-                    "	customers.address AS \"customerAddress\",\n" +
-                    "	customers.postal AS \"customerZip\",\n" +
-                    "	customers.city AS \"customerCity\",\n" +
-                    "	customers.phone AS \"customerPhone\",\n" +
-                    "	customers.email AS \"customerEmail\",\n" +
-                    "	carports.id AS \"carportId\",\n" +
-                    "	carports.length AS \"carportLength\",\n" +
-                    "	carports.width AS \"carportWidth\",\n" +
-                    "	carports.roof AS \"carportRoof\",\n" +
-                    "	carports.price AS \"carportPrice\",\n" +
-                    "	sheds.length AS \"shedLength\",\n" +
-                    "	sheds.width AS \"shedWidth\",\n" +
-                    "	carports.partlist_id AS \"partlistId\" \n" +
+                    "orders.id AS \"orderId\",\n" +
+                    "orders.`timestamp`,\n" +
+                    "orders.`status` AS \"orderStatus\",\n" +
+                    "orders.length AS \"orderLength\",\n" +
+                    "orders.width AS \"orderWidth\",\n" +
+                    "orders.margin AS \"orderMargin\",\n" +
+                    "users.id AS \"employeeId\",\n" +
+                    "users.`name` AS \"employeeName\",\n" +
+                    "users.email AS \"employeeMail\",\n" +
+                    "users.role AS \"employeeRole\",\n" +
+                    "customers.id AS \"customerId\",\n" +
+                    "customers.`name` AS \"customerName\",\n" +
+                    "customers.address AS \"customerAddress\",\n" +
+                    "customers.postal AS \"customerZip\",\n" +
+                    "customers.city AS \"customerCity\",\n" +
+                    "customers.phone AS \"customerPhone\",\n" +
+                    "customers.email AS \"customerEmail\",\n" +
+                    "carports.id AS \"carportId\",\n" +
+                    "carports.length AS \"carportLength\",\n" +
+                    "carports.width AS \"carportWidth\",\n" +
+                    "carports.roof AS \"carportRoof\",\n" +
+                    "carports.price AS \"carportPrice\",\n" +
+                    "sheds.length AS \"shedLength\",\n" +
+                    "sheds.width AS \"shedWidth\",\n" +
+                    "carports.partlist_id AS \"partlistId\",\n" +
+                    "links.uuid AS \"uuid\"\n" +
                     "FROM\n" +
-                    "	orders\n" +
-                    "	LEFT JOIN users ON users.id = orders.employee_id\n" +
-                    "	JOIN customers ON customers.id = orders.customer_id\n" +
-                    "	JOIN carports ON carports.id = orders.carport_id\n" +
-                    "	JOIN partlists ON carports.partlist_id = partlists.id\n" +
-                    "  LEFT JOIN sheds ON sheds.id = carports.shed_id\n" +
-                    "	ORDER BY orders.id DESC";
+                    "orders\n" +
+                    "LEFT JOIN users ON users.id = orders.employee_id\n" +
+                    "JOIN customers ON customers.id = orders.customer_id\n" +
+                    "JOIN carports ON carports.id = orders.carport_id\n" +
+                    "JOIN partlists ON carports.partlist_id = partlists.id\n" +
+                    "LEFT JOIN links ON links.order_id = orders.id\n" +
+                    "LEFT JOIN sheds ON sheds.id = carports.shed_id\n" +
+                    "ORDER BY orders.id DESC";
             
             try (PreparedStatement s = conn.prepareStatement(getOrdersQuery)){
                 ResultSet rs = s.executeQuery();
@@ -82,6 +102,7 @@ public class DBOrder implements OrderRepository {
                     Customer tmpCustomer = null;
                     Carport tmpCarport = null;
                     Shed tmpShed = null;
+                    UUID uuid = null;
                     
                     //Order data
                     int orderId = rs.getInt("orderId");
@@ -94,6 +115,15 @@ public class DBOrder implements OrderRepository {
                     int customerId = rs.getInt("customerId");
                     int carportId = rs.getInt("carportId");
                     int partlistId = rs.getInt("partlistId");
+    
+                    
+                    
+                    //UUID for links
+                    if(rs.getString("uuid") != null){
+                        String uuidString = rs.getString("uuid");
+                        uuid = UUID.fromString(uuidString);
+                    }
+
     
                     //Employee data
                     if(employeeId != 0) {
@@ -134,14 +164,15 @@ public class DBOrder implements OrderRepository {
                         
                     tmpCarport = new Carport(carportId, carportLength, carportWidth, carportRoof, tmpShed, partslist, carportPrice);
                     
-                    tmpOrder = new Order(orderId, orderWidth, orderLength, timestamp, tmpUser, tmpCustomer, orderStatus, tmpCarport, orderMargin);
+                    tmpOrder = new Order(orderId, orderWidth, orderLength, timestamp, tmpUser, tmpCustomer, orderStatus, tmpCarport, orderMargin, uuid);
                     
                     //Add order to list
                     orders.add(tmpOrder);
                 }
+                return orders;
             }
-            } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            } catch (SQLException e) {
+            log.error(e.getMessage());
         }
         return orders;
     }
@@ -210,7 +241,7 @@ public class DBOrder implements OrderRepository {
     
     @Override
     public Order getOrderById(int id) throws OrderNotFound {
-        for(Order o: getALlOrders()){
+        for(Order o: getAllOrders()){
             if(o.getId() == id){
                 return o;
             }
@@ -396,6 +427,8 @@ public class DBOrder implements OrderRepository {
     @Override
     public Order createNewOrder(Order order) throws OrderException {
         double margin = order.getMargin();
+    
+        UUID uuid = UUID.randomUUID();
         
         int partListId = createPartlistInDb();
         Customer customer = order.getCustomer();
@@ -459,9 +492,23 @@ public class DBOrder implements OrderRepository {
                 ResultSet rs = ps.getGeneratedKeys();
                 if (rs.next()) {
                     order.setId(rs.getInt(1));
+                }
+            }
+    
+            try(PreparedStatement ps = conn.prepareStatement("INSERT INTO links (order_id, uuid) VALUE (?,?);")){
+        
+                ps.setInt(1, order.getId());
+                ps.setString(2,uuid.toString());
+        
+                ps.executeUpdate();
+                
+                if(ps.getUpdateCount() > 0){
+                    order.setUuid(uuid);
                     return order;
                 }
-            }} catch (SQLException e) {
+            }
+        
+        } catch (SQLException e) {
             log.error(e.getMessage());
         }
         return null;

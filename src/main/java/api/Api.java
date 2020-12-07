@@ -25,6 +25,7 @@ import org.slf4j.Logger;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -167,7 +168,7 @@ public class Api {
     }
     
     public synchronized List<Order> getOrders() throws OrderNotFound {
-        return orderRepository.getALlOrders();
+        return orderRepository.getAllOrders();
     }
 
     public synchronized String getSVGSide(Carport carport, boolean isCustomer){
@@ -221,5 +222,13 @@ public class Api {
     
     public synchronized void releaseOrder(int orderId) throws OrderNotFound {
         orderRepository.releaseOrder(orderId);
+    }
+    
+    public synchronized int getOrderByUUID(String uuid){
+        return orderRepository.getOrderNumberFromUUID(UUID.fromString(uuid));
+    }
+    
+    public synchronized Order getOrderById(int id) throws OrderNotFound {
+        return orderRepository.getOrderById(id);
     }
 }
