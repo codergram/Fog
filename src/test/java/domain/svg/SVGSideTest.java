@@ -19,7 +19,7 @@ class SVGSideTest {
 
         String expectedResult = "<svg version=\"1.1\"\n" +
                 "     xmlns=\"http://www.w3.org/2000/svg\"\n" +
-                "     height=\"330.0\"  width=\"930.0\" viewBox=\"0 0 930.0 330.0\"\n" +
+                "     height=\"100%\"  width=\"100%\" viewBox=\"0 0 930.0 330.0\"\n" +
                 "     preserveAspectRatio=\"xMinYMin\">";
 
         SVGSide svgSide = new SVGSide(carport, false);
