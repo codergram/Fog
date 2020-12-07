@@ -84,6 +84,12 @@ public class ViewOrder extends BaseServlet {
                 case "changeStatus":
                     api.changeOrderStatus(orderId, req.getParameter("statusvalue"));
                     break;
+                case "sendLink":
+                    Order o = api.getOrderById(orderId);
+                    String linkFromReq = req.getParameter("ordreurl");
+                    String link = "<a href=\"" + linkFromReq + "\">" + linkFromReq + "</a>";
+                    api.sendLinkByMail(o, linkFromReq);
+                    break;
                 default:
                     break;
             }

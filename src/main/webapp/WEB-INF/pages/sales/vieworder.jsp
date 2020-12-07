@@ -2,8 +2,14 @@
 <%@ page import="domain.carport.Carport" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <c:set var="order" value="${requestScope.order}"/>
+
+<c:set var="req" value="${pageContext.request}" />
+<c:set var="baseURL" value="${fn:replace(req.requestURL, fn:substring(req.requestURI, 0, fn:length(req.requestURI)), req.contextPath)}" />
+<c:set var="customURL" value="${baseURL}/ViewOrder/${order.uuid}" />
+
 
 <div class="row">
     <a href="javascript:history.back()" class="btn-danger">Tilbage til alle ordre</a>
@@ -12,6 +18,24 @@
 <br>
 <br>
 <br/> <br/>
+
+<div class="input-group mb-9">
+    <form action="Ordre/View/" method="POST">
+        <input type="hidden" name="action" value="sendLink">
+        <input type="hidden" name="redirect" value="viewOrder">
+        <input type="hidden" name="ordrenummer" value="${order.id}" />
+        <input type="hidden" name="ordreurl" value="${customURL}" />
+        <input type="text" name="link" class="form-control" aria-label="link" value="${customURL}" aria-describedby="button-salgspris" disabled>
+        <div class="input-group-append">
+            <button class="btn btn-outline-success" type="button" id="button-link" onclick="this.form.submit()">Send link til kunde</button>
+        </div>
+    </form>
+</div>
+<c:if test="${requestScope.error}">
+    <div class="alert alert-danger" role="alert">
+            ${requestScope.errorMsg}
+    </div>
+</c:if>
 
 Customer name: ${requestScope.order.customer.name}<br>
 Salesperson: ${order.salesEmployee.name}<br>
