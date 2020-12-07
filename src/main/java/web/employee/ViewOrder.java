@@ -89,16 +89,22 @@ public class ViewOrder extends BaseServlet {
                     String linkFromReq = req.getParameter("ordreurl");
                     String link = "<a href=\"" + linkFromReq + "\">" + linkFromReq + "</a>";
                     api.sendLinkByMail(o, linkFromReq);
+                    createAlert(req,"success", "Mailen blev sendt til " + o.getCustomer().getEmail());
                     break;
                 default:
                     break;
             }
-                redirect(req, resp, "Ordre/View/"+orderId);
+                redirect(req, resp, "Ordre/View/"+orderId); //TODO: Fix redirect error
         } catch (Exception e){
             log.error(e.getMessage());
-            req.setAttribute("errorMsg", e.getMessage());
-            req.setAttribute("error", true);
+            createAlert(req,"alert", e.getMessage());
             render("Ordre", "/WEB-INF/pages/sales/vieworder.jsp", req, resp);
         }
+    }
+    
+    private void createAlert(HttpServletRequest req, String type, String message) {
+        req.setAttribute("alert", true);
+        req.setAttribute("alertMsg", message);
+        req.setAttribute("alertType", type);
     }
 }

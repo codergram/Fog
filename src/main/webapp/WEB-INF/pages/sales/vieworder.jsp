@@ -31,9 +31,9 @@
         </div>
     </form>
 </div>
-<c:if test="${requestScope.error}">
-    <div class="alert alert-danger" role="alert">
-            ${requestScope.errorMsg}
+<c:if test="${requestScope.alert} && ${requestScope.alertType == 'success'}">
+    <div class="alert alert-${requestScope.alertType}" role="alert">
+            ${requestScope.alertMsg}
     </div>
 </c:if>
 
@@ -55,9 +55,9 @@ Salesperson: ${order.salesEmployee.name}<br>
         </div>
     </form>
 </div>
-<c:if test="${requestScope.error}">
-    <div class="alert alert-danger" role="alert">
-            ${requestScope.errorMsg}
+<c:if test="${requestScope.alert} && ${requestScope.alertType == 'alert'}">
+    <div class="alert alert-${requestScope.alertType}" role="alert">
+            ${requestScope.alertMsg}
     </div>
 </c:if>
 
