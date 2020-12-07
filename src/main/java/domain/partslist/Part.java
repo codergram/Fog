@@ -1,6 +1,8 @@
 package domain.partslist;
 
 import domain.material.materials.Material;
+import domain.material.materials.Options;
+import domain.material.materials.Tree;
 
 public class Part {
         private final Material material;
@@ -9,17 +11,10 @@ public class Part {
         private final String description;
         
         public Part(Material material, int amount, String description) {
-            if(material != null) {
-                this.material = material;
-                this.amount = amount;
-                this.price = material.getPrice() * amount;
-                this.description = description;
-            } else {
-                this.material = material;
-                this.amount = amount;
-                this.price = 0.0;
-                this.description = description;
-            }
+            this.material = material;
+            this.amount = amount;
+            this.price = calculatePrice(material, amount);
+            this.description = description;
         }
         
         public Material getMaterial() {
@@ -37,6 +32,15 @@ public class Part {
         public String getDescription() {
             return description;
         }
+
+        private double calculatePrice(Material material, int amount){
+            if (material instanceof Tree) {
+                return (((Tree) material).getLength()/100) * amount * material.getPrice();
+            } else {
+                return material.getPrice() * amount;
+            }
+        }
+
     
     @Override
     public String toString() {
