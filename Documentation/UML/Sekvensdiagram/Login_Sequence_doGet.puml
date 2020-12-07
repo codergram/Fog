@@ -1,7 +1,7 @@
 @startuml
 
 autonumber
-Title Login Sequence GET
+Title Login Sekvensdiagram GET
 actor customer
 
 boundary Tomcat

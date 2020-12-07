@@ -1,0 +1,49 @@
+@startuml
+
+autonumber
+Title Login Sequence POST
+actor customer
+
+boundary Tomcat
+
+customer -> Tomcat:GET /Confirmation
+
+box web (UI)
+Tomcat -> Confirmation: doGet()
+Confirmation -> Confirmation: Validate data (try/catch)
+end box
+
+
+
+box api (logic)
+Confirmation -> api:getAllMaterielsFromDB()
+end box
+
+
+box infrastructure
+api -> api: Validate data (try/catch)
+api -> DBMaterial: getAllMaterials()
+database DB
+DBMaterial -> DB:executeQuery()
+end box
+
+
+
+
+
+DB --> DBMaterial:result (List<Material>)
+DBMaterial --> api:result
+api --> Confirmation: result
+
+Confirmation -> api:getLocalPartslist()
+api -> LocalPartslist: createPartsList()
+LocalPartslist --> api: result (List<Part>)
+
+api -> api: validate Password
+api --> Login: result
+Login --> customer: Redirect
+
+
+
+
+@enduml
