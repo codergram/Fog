@@ -7,6 +7,7 @@ import domain.user.User;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 public class Order {
     
@@ -28,6 +29,7 @@ public class Order {
     private final Enum<Status> status;
     private final Carport carport;
     private double margin;
+    private UUID uuid;
     
     
     public Order(int id, double width, double length, Timestamp timestamp, User salesEmployee, Customer customer, Enum<Status> status, Carport carport, double margin) {
@@ -40,6 +42,20 @@ public class Order {
         this.status = status;
         this.carport = carport;
         this.margin = margin;
+        this.uuid = null;
+    }
+    
+    public Order(int id, double width, double length, Timestamp timestamp, User salesEmployee, Customer customer, Enum<Status> status, Carport carport, double margin, UUID uuid) {
+        this.id = id;
+        this.width = width;
+        this.length = length;
+        this.timestamp = timestamp;
+        this.salesEmployee = salesEmployee;
+        this.customer = customer;
+        this.status = status;
+        this.carport = carport;
+        this.margin = margin;
+        this.uuid = uuid;
     }
 
     public Order(double width, double length, Customer customer, Carport carport) {
@@ -52,6 +68,15 @@ public class Order {
         this.status = Order.Status.New;
         this.carport = carport;
         this.margin = 30.0;
+        this.uuid = null;
+    }
+    
+    public UUID getUuid() {
+        return uuid;
+    }
+    
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
     
     public int getId() {
@@ -112,17 +137,5 @@ public class Order {
         this.id = id;
     }
     
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", width=" + width +
-                ", length=" + length +
-                ", timestamp=" + timestamp +
-                ", salesEmployee=" + salesEmployee +
-                ", customer=" + customer +
-                ", status=" + status +
-                ", carport=" + carport +
-                '}';
-    }
+    
 }
