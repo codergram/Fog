@@ -52,4 +52,9 @@ public class Tree extends Material {
                 ", unit=" + unit +
                 '}';
     }
+    
+    @Override
+    public String typeName() {
+        return this.getClass().getSimpleName();
+    }
 }
