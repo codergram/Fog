@@ -21,8 +21,11 @@ class Tagbeklædning {
     bredde
 }
 
-class BærendeElement {
-
+class BærendeElementer {
+    spær
+    stern
+    rem
+    lægte
 }
 
 class TagMontering {
@@ -50,7 +53,7 @@ class Fundament {
    stolper
 }
 
-class FundamentKonstruktion {
+class fundamentKonstruktion {
     bolte
     skiver
 }
@@ -95,16 +98,16 @@ class SkurMontering {
 
 Carport "1" -- "1" Tag
 Tag "1" -- "*" Tagbeklædning
-Tag "1" -- "*" BærendeElement
+Tag "1" -- "*" BærendeElementer
 Tag "1" -- "*" TagMontering
-BærendeElement "1" -- "*" Spær
-BærendeElement "1" -- "*" Rem
-BærendeElement "1" -- "*" Stern
-BærendeElement  --  Lægte: er en
+BærendeElementer "1" -- "*" Spær
+BærendeElementer "1" -- "*" Rem
+BærendeElementer "1" -- "*" Stern
+BærendeElementer "1" -- "*" Lægte
 
 
 Carport "1" -- "1" Fundament
-Fundament "1" -- "*" FundamentKonstruktion
+Fundament "1" -- "*" fundamentKonstruktion
 Fundament "1" -- "6" Stolper
 
 Carport "1" -- "0..1" Skur
