@@ -218,4 +218,8 @@ public class Api {
         }
         
     }
+    
+    public synchronized void releaseOrder(int orderId) throws OrderNotFound {
+        orderRepository.releaseOrder(orderId);
+    }
 }

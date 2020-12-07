@@ -5,6 +5,8 @@ import domain.customer.Customer;
 import domain.user.User;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Order {
     
@@ -94,6 +96,12 @@ public class Order {
     
     public boolean hasSalesman(){
         return salesEmployee != null;
+    }
+    
+    public String getOrderDate(){
+        Date date = new Date(this.timestamp.getTime());
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        return format.format(date);
     }
     
     public void setId(int id) {

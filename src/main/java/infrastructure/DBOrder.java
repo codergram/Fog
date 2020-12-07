@@ -265,6 +265,19 @@ public class DBOrder implements OrderRepository {
         }
     }
     
+    @Override
+    public void releaseOrder(int orderId) throws OrderNotFound {
+        try (Connection conn = database.getConnection()) {
+            try(PreparedStatement ps = conn.prepareStatement("UPDATE orders SET orders.employee_id=NULL WHERE orders.id=?;")){
+            
+                ps.setInt(1, orderId);
+                ps.executeUpdate();
+            
+            }} catch (Exception e) {
+            throw new OrderNotFound(e.getMessage());
+        }
+    }
+    
     private int getPartUsageId(Part part){
         try (Connection conn = database.getConnection()) {
             
