@@ -73,7 +73,4 @@
             </form>
         </div>
     </div>
-</div></div>
-
-</body>
-</html>
+</div>
