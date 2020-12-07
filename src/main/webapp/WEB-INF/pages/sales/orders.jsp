@@ -13,7 +13,6 @@
     <th>Salgspris</th>
     <th>Status</th>
     <th class="no-sort">Handling</th>
-    </tr>
     </thead>
     <tbody>
     <c:forEach items="${requestScope.orderlist}" var="order" varStatus="vs">
@@ -81,7 +80,4 @@
             </form>
         </div>
     </div>
-</div></div>
-
-</body>
-</html>
+</div>

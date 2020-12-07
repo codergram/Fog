@@ -193,4 +193,13 @@ public class Api {
     public synchronized void assignOrder(int ordrenummer, int userId) throws OrderNotFound {
         orderRepository.assignOrder(ordrenummer, userId);
     }
+    
+    public synchronized List<Customer> getCustomers() {
+        try {
+            return customererRepository.getAllCustomers();
+        } catch (DBException e){
+            log.info(e.getMessage());
+        }
+        return null;
+    }
 }
