@@ -17,4 +17,6 @@ public interface OrderRepository extends OrderFactory {
     void assignOrder(int ordrenummer, int userId) throws OrderNotFound;
     
     void updateMargin(int orderId, double newMargin) throws OrderException;
+    
+    void releaseOrder(int orderId) throws OrderNotFound;
 }

@@ -50,6 +50,7 @@ public class Orders extends BaseServlet {
                 
                 req.setAttribute("orderlist", orders);
                 req.setAttribute("statuslist", statuslist);
+                req.setAttribute("currentUser", curUser);
                 
                 log("User is admin: " + curUser);
                 render("Ordre", "/WEB-INF/pages/sales/orders.jsp", req, resp);
@@ -69,17 +70,17 @@ public class Orders extends BaseServlet {
                 case "assignOrder":
                     api.assignOrder(orderId, curUser.getId());
                     break;
+                case "releaseOrder":
+                    api.releaseOrder(orderId);
+                    break;
                 case "changeStatus":
                     api.changeOrderStatus(orderId, req.getParameter("statusvalue"));
                     break;
                 default:
                     break;
             }
-            if(req.getParameter("redirect").equals("viewOrder")){
-                redirect(req, resp, "Ordre/View/"+orderId);
-            } else {
-                redirect(req, resp, "Ordre");
-            }
+             redirect(req, resp, "Ordre");
+            
         } catch (Exception e){
             log.error(e.getMessage());
         }
