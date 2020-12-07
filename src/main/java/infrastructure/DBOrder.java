@@ -210,6 +210,11 @@ public class DBOrder implements OrderRepository {
     
     @Override
     public Order getOrderById(int id) throws OrderNotFound {
+        for(Order o: getALlOrders()){
+            if(o.getId() == id){
+                return o;
+            }
+        }
         return null;
     }
     
@@ -244,6 +249,21 @@ public class DBOrder implements OrderRepository {
                 
             }} catch (Exception e) {
             throw new OrderNotFound(e.getMessage());
+        }
+    }
+    
+    @Override
+    public void updateMargin(int orderId, double newMargin) throws OrderException {
+        System.out.println("inside updateMargin in DBOrder");
+        try (Connection conn = database.getConnection()) {
+            try(PreparedStatement ps = conn.prepareStatement("UPDATE orders SET margin=? WHERE id=?;")){
+            
+                ps.setDouble(1, newMargin);
+                ps.setInt(2,orderId);
+                ps.executeUpdate();
+            }
+        } catch (Exception e) {
+            throw new OrderException(e.getMessage());
         }
     }
     

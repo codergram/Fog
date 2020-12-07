@@ -18,10 +18,18 @@ Salesperson: ${order.salesEmployee.name}<br>
 <br>
 <label for="salgspris">Salgspris</label>
 <div class="input-group mb-3">
-    <div class="input-group-prepend">
-        <span class="input-group-text">kr</span>
-    </div>
-    <input type="text" id="salgspris" class="form-control" aria-label="salgspris" value="<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${order.carport.price + (order.margin/100) * order.carport.price}" />">
+    <form action="Ordre/View/" method="POST">
+        <input type="hidden" name="action" value="updatePrice">
+        <input type="hidden" name="redirect" value="viewOrder">
+        <input type="hidden" name="ordrenummer" value="${order.id}" />
+        <div class="input-group-prepend">
+            <span class="input-group-text">kr</span>
+        </div>
+        <input type="text" id="salgspris" name="salgspris" class="form-control" aria-label="salgspris" value="<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${order.carport.price + (order.margin/100) * order.carport.price}" />" aria-describedby="button-salgspris">
+        <div class="input-group-append">
+            <button class="btn btn-outline-success" type="button" id="button-salgspris" onclick="this.form.submit()">Gem pris</button>
+        </div>
+    </form>
 </div>
 
 <label for="kostpris">Kostpris</label>
@@ -35,7 +43,7 @@ Salesperson: ${order.salesEmployee.name}<br>
 
 <label for="status">Status</label>
 <div class="input-group mb-3">
-    <form action="Ordre" method="POST">
+    <form action="Ordre/View/" method="POST">
         <input type="hidden" name="action" value="changeStatus">
         <input type="hidden" name="redirect" value="viewOrder">
         <input type="hidden" name="ordrenummer" value="${order.id}" />

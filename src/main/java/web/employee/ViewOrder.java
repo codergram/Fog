@@ -56,7 +56,6 @@ public class ViewOrder extends BaseServlet {
                 for(Order.Status s: Order.Status.values()){
                     statuslist.add(s.name());
                 }
-                
                 req.setAttribute("statuslist", statuslist);
     
                 //Save requests and sessions
@@ -78,8 +77,9 @@ public class ViewOrder extends BaseServlet {
         try {
             int orderId = Integer.parseInt(req.getParameter("ordrenummer"));
             switch (req.getParameter("action")) {
-                case "assignOrder":
-                    api.assignOrder(orderId, curUser.getId());
+                case "updatePrice":
+                    double newPrice = Double.parseDouble(req.getParameter("salgspris"));
+                    api.updatePrice(orderId, newPrice);
                     break;
                 case "changeStatus":
                     api.changeOrderStatus(orderId, req.getParameter("statusvalue"));
