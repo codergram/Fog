@@ -75,7 +75,11 @@ public class Orders extends BaseServlet {
                 default:
                     break;
             }
-            redirect(req,resp,"Ordre");
+            if(req.getParameter("redirect").equals("viewOrder")){
+                redirect(req, resp, "Ordre/View/"+orderId);
+            } else {
+                redirect(req, resp, "Ordre");
+            }
         } catch (Exception e){
             log.error(e.getMessage());
         }

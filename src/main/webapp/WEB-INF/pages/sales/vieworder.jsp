@@ -13,13 +13,40 @@
 <br>
 <br/> <br/>
 
-Order id: ${order.id}<br>
 Customer name: ${requestScope.order.customer.name}<br>
 Salesperson: ${order.salesEmployee.name}<br>
-Salgspris: <fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${order.carport.price + (order.margin/100) * order.carport.price}" /> kr<br>
-Kostpris: <fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${order.carport.price}" /> kr<br>
-Avance: <fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${(order.carport.price + (order.margin/100) * order.carport.price) - order.carport.price}" /> kr<br>
-Status: ${order.status.name()}
+<br>
+<label for="salgspris">Salgspris</label>
+<div class="input-group mb-3">
+    <div class="input-group-prepend">
+        <span class="input-group-text">kr</span>
+    </div>
+    <input type="text" id="salgspris" class="form-control" aria-label="salgspris" value="<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${order.carport.price + (order.margin/100) * order.carport.price}" />">
+</div>
+
+<label for="kostpris">Kostpris</label>
+<div class="input-group mb-3">
+    <div class="input-group-prepend">
+        <span class="input-group-text">kr</span>
+    </div>
+    <input type="text" id="kostpris" class="form-control" aria-label="salgspris" value="<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${order.carport.price}" />" disabled>
+</div>
+<p><b>Avance:</b> <fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${(order.carport.price + (order.margin/100) * order.carport.price) - order.carport.price}" /> kr</p>
+
+<label for="status">Status</label>
+<div class="input-group mb-3">
+    <form action="Ordre" method="POST">
+        <input type="hidden" name="action" value="changeStatus">
+        <input type="hidden" name="redirect" value="viewOrder">
+        <input type="hidden" name="ordrenummer" value="${order.id}" />
+        <select class="custom-select" name="statusvalue" id="status" aria-label="status"  onchange="this.form.submit()">
+            <c:forEach items="${requestScope.statuslist}" var="status" varStatus="vs">
+                <option value="${status}"<c:if test ="${order.status.name() == status}"> selected</c:if><c:if test ="${!order.hasSalesman()}">disabled</c:if>>${status}</option>
+            </c:forEach>
+        </select>
+    </form>
+</div>
+
 <br>
 <br>
 

@@ -1,12 +1,9 @@
 package domain.order;
 
-
-import api.Api;
 import domain.carport.Carport;
 import domain.customer.Customer;
 import domain.user.User;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class Order {
@@ -16,7 +13,8 @@ public class Order {
         Awaiting,
         Accepted,
         Paid,
-        Completed
+        Completed,
+        Cancelled
     }
 
     private int id;
