@@ -206,4 +206,11 @@ public class Api {
     public synchronized void changeOrderStatus(int orderId, String status) throws OrderException {
         orderRepository.updateOrderStatusById(orderId, Order.Status.valueOf(status));
     }
+    
+    public synchronized void updatePrice(int orderId, double newPrice) throws OrderNotFound, OrderException {
+        Order tmpOrder = orderRepository.getOrderById(orderId);
+        double oldPrice = tmpOrder.getCarport().getPrice();
+        double newMargin = ((newPrice / oldPrice) - 1.0) * 100;
+        orderRepository.updateMargin(orderId, newMargin);
+    }
 }
