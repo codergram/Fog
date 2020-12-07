@@ -20,7 +20,7 @@ class SVGTopTest {
         String expectedResult = "<svg version=\"1.1\"\n" +
                 "     xmlns=\"http://www.w3.org/2000/svg\"\n" +
                 "     xmlns:xlink=\"http://www.w3.org/1999/xlink\"\n" +
-                "     height=\"700.0\"  width=\"880.0\" viewBox=\"0 0 880.0 700.0\"\n" +
+                "     height=\"100%\"  width=\"100%\" viewBox=\"0 0 880.0 700.0\"\n" +
                 "     preserveAspectRatio=\"xMinYMin\">";
 
         SVGTop svgTop = new SVGTop(carport, false);
