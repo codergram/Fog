@@ -98,6 +98,10 @@ public class Order {
         return salesEmployee != null;
     }
     
+    public boolean isPaid(){
+        return this.status == Order.Status.Paid || this.status == Status.Completed;
+    }
+    
     public String getOrderDate(){
         Date date = new Date(this.timestamp.getTime());
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
