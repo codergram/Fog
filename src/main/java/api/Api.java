@@ -31,6 +31,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class Api {
     
     public final static String genericSiteTitle = "Fog Trælast";
+    public final static double MARGIN = 30.0;
     private static final Logger log = getLogger(Api.class);
 
     private final UserRepository userRepository;
@@ -55,7 +56,7 @@ public class Api {
     }
     
     public synchronized File testPdf(String path) throws PDFNotCreated {
-        Order order = new Order(1,200,300,null,null,null,null,null);
+        Order order = new Order(1,200,300,null,null,null,null,null,0.0);
         return fileService.generatePdf(path, order);
     }
     
@@ -67,6 +68,21 @@ public class Api {
                     .replace("$$TEKST$$", msg);
             
             emailService.sendEmail(mailAddress, title, message, file);
+            return true;
+        } catch (EmailNotSent e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+    
+    public synchronized boolean sendMail(String mailAddress, String title, String subject, String msg){
+        try {
+            String message = Utils.fileToString("mail/mailtemplate.html")
+                    .replace("$$TITEL$$", title)
+                    .replace("$$OVERSKRIFT$$", subject)
+                    .replace("$$TEKST$$", msg);
+            
+            emailService.sendEmail(mailAddress, title, message, null);
             return true;
         } catch (EmailNotSent e){
             System.out.println(e.getMessage());
@@ -144,6 +160,8 @@ public class Api {
         }
         
         Order tmpOrder = new Order(order.getWidth(), order.getLength(), tmpCustomer, order.getCarport());
+        
+        
     
         return orderRepository.createNewOrder(tmpOrder);
     }
@@ -171,5 +189,21 @@ public class Api {
     public synchronized List<Part> addToLocalPartslist(Carport carport, List<Material> allMaterialsFromDB, List<Part> LocalPartlist){
         return partslistServices.addToPartslist(carport, allMaterialsFromDB, LocalPartlist);
     }
-
+    
+    public synchronized void assignOrder(int ordrenummer, int userId) throws OrderNotFound {
+        orderRepository.assignOrder(ordrenummer, userId);
+    }
+    
+    public synchronized List<Customer> getCustomers() {
+        try {
+            return customererRepository.getAllCustomers();
+        } catch (DBException e){
+            log.info(e.getMessage());
+        }
+        return null;
+    }
+    
+    public synchronized void changeOrderStatus(int orderId, String status) throws OrderException {
+        orderRepository.updateOrderStatusById(orderId, Order.Status.valueOf(status));
+    }
 }

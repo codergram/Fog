@@ -1,4 +1,5 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <h2 class="mt-4 mb-4 text-center">Ordre</h2>
@@ -9,12 +10,13 @@
     <thead>
     <th>Ordrenummer</th>
     <th>Kundenavn</th>
-    <th>Pris</th>
+    <th>Salgspris</th>
     <th>Status</th>
-    </tr>
+    <th class="no-sort">Handling</th>
     </thead>
     <tbody>
     <c:forEach items="${requestScope.orderlist}" var="order" varStatus="vs">
+        <c:if test ="${order.salesEmployee.email == sessionScope.user.email || !order.hasSalesman()}">
     <tr>
         <td>
             <a href="Ordre/View/${order.id}">
@@ -22,9 +24,31 @@
             </a>
         </td>
         <td>${order.customer.name}</td>
-        <td>${order.carport.price}</td>
-        <td>${order.status.name()}</td>
+        <td>
+            <fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${order.carport.price + (order.margin/100) * order.carport.price}" /> kr
+        </td>
+        <td>
+                    <form action="Ordre" method="POST">
+                        <input type="hidden" name="action" value="changeStatus">
+                        <input type="hidden" name="ordrenummer" value="${order.id}" />
+                        <select class="custom-select" name="statusvalue" onchange="this.form.submit()">
+                            <c:forEach items="${requestScope.statuslist}" var="status" varStatus="vs">
+                                <option value="${status}"<c:if test ="${order.status.name() == status}"> selected</c:if><c:if test ="${!order.hasSalesman()}">disabled</c:if>>${status}</option>
+                            </c:forEach>
+                        </select>
+                    </form>
+        </td>
+        <td>
+            <c:if test ="${!order.hasSalesman()}">
+                <form action="Ordre" method="POST">
+                    <input type="hidden" name="action" value="assignOrder">
+                    <input type="hidden" name="ordrenummer" value="${order.id}" />
+                    <input type="submit" class="btn-secondary" value="Tag ordre"/>
+                </form>
+            </c:if>
+        </td>
     </tr>
+    </c:if>
     </c:forEach>
 </table>
 
@@ -66,7 +90,4 @@
             </form>
         </div>
     </div>
-</div></div>
-
-</body>
-</html>
+</div>

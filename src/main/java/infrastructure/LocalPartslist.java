@@ -171,8 +171,8 @@ public class LocalPartslist implements PartslistServices {
 
     private Part calculateBoardsShedCladdingPeak(Carport carport) {
         Material material = null;
-
-        int amount = (int) Math.ceil(carport.getWidth()/2 - 32);
+    
+        int amount = (int) Math.ceil((((carport.getLength() * carport.getWidth()))  / 10000) * 5.6);
         double length = carport.getShed().getLength();
         String des = "til beklædning af skur 1 på 2";
 
@@ -380,7 +380,7 @@ public class LocalPartslist implements PartslistServices {
         String des = "monteres på toppen af spæret (til toplægte)";
 
         for(Options o: optionsMaterials){
-            if(o.getType() == Options.Type.Rafters && o.getUsage() == Material.Usage.TopLayer){
+            if(o.getType() == Options.Type.TopLayer && o.getUsage() == Material.Usage.Rafters){
                 material = o;
             }
         }
@@ -470,9 +470,11 @@ public class LocalPartslist implements PartslistServices {
 
     private Part calculateBoardsWindshieldsGavel(Carport carport) {
         Material material = null;
+    
+        System.out.println("Shed: " + carport.getShed().toString());
 
         int amount = (int) Math.floor(carport.getLength()/19);
-        double length = carport.getShed().getLength() + 15;
+        double length = carport.getShed().getLength() + 15.0;
         String des = "beklædning af gavle 1 på 2";
 
         for(Tree t: treeMaterials){
@@ -659,8 +661,8 @@ public class LocalPartslist implements PartslistServices {
 
     private Part calculateBoardsShedCladding(Carport carport) {
         Material material = null;
-
-        int amount = (int) Math.ceil(carport.getLength() - carport.getWidth() + 20);
+    
+        int amount = (int) Math.ceil((((carport.getLength() * carport.getWidth()))  / 10000) * 4.2);
         double length = carport.getShed().getLength();
         String des = "til beklædning af skur 1 på 2";
 
@@ -847,7 +849,7 @@ public class LocalPartslist implements PartslistServices {
         String des = "Skruer til tagplader";
 
         for(Options o: optionsMaterials){
-            if(o.getType() == Options.Type.Screw && o.getUsage() == Material.Usage.Roof){
+            if(o.getType() == Options.Type.Screw && o.getUsage() == Material.Usage.RoofBattens){
                 material = o;
             }
         }

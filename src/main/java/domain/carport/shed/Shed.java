@@ -16,4 +16,12 @@ public class Shed {
     public double getWidth() {
         return width;
     }
+    
+    @Override
+    public String toString() {
+        return "Shed{" +
+                "length=" + length +
+                ", width=" + width +
+                '}';
+    }
 }

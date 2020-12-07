@@ -49,4 +49,9 @@ public class Options extends Material {
                 ", unit=" + unit +
                 '}';
     }
+    
+    @Override
+    public String typeName() {
+        return this.getClass().getSimpleName();
+    }
 }

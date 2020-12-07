@@ -4,36 +4,30 @@
 <h2 class="mt-4 mb-4 text-center">Materialeliste</h2>
 <br>
 <br>
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCreateUser">
-    Tilføj Materiale
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCreateMaterial">
+    Tilføj nyt materiale
 </button>
 <br/> <br/>
 <table id="example" name="example" class="table table-striped table-bordered" style="width:100%">
     <thead>
-    <th>Navn</th>
-    <th>type</th>
-    <th>usage</th>
-    <th class="no-sort"> </th>
-    </tr>
+        <th>Navn</th>
+        <th>Materiale type</th>
+        <th>Pris</th>
+        <th>Enhed</th>
     </thead>
     <tbody>
-    <c:forEach items="${requestScope.userlist}" var="user" varStatus="vs">
-    <tr>
-        <td>${user.name}</td>
-        <td>${user.email}</td>
-        <td>${user.role.name()}</td>
-        <td>
-            <form action="Users" method="post">
-                <input type="hidden" name="action" value="deleteUser"/>
-                <input type="hidden" name="userid" value="${user.id}"/>
-                <input type="submit" class="btn btn-danger" value="Slet Materiale" onclick="return confirm('Er du sikker?')"/>
-            </form>
-        </td>
-    </tr>
-    </c:forEach>
+        <c:forEach items="${requestScope.materiallist}" var="material" varStatus="vs">
+            <tr>
+                <td>${material.name}</td>
+                <td>${material.typeName()}</td>
+                <td>${material.price} kr</td>
+                <td>${material.unitString}</td>
+            </tr>
+        </c:forEach>
+    </tbody>
 </table>
 
-<div class="modal fade" id="modalCreateUser" tabindex="-1" aria-labelledby="modalCreateUserLabel" aria-hidden="true">
+<div class="modal fade" id="modalCreateMaterial" tabindex="-1" aria-labelledby="modalCreateMaterialLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -79,7 +73,4 @@
             </form>
         </div>
     </div>
-</div></div>
-
-</body>
-</html>
+</div>

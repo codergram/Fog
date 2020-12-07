@@ -56,12 +56,6 @@ public class Confirmation extends BaseServlet {
         }
         
         String shedSize = req.getParameter("shedSize");
-    
-        System.out.println("action: " + actionVal);
-        System.out.println("width: " + width);
-        System.out.println("length: " + length);
-        System.out.println("shedSize: " + shedSize);
-        System.out.println("roofType: " + roofType.name());
         
         //Calculate Shed dimensions
         if(roofType == Carport.Roof.Peak){
@@ -165,7 +159,6 @@ public class Confirmation extends BaseServlet {
         }
         
         req.setAttribute("order", order);
-        
 
         render("Bekræft Carport", "/WEB-INF/pages/customer/thankyou.jsp", req, resp);
 

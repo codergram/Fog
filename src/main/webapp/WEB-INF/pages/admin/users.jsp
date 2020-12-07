@@ -14,7 +14,6 @@
         <th>E-mail</th>
         <th>Role</th>
         <th class="no-sort"> </th>
-    </tr>
     </thead>
     <tbody>
     <c:forEach items="${requestScope.userlist}" var="user" varStatus="vs">
@@ -71,7 +70,4 @@
             </form>
         </div>
     </div>
-</div></div>
-
-</body>
-</html>
+</div>
