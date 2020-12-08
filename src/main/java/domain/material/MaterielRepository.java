@@ -24,4 +24,6 @@ public interface MaterielRepository extends MaterielFactory{
     boolean deleteMaterialById(int id) throws DBException;
     
     List<Material> getAllRawMaterials() throws DBException;
+    
+    void updateMaterial(int id, String name, double price, Material.Unit unit) throws DBException;
 }

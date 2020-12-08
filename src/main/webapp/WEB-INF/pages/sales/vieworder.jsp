@@ -1,5 +1,4 @@
-<%@ page import="domain.material.materials.Tree" %>
-<%@ page import="domain.carport.Carport" %>
+<%@page pageEncoding="UTF-8"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -79,7 +78,7 @@
         <div class="input-group-prepend">
             <span class="input-group-text">kr</span>
         </div>
-        <input type="number" id="salgspris" name="salgspris" class="form-control" aria-label="salgspris" value="<fmt:formatNumber type="number" pattern="###.###" value="${order.carport.price + (order.margin/100) * order.carport.price}"/>" aria-describedby="button-salgspris" min="${order.carport.price * 1.15}" required>
+        <input type="number" id="salgspris" name="salgspris" class="form-control" aria-label="salgspris" value="<fmt:formatNumber type="number" pattern="###.###" value="${order.carport.price + (order.margin/100) * order.carport.price}"/>" aria-describedby="button-salgspris" min="${order.carport.price * 1.15}" step=0.01 required>
         <div class="input-group-append">
             <button class="btn btn-success" type="button" id="button-salgspris" onclick="this.form.submit()">Gem pris</button>
         </div>

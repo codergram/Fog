@@ -42,9 +42,10 @@ public class BaseServlet extends HttpServlet {
         
     }
     
-    // TODO : fix this methode
     protected void redirect(HttpServletRequest req, HttpServletResponse resp, String servletName){
         try {
+            req.setCharacterEncoding("UTF-8");
+            resp.setCharacterEncoding("UTF-8");
             resp.sendRedirect(req.getContextPath() + "/" + servletName);
         } catch (IOException ee){
             log.info(ee.getMessage());

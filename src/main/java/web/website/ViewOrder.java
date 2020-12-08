@@ -29,6 +29,9 @@ public class ViewOrder extends BaseServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         try {
+            resp.setCharacterEncoding("UTF-8");
+            req.setCharacterEncoding("UTF-8");
+            
                 String uuidReq = req.getPathInfo().substring(1);
                 int orderId = -1;
             

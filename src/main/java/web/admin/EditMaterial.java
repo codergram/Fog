@@ -37,6 +37,9 @@ public class EditMaterial extends BaseServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         try {
+            resp.setCharacterEncoding("UTF-8");
+            req.setCharacterEncoding("UTF-8");
+            
             curUser = (User) req.getSession().getAttribute("user");
             
             List<Material> materialsWithName = new ArrayList<>();
@@ -109,18 +112,16 @@ public class EditMaterial extends BaseServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         try {
+            resp.setCharacterEncoding("UTF-8");
+            req.setCharacterEncoding("UTF-8");
             materialId = Integer.parseInt(req.getParameter("materialid"));
-            switch (req.getParameter("action")) {
-                case "changeName":
-                    //TODO : Immplement methode to change name of material
-                    break;
-                case "changePrice":
-                    //TODO : Implement methode to change price of material
-                    break;
-                default:
-                    break;
-            }
-                redirect(req, resp, "Materials/Edit/"+materialId);
+            String matName = req.getParameter("matName");
+            double matPrice = Double.parseDouble(req.getParameter("matPrice"));
+            Material.Unit matUnit = Material.Unit.valueOf(req.getParameter("matUnit"));
+            
+            api.updateMaterial(materialId, matName,matPrice,matUnit);
+            createAlert(req, "success", "Produktet blev opdateret!");
+            redirect(req, resp, "Materials/Edit/"+materialId);
         } catch (Exception e){
             log.error(e.getMessage());
             createAlert(req,"alert", e.getMessage());

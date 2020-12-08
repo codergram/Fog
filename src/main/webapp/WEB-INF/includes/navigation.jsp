@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@page pageEncoding="UTF-8"%>
 <ul class="nav justify-content-end" style="margin-top: -50px;">
     <c:forEach var="i" items="${requestScope.navbar.items}">
         <li class="nav-part <c:if test="${i.active}">active</c:if>">
