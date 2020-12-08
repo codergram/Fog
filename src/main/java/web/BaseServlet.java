@@ -1,7 +1,6 @@
 package web;
 
 import api.Api;
-import domain.partslist.Partslist;
 import infrastructure.*;
 import org.slf4j.Logger;
 import web.widget.Navbar;

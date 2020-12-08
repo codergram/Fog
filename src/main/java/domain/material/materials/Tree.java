@@ -36,6 +36,10 @@ public class Tree extends Material {
         return type;
     }
     
+    public String getLengthString(){
+        return String.format("%.0f mm", length);
+    }
+    
     public void setLength(double length) {
         this.length = length;
     }
