@@ -50,7 +50,7 @@
             </div>
             <div class="form-group">
                 <label for="zip">Post nummer</label>
-                <input type="number" class="form-control" id="zip" name="zip" required>
+                <input type="number" class="form-control" id="zip" name="zip" maxlength="4" required>
             </div>
             <div class="form-group">
                 <label for="city">By</label>

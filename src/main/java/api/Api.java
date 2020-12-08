@@ -201,6 +201,10 @@ public class Api {
     public synchronized List<Material> getAllMaterielsFromDB() throws DBException {
         return materielRepository.getAllMaterials();
     }
+    
+    public List<Material> getAllRawMaterielsFromDB() throws DBException {
+        return materielRepository.getAllRawMaterials();
+    }
 
     public synchronized List<Part> getLocalPartslist(){
         return partslistServices.createPartsList();
