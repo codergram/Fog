@@ -185,7 +185,7 @@ public class DBOrder implements OrderRepository {
             String getOrdersQuery = "SELECT \n" +
                     "parts.id AS \"partId\", parts.description AS \"description\", parts.amount AS \"amount\", parts.length AS \"length\",\n" +
                     "`usage`.`name` AS \"usageName\",\n" +
-                    "materiale.`name` AS \"materialName\", materiale.price AS \"materialPrice\",\n" +
+                    "materiale.`name` AS \"materialName\", materiale.price AS \"materialPrice\", materiale.unit AS \"materialUnit\",\n" +
                     "type.`name` AS \"typeName\"\n" +
                     "FROM parts\n" +
                     "JOIN `usage` ON `usage`.id = parts.usage_id\n" +
@@ -207,9 +207,10 @@ public class DBOrder implements OrderRepository {
                     Material.Usage materialUsage = Material.Usage.valueOf(rs.getString("usageName"));
                     String materialName = rs.getString("materialName");
                     double materialPrice = rs.getDouble("materialPrice");
+                    String matUnit = rs.getString("materialUnit");
                     String typeName = rs.getString("typeName");
                     
-                    Material.Unit materialUnit = Material.Unit.Stk; //TODO: Fix
+                    Material.Unit materialUnit = Material.Unit.valueOf(matUnit);
     
                     Material tmpMaterial = null;
                     

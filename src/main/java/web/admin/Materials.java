@@ -1,9 +1,7 @@
 package web.admin;
 
-import domain.customer.Customer;
 import domain.material.materials.Material;
 import domain.user.User;
-import domain.user.exceptions.UserNotFound;
 import org.slf4j.Logger;
 import web.BaseServlet;
 
@@ -12,7 +10,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -41,7 +42,8 @@ public class Materials extends BaseServlet {
                 log("User is not admin: " + curUser );
                 resp.sendError(401);
             } else {
-                materials = List.copyOf(api.getAllMaterielsFromDB());
+                materials = List.copyOf(api.getAllRawMaterielsFromDB());
+                
                 req.setAttribute("materiallist", materials);
                 log("User is admin: " + curUser);
                 render("Materialer", "/WEB-INF/pages/admin/materials.jsp", req, resp);
@@ -50,6 +52,8 @@ public class Materials extends BaseServlet {
         } catch (Exception e){
             log(e.getMessage());
         }
+        
+        
     }
     
     @Override

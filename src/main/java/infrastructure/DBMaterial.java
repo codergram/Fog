@@ -1,5 +1,6 @@
 package infrastructure;
 
+import domain.material.materials.Generic;
 import domain.material.materials.Material;
 import domain.material.MaterielRepository;
 import domain.material.materials.Options;
@@ -39,7 +40,7 @@ public class DBMaterial implements MaterielRepository {
             optionsType.add(option.name());
         }
         
-        String sqlQuery = "SELECT materiale.id, materiale.name, materiale.price, usage.name AS \"Usage\", type.name AS \"Type\" FROM materiale\n" +
+        String sqlQuery = "SELECT materiale.id, materiale.name, materiale.price, materiale.unit, usage.name AS \"Usage\", type.name AS \"Type\" FROM materiale\n" +
                 "JOIN `usage` ON materiale.id = usage.material_id\n" +
                 "JOIN type ON usage.type_id = type.id";
         
@@ -53,13 +54,14 @@ public class DBMaterial implements MaterielRepository {
                     int id = rs.getInt("materiale.id");
                     String matName = rs.getString("materiale.name");
                     double matPrice = rs.getDouble("materiale.price");
+                    String matUnit = rs.getString("materiale.unit");
                     String matUsage = rs.getString("Usage");
                     String matType = rs.getString("Type");
                     boolean typeMatched = false;
                     
                     for(String str: treeTypes){
                         if(str.equalsIgnoreCase(matType)){
-                            tmpMat = new Tree(id, matName, matPrice, Material.Usage.valueOf(matUsage), Tree.Type.valueOf(matType), Material.Unit.Stk);
+                            tmpMat = new Tree(id, matName, matPrice, Material.Usage.valueOf(matUsage), Tree.Type.valueOf(matType), Material.Unit.valueOf(matUnit));
                             typeMatched = true;
                             break;
                         }
@@ -68,7 +70,7 @@ public class DBMaterial implements MaterielRepository {
                     if(!typeMatched) {
                         for (String str : optionsType) {
                             if (str.equalsIgnoreCase(matType)) {
-                                tmpMat = new Options(id, matName, matPrice, Material.Usage.valueOf(matUsage), Options.Type.valueOf(matType), Material.Unit.Stk);
+                                tmpMat = new Options(id, matName, matPrice, Material.Usage.valueOf(matUsage), Options.Type.valueOf(matType), Material.Unit.valueOf(matUnit));
                             }
                         }
                     }
@@ -100,7 +102,45 @@ public class DBMaterial implements MaterielRepository {
     public boolean deleteMaterialById(int id) throws DBException {
         return false;
     }
-
+    
+    @Override
+    public List<Material> getAllRawMaterials() throws DBException {
+        List<Material> materials = new ArrayList();
+    
+        List<String> treeTypes = new ArrayList();
+        for(Tree.Type tree: Tree.Type.values()){
+            treeTypes.add(tree.name());
+        }
+    
+        List<String> optionsType = new ArrayList();
+        for(Options.Type option: Options.Type.values()){
+            optionsType.add(option.name());
+        }
+    
+        String sqlQuery = "SELECT materiale.id, materiale.name, materiale.price, materiale.unit FROM materiale";
+    
+        try (Connection conn = database.getConnection()) {
+            try(PreparedStatement s = conn.prepareStatement(sqlQuery)){
+                ResultSet rs = s.executeQuery();
+            
+                while(rs.next()) {
+                    Material tmpMat = null;
+                
+                    int id = rs.getInt("materiale.id");
+                    String matName = rs.getString("materiale.name");
+                    double matPrice = rs.getDouble("materiale.price");
+                    String matUnit = rs.getString("materiale.unit");
+                    
+                    tmpMat = new Generic(id, matName, matPrice, Material.Unit.valueOf(matUnit));
+                
+                    materials.add(tmpMat);
+                }
+            }} catch (SQLException e) {
+            log.error(e.getMessage());
+        }
+        return materials;
+    }
+    
     @Override
     public Material createMateriel(Material material) throws DBException {
         return null;

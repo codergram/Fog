@@ -22,5 +22,6 @@ public interface MaterielRepository extends MaterielFactory{
 //    Options updateOption(Options option) throws DBException;
     
     boolean deleteMaterialById(int id) throws DBException;
-
+    
+    List<Material> getAllRawMaterials() throws DBException;
 }
