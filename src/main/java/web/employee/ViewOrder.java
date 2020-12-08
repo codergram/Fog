@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,8 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class ViewOrder extends BaseServlet {
     private static final Logger log = getLogger(ViewOrder.class);
     
-    public User curUser;
+    private User curUser;
+    private int orderId = -1;
     
     /**
      * Renders the index.jsp page
@@ -38,7 +40,7 @@ public class ViewOrder extends BaseServlet {
                 log("User is not admin: " + curUser );
                 resp.sendError(401);
             } else {
-                int orderId = Integer.parseInt(req.getPathInfo().substring(1));
+                orderId = Integer.parseInt(req.getPathInfo().substring(1));
                 Order order = null;
                 
                 for(Order o: api.getOrders()){
@@ -75,7 +77,7 @@ public class ViewOrder extends BaseServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         try {
-            int orderId = Integer.parseInt(req.getParameter("ordrenummer"));
+            orderId = Integer.parseInt(req.getParameter("ordrenummer"));
             switch (req.getParameter("action")) {
                 case "updatePrice":
                     double newPrice = Double.parseDouble(req.getParameter("salgspris"));
@@ -88,18 +90,29 @@ public class ViewOrder extends BaseServlet {
                     Order o = api.getOrderById(orderId);
                     String linkFromReq = req.getParameter("ordreurl");
                     String link = "<a href=\"" + linkFromReq + "\">" + linkFromReq + "</a>";
-                    api.sendLinkByMail(o, linkFromReq);
+                    api.sendLinkByMail(o, link);
                     createAlert(req,"success", "Mailen blev sendt til " + o.getCustomer().getEmail());
+                    break;
+                case "createPdf":
+                    Order pdfOrder = api.getOrderById(orderId);
+                    File pdfFile = api.createPdf(pdfOrder);
+                    String downloadUrl = req.getParameter("downloadurl");
+                    sendMail(pdfOrder.getCustomer().getEmail(), downloadUrl, pdfFile);
                     break;
                 default:
                     break;
             }
-                redirect(req, resp, "Ordre/View/"+orderId); //TODO: Fix redirect error
+                redirect(req, resp, "Ordre/View/"+orderId);
         } catch (Exception e){
             log.error(e.getMessage());
             createAlert(req,"alert", e.getMessage());
-            render("Ordre", "/WEB-INF/pages/sales/vieworder.jsp", req, resp);
+            redirect(req, resp, "Ordre/View/"+orderId);
         }
+    }
+    
+    private void sendMail(String email, String url, File pdf){
+        String message = "Tillykke med din nye carport! Du finder din vejledning vedhæftet denne mail og den kan downloads her: " + url;
+        api.sendMail(email,"Din stykliste", "Her er din stykliste", message, pdf);
     }
     
     private void createAlert(HttpServletRequest req, String type, String message) {

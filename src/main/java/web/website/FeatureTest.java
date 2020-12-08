@@ -65,14 +65,6 @@ public class FeatureTest extends BaseServlet {
         }
     
     
-        try {
-            String fileDir = System.getProperty("java.io.tmpdir");
-            //api.sendMail("cph-en93@cphbusiness.dk", "Test mail", "Test mail", "Hej se filen.", api.testPdf(fileDir));
-            api.testPdf(fileDir);
-        } catch (PDFNotCreated pdfNotCreated) {
-            log.warn(pdfNotCreated.getMessage());
-        }
-    
         log.info("Serving page {}", req.getRequestURI());
         render("Startside", "/WEB-INF/pages/test.jsp", req, resp);
     

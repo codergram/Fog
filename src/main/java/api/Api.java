@@ -21,6 +21,7 @@ import domain.user.exceptions.UserExists;
 import domain.user.exceptions.UserNotFound;
 import infrastructure.LocalPartslist;
 import infrastructure.exceptions.DBException;
+import infrastructure.exceptions.PDFNotFound;
 import org.slf4j.Logger;
 import java.io.File;
 import java.util.ArrayList;
@@ -56,9 +57,12 @@ public class Api {
         customererRepository = customerRepository;
     }
     
-    public synchronized File testPdf(String path) throws PDFNotCreated {
-        Order order = new Order(1,200,300,null,null,null,null,null,0.0);
-        return fileService.generatePdf(path, order);
+    public File createPdf(Order o) throws PDFNotCreated{
+        return fileService.generatePdf(o, getSVGSide(o.getCarport(), false), getSVGTop(o.getCarport(), false));
+    }
+    
+    public File getPdf(String filename) throws PDFNotFound {
+        return fileService.getPdf(filename);
     }
     
     public synchronized boolean sendMail(String mailAddress, String title, String subject, String msg, File file){
