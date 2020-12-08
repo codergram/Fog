@@ -17,17 +17,11 @@ class Tag {
 }
 
 class Tagbeklædning {
-    længde
-    bredde
-}
-
-class BærendeElement {
 
 }
 
 class TagMontering {
-    skruer
-    universal
+
 }
 
 class Spær {
@@ -47,15 +41,21 @@ class Lægte {
 }
 
 class Fundament {
-   stolper
+
 }
 
-class FundamentKonstruktion {
-    bolte
-    skiver
+class Bolt {
+   længde
+   bredde
 }
 
-class Stolper {
+class Skive {
+   længde
+   højde
+   bredde
+}
+
+class Stolpe {
    højde
 }
 
@@ -72,49 +72,87 @@ class Dør {
     Bredde
 }
 
-class DørMontering {
-    beslag
-    hængsler
-}
 
-class Lås {
-    greb
+class Greb {
+    længde
+    bredde
 }
 
 class Beklædning {
     længde
 }
 
-class Hjørner {
-    stolper
+class Hjørne {
+
 }
 
 class SkurMontering {
-    skruer
+
 }
 
-Carport "1" -- "1" Tag
-Tag "1" -- "*" Tagbeklædning
-Tag "1" -- "*" BærendeElement
-Tag "1" -- "*" TagMontering
-BærendeElement "1" -- "*" Spær
-BærendeElement "1" -- "*" Rem
-BærendeElement "1" -- "*" Stern
-BærendeElement  --  Lægte: er en
+class Tagsten {
+   længde
+   bredde
+}
+
+class Tagplade {
+   længde
+   bredde
+}
+
+class Skrue {
+    længde
+    bredde
+}
+
+class Universal {
+    længde
+}
+
+class Beslag {
+    type
+}
+
+class Hængsel {
+    længde
+}
+
+Carport "1" -- "1" Tag: har et
+Tag "1" -- "*" Tagbeklædning: har en
+Tagbeklædning "1" -- "0..400" Tagsten: er en
+Tagbeklædning "1" -- "0..6" Tagplade: er en
 
 
-Carport "1" -- "1" Fundament
-Fundament "1" -- "*" FundamentKonstruktion
-Fundament "1" -- "6" Stolper
+Tag "1" -- "*" TagMontering: inkl.
+TagMontering "1" -- "1000" Skrue: er en
+TagMontering "1" -- "3" Universal: er en
+TagMontering "1" -- "15..30" Lægte: er en
 
-Carport "1" -- "0..1" Skur
-Skur "1" -- "1" Dør
-Skur "1" -- "1" Beklædning
-Skur "1" -- "*" SkurMontering
-Skur "1" -- "2..3" Hjørner
-Hjørner "1" -- "2..3" Stolper
-Dør "1" -- "1" Lås
-Dør "1" -- "*" DørMontering
+
+
+Tag "1" -- "8..18" Spær: er et
+Tag "1" -- "2" Rem: er en
+Tag "1" -- "2" Stern: er en
+
+
+
+Carport "1" -- "1" Fundament: har et
+Fundament "1" -- "6" Stolpe: er en
+Fundament "1" -- "2" Bolt: er en
+Fundament "1" -- "1" Skive: er en
+
+
+Carport "1" -- "0..1" Skur: kan have et
+Skur "1" -- "1" Dør: har en
+Skur "1" -- "100..250" Beklædning: har en
+Skur "1" -- "*" SkurMontering: inkl.
+SkurMontering "1" -- "700" Skrue: er en
+Skur "1" -- "2..3" Hjørne: har et
+Hjørne "1" -- "1" Stolpe: er en
+Dør "1" -- "1" Greb: er et
+Dør "1" -- "32" Beslag: er et
+Dør "1" -- "2" Hængsel: er et
+Dør "1" -- "1" Lægte: er en
 
 
 @enduml
