@@ -254,4 +254,8 @@ public class Api {
     public synchronized Order getOrderById(int id) throws OrderNotFound {
         return orderRepository.getOrderById(id);
     }
+    
+    public void updateMaterial(int materialId, String matName, double matPrice, Material.Unit matUnit) throws DBException {
+        materielRepository.updateMaterial(materialId, matName, matPrice, matUnit);
+    }
 }

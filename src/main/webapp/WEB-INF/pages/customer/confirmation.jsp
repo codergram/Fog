@@ -1,5 +1,6 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@page pageEncoding="UTF-8"%>
 <div class="row">
     <div class="col-md-12">
         <h2 class="mt-6 mb-6 text-center">Tegning af din helt egen carport herunder</h2>

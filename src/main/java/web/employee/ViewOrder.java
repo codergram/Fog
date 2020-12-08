@@ -32,6 +32,9 @@ public class ViewOrder extends BaseServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         try {
+            resp.setCharacterEncoding("UTF-8");
+            req.setCharacterEncoding("UTF-8");
+            
             curUser = (User) req.getSession().getAttribute("user");
             
             log("Trying to log into admin :" + curUser);
@@ -77,6 +80,9 @@ public class ViewOrder extends BaseServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         try {
+            resp.setCharacterEncoding("UTF-8");
+            req.setCharacterEncoding("UTF-8");
+            
             orderId = Integer.parseInt(req.getParameter("ordrenummer"));
             switch (req.getParameter("action")) {
                 case "updatePrice":

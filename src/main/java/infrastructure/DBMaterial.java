@@ -1,10 +1,12 @@
 package infrastructure;
 
+import domain.material.exceptions.MaterialNotFound;
 import domain.material.materials.Generic;
 import domain.material.materials.Material;
 import domain.material.MaterielRepository;
 import domain.material.materials.Options;
 import domain.material.materials.Tree;
+import domain.user.exceptions.UserNotFound;
 import infrastructure.exceptions.DBException;
 import org.slf4j.Logger;
 
@@ -139,6 +141,25 @@ public class DBMaterial implements MaterielRepository {
             log.error(e.getMessage());
         }
         return materials;
+    }
+    
+    @Override
+    public void updateMaterial(int id, String name, double price, Material.Unit unit) throws DBException {
+        try (Connection conn = database.getConnection()){
+            String query = "UPDATE materiale SET name=?, price=?, unit=? WHERE id = ?";
+            PreparedStatement ps = conn.prepareStatement( query );
+        
+            ps.setString(1,name);
+            ps.setDouble(2,price);
+            ps.setString(3,unit.name());
+            ps.setInt(4,id);
+        
+            //Execute the SQL statement to update the DB
+            ps.executeUpdate();
+        
+        } catch ( SQLException ex ) {
+            throw new DBException(ex);
+        }
     }
     
     @Override
