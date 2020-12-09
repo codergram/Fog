@@ -5,7 +5,6 @@ import domain.user.exceptions.InvalidPassword;
 import domain.user.exceptions.UserNotFound;
 import org.slf4j.Logger;
 import web.BaseServlet;
-import infrastructure.exceptions.DBException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -55,12 +54,10 @@ public class Login extends BaseServlet {
       request.setAttribute("errorMsg", i.getMessage());
       request.setAttribute("error", true);
       render(request, response);
-    } catch (DBException e) {
-      log.warn(e.getMessage());
     }
   }
 
-  private User login(HttpServletRequest req) throws InvalidPassword, UserNotFound, DBException {
+  private User login(HttpServletRequest req) throws InvalidPassword, UserNotFound {
     HttpSession session = req.getSession();
 
     String usrEmail = req.getParameter("inputEmail");

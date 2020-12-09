@@ -1,6 +1,7 @@
 package web.admin;
 
 import domain.material.materials.Material;
+import domain.material.materials.Material.Usage;
 import domain.material.materials.Options;
 import domain.material.materials.Tree;
 import domain.user.User;
@@ -62,10 +63,8 @@ public class EditMaterial extends BaseServlet {
             }
           }
 
-          Set<Material.Usage> usedUsages = new HashSet<>();
-          for (Material m : materialsWithName) {
-            usedUsages.add(Material.Usage.valueOf(m.getUsage().name()));
-          }
+          Set<Material.Usage> usedUsages = getMaterialUsages(materialsWithName);
+
 
           req.setAttribute("material", material);
           log("User is admin: " + curUser);
@@ -103,6 +102,16 @@ public class EditMaterial extends BaseServlet {
       log(e.getMessage());
     }
   }
+
+  private Set<Usage> getMaterialUsages(List<Material> materialsWithName) {
+    Set<Usage> usedUsages = new HashSet<>();
+    for (Material m : materialsWithName) {
+      usedUsages.add(Material.Usage.valueOf(m.getUsage().name()));
+    }
+    return usedUsages;
+  }
+
+
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)

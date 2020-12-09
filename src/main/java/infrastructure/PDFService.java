@@ -24,6 +24,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class PDFService implements FileService {
   private static final Logger log = getLogger(PDFService.class);
   private static final String templateFileName = "pdftemplate.html";
+
   private final String fileDir = System.getProperty("java.io.tmpdir");
 
   private String fillTemplate(Order order, String svgSide, String svgTop) {
@@ -80,8 +81,7 @@ public class PDFService implements FileService {
   }
 
   @Override
-  public synchronized File generatePdf(Order order, String svgSide, String svgTop)
-      throws PDFNotCreated {
+  public File generatePdf(Order order, String svgSide, String svgTop) throws PDFNotCreated {
     try {
       String htmlString = fillTemplate(order, svgSide, svgTop);
 
@@ -108,7 +108,7 @@ public class PDFService implements FileService {
   }
 
   @Override
-  public synchronized File getPdf(String filename) throws PDFNotFound {
+  public File getPdf(String filename) throws PDFNotFound {
     try {
       String fullFileName = "/" + filename + ".pdf";
 
@@ -123,8 +123,7 @@ public class PDFService implements FileService {
     }
   }
 
-  @Override
-  public String convertSVGtoPNG(String fileName, String svgSource) throws ApiError {
+  private String convertSVGtoPNG(String fileName, String svgSource) throws ApiError {
     try {
       InputStream inputStream =
           new ByteArrayInputStream(svgSource.getBytes(StandardCharsets.UTF_8));

@@ -40,6 +40,30 @@ public class Options extends Material {
   }
 
   @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof Options)) {
+      return false;
+    }
+    if (!super.equals(o)) {
+      return false;
+    }
+
+    Options options = (Options) o;
+
+    return type != null ? type.equals(options.type) : options.type == null;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = super.hashCode();
+    result = 31 * result + (type != null ? type.hashCode() : 0);
+    return result;
+  }
+
+  @Override
   public String toString() {
     return "Options{"
         + "type="

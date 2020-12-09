@@ -59,6 +59,30 @@ public class Tree extends Material {
   }
 
   @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof Tree)) {
+      return false;
+    }
+    if (!super.equals(o)) {
+      return false;
+    }
+
+    Tree tree = (Tree) o;
+
+    return type != null ? type.equals(tree.type) : tree.type == null;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = super.hashCode();
+    result = 31 * result + (type != null ? type.hashCode() : 0);
+    return result;
+  }
+
+  @Override
   public String toString() {
     return "Tree{"
         + "length="
