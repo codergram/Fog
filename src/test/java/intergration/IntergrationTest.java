@@ -106,8 +106,6 @@ public class IntergrationTest {
             invalidPassword.printStackTrace();
         } catch (UserNotFound e){
             e.getMessage();
-        } catch (DBException dBexception) {
-            dBexception.printStackTrace();
         }
 
         //Invalid login
@@ -115,7 +113,7 @@ public class IntergrationTest {
             user = api.login(user.getEmail(), "2233");
         } catch (InvalidPassword invalidPassword) {
             String exceptionMessage = "" + invalidPassword.getMessage();
-        } catch (UserNotFound | DBException e){
+        } catch (UserNotFound e){
             e.getMessage();
         }
     }

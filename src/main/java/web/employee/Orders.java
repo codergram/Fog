@@ -15,13 +15,10 @@ import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-@WebServlet(name = "Ordre", urlPatterns = { "/Ordre" } )
+@WebServlet(name = "Ordre", urlPatterns = {"/Ordre"})
 public class Orders extends BaseServlet {
     
     private static final Logger log = getLogger(Orders.class);
-    
-    public User curUser;
-    private List<Order> orders;
     
     /**
      * Renders the index.jsp page
@@ -33,18 +30,18 @@ public class Orders extends BaseServlet {
             throws ServletException, IOException {
         
         try {
-            curUser = (User) req.getSession().getAttribute("user");
+            User curUser = (User) req.getSession().getAttribute("user");
             
             log("Trying to log into admin :" + curUser);
             
-            if (curUser == null || !curUser.isEmployee()) {
-                log("User is not admin: " + curUser );
+            if (curUser == null || ! curUser.isEmployee()) {
+                log("User is not admin: " + curUser);
                 resp.sendError(401);
             } else {
-                orders = List.copyOf(api.getOrders());
+                List<Order> orders = List.copyOf(api.getOrders());
                 
                 List<String> statuslist = new ArrayList<>();
-                for(Order.Status s: Order.Status.values()){
+                for (Order.Status s : Order.Status.values()) {
                     statuslist.add(s.name());
                 }
                 
@@ -56,7 +53,7 @@ public class Orders extends BaseServlet {
                 render("Ordre", "/WEB-INF/pages/sales/orders.jsp", req, resp);
             }
             
-        } catch (Exception e){
+        } catch (Exception e) {
             log(e.getMessage());
         }
     }
@@ -65,6 +62,8 @@ public class Orders extends BaseServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         try {
+            User curUser = (User) req.getSession().getAttribute("user");
+            
             int orderId = Integer.parseInt(req.getParameter("ordrenummer"));
             switch (req.getParameter("action")) {
                 case "assignOrder":
@@ -79,9 +78,9 @@ public class Orders extends BaseServlet {
                 default:
                     break;
             }
-             redirect(req, resp, "Ordre");
+            redirect(req, resp, "Ordre");
             
-        } catch (Exception e){
+        } catch (Exception e) {
             log.error(e.getMessage());
         }
         

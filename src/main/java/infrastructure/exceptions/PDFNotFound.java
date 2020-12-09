@@ -1,6 +1,6 @@
 package infrastructure.exceptions;
 
-public class PDFNotFound extends Exception{
+public class PDFNotFound extends Exception {
     public PDFNotFound() {
     }
     

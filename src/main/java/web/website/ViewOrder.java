@@ -1,7 +1,6 @@
 package web.website;
 
 import domain.order.Order;
-import domain.order.exceptions.OrderNotFound;
 import org.slf4j.Logger;
 import web.BaseServlet;
 
@@ -23,6 +22,7 @@ public class ViewOrder extends BaseServlet {
     
     /**
      * Renders the index.jsp page
+     *
      * @see BaseServlet
      */
     @Override
@@ -32,41 +32,33 @@ public class ViewOrder extends BaseServlet {
             resp.setCharacterEncoding("UTF-8");
             req.setCharacterEncoding("UTF-8");
             
-                String uuidReq = req.getPathInfo().substring(1);
-                int orderId = -1;
+            String uuidReq = req.getPathInfo().substring(1);
+            int orderId = - 1;
             
-                log.info("UUID requested: " + uuidReq);
-                try {
-                    orderId = api.getOrderByUUID(uuidReq);
-                    log.info("ID found on UUID: " + orderId);
-                } catch (Exception e){
-                    log.error(e.getMessage());
-                }
-                
-                for(Order o: api.getOrders()){
-                    System.out.println("Order found: " + o);
-                }
-                
-                Order order = api.getOrderById(orderId);
-                
-                String svgSide = api.getSVGSide(order.getCarport(), !order.isPaid());
-                String svgTop = api.getSVGTop(order.getCarport(), !order.isPaid());
-    
-                List<String> statuslist = new ArrayList<>();
-                for(Order.Status s: Order.Status.values()){
-                    statuslist.add(s.name());
-                }
-                req.setAttribute("statuslist", statuslist);
-    
-                //Save requests and sessions
-                req.setAttribute("svgSide", svgSide);
-                req.setAttribute("svgTop", svgTop);
-                req.setAttribute("carport", order.getCarport());
-                req.setAttribute("order", order);
-                
-                render("Ordre", "/WEB-INF/pages/customer/vieworder.jsp", req, resp);
+            log.info("UUID requested: {}", uuidReq);
+            orderId = api.getOrderByUUID(uuidReq);
             
-        } catch (Exception e){
+            
+            Order order = api.getOrderById(orderId);
+            
+            String svgSide = api.getSVGSide(order.getCarport(), ! order.isPaid());
+            String svgTop = api.getSVGTop(order.getCarport(), ! order.isPaid());
+            
+            List<String> statuslist = new ArrayList<>();
+            for (Order.Status s : Order.Status.values()) {
+                statuslist.add(s.name());
+            }
+            req.setAttribute("statuslist", statuslist);
+            
+            //Save requests and sessions
+            req.setAttribute("svgSide", svgSide);
+            req.setAttribute("svgTop", svgTop);
+            req.setAttribute("carport", order.getCarport());
+            req.setAttribute("order", order);
+            
+            render("Ordre", "/WEB-INF/pages/customer/vieworder.jsp", req, resp);
+            
+        } catch (Exception e) {
             log(e.getMessage());
         }
     }

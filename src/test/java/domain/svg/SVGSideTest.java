@@ -24,7 +24,7 @@ class SVGSideTest {
 
         SVGSide svgSide = new SVGSide(carport, false);
 
-        assertTrue(svgSide.getSvgSide().startsWith(expectedResult));
+        assertTrue(svgSide.getSvgCode().startsWith(expectedResult));
     }
 
 

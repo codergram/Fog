@@ -9,11 +9,12 @@ import java.security.spec.KeySpec;
 import java.util.Arrays;
 
 public class User {
-
+    
     //Password stuff
     private static final int PASSWORD_ITERATIONS = 65536;
     private static final int PASSWORD_LENGTH = 256; // 32 bytes
     private static final SecretKeyFactory PASSWORD_FACTORY;
+    
     static {
         SecretKeyFactory factory = null;
         try {
@@ -24,11 +25,11 @@ public class User {
         PASSWORD_FACTORY = factory;
     }
     
-      public enum Role {
+    public enum Role {
         Employee,
         Admin
     }
-
+    
     private int id;
     private final String name;
     private final String email;
@@ -55,11 +56,11 @@ public class User {
         secret = null;
     }
     
-    public boolean isEmployee(){
+    public boolean isEmployee() {
         return this.role == Role.Employee || this.role == Role.Admin;
     }
     
-    public boolean isAdmin(){
+    public boolean isAdmin() {
         return this.role == Role.Admin;
     }
     
@@ -67,11 +68,11 @@ public class User {
         return id;
     }
     
-    public User getById(int id){
+    public User getById(int id) {
         return this.id != id ? this : null;
     }
     
-    public User withId(int id){
+    public User withId(int id) {
         this.id = id;
         return this;
     }
@@ -98,7 +99,7 @@ public class User {
     
     public static Enum<Role> valueOfIgnoreCase(String search) {
         for (Enum<Role> e : Role.values()) {
-            if(e.name().equalsIgnoreCase(search)){
+            if (e.name().equalsIgnoreCase(search)) {
                 return e;
             }
         }
@@ -118,14 +119,14 @@ public class User {
     /**
      * Password stuff
      */
-
+    
     public static byte[] generateSalt() {
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
         random.nextBytes(salt);
         return salt;
     }
-
+    
     public static byte[] calculateSecret(byte[] salt, String password) {
         KeySpec spec = new PBEKeySpec(password.toCharArray(), salt,
                 PASSWORD_ITERATIONS,
@@ -136,7 +137,7 @@ public class User {
             throw new RuntimeException(e);
         }
     }
-
+    
     public boolean isPasswordCorrect(String password) {
         return Arrays.equals(this.secret, calculateSecret(salt, password));
     }

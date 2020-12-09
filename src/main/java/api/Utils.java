@@ -13,8 +13,8 @@ public class Utils {
         return src.replaceAll("\"[^\"]*+\"", "");
     }
     
-    public static String fileToString(String file){
-        if(file == null || file.isEmpty()) return null;
+    public static String fileToString(String file) {
+        if (file == null || file.isEmpty()) return null;
         try (InputStream input = Api.class.getClassLoader().getResourceAsStream(file)) {
             return IOUtils.toString(input);
         } catch (IOException ex) {

@@ -11,15 +11,14 @@ import java.util.UUID;
 
 public class Order {
     
-    public enum Status{
+    public enum Status {
         New,
         Awaiting,
         Accepted,
-        Paid,
         Completed,
         Cancelled
     }
-
+    
     private int id;
     private final double width;
     private final double length;
@@ -57,9 +56,9 @@ public class Order {
         this.margin = margin;
         this.uuid = uuid;
     }
-
+    
     public Order(double width, double length, Customer customer, Carport carport) {
-        this.id = -1;
+        this.id = - 1;
         this.width = width;
         this.length = length;
         this.timestamp = new Timestamp(System.currentTimeMillis());
@@ -119,15 +118,15 @@ public class Order {
         this.margin = margin;
     }
     
-    public boolean hasSalesman(){
+    public boolean hasSalesman() {
         return salesEmployee != null;
     }
     
-    public boolean isPaid(){
-        return this.status == Order.Status.Paid || this.status == Status.Completed;
+    public boolean isPaid() {
+        return this.status == Status.Completed;
     }
     
-    public String getOrderDate(){
+    public String getOrderDate() {
         Date date = new Date(this.timestamp.getTime());
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         return format.format(date);

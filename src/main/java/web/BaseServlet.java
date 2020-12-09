@@ -14,22 +14,22 @@ import java.io.IOException;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class BaseServlet extends HttpServlet {
-
+    
     protected static final Api api;
     private static final Logger log = getLogger(BaseServlet.class);
-
+    
     static {
         api = createFogApi();
     }
-
-    private static Api createFogApi(){
-
+    
+    private static Api createFogApi() {
+        
         Database database = new Database();
-
+        
         return new Api(new DBUser(database), new JavaXEmailService(), new PDFService(), new LocalSVG(),
                 new DBMaterial(database), new DBOrder(database), new DBCustomer(database));
     }
-
+    
     protected void render(String title, String content, HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
@@ -42,16 +42,15 @@ public class BaseServlet extends HttpServlet {
         
     }
     
-    protected void redirect(HttpServletRequest req, HttpServletResponse resp, String servletName){
+    protected void redirect(HttpServletRequest req, HttpServletResponse resp, String servletName) {
         try {
             req.setCharacterEncoding("UTF-8");
             resp.setCharacterEncoding("UTF-8");
             resp.sendRedirect(req.getContextPath() + "/" + servletName);
-        } catch (IOException ee){
+        } catch (IOException ee) {
             log.info(ee.getMessage());
         }
     }
     
     
-
 }

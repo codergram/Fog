@@ -1,6 +1,6 @@
 package domain.order.exceptions;
 
-public class OrderException extends Exception{
+public class OrderException extends Exception {
     public OrderException() {
         super("Order error");
     }

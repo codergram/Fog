@@ -7,10 +7,14 @@
 <h2 class="mt-4 mb-4 text-center">Order ${order.id}</h2>
 <br>
 <br>
-<br/> <br/>
+<h5><b>Dato:</b> ${order.orderDate}</h5>
 
-${order}
+<c:if test ="${order.hasSalesman()}">
+    <br><h5><b>Sælger:</b> ${order.salesEmployee.name} (${order.salesEmployee.email})</h5>
+</c:if>
 <br>
+<h5><b>Anmodet længde:</b> ${order.length} cm</h5><br>
+<h5><b>Anmodet bredde:</b> ${order.width} cm</h5>
 <br>
 <br>
 

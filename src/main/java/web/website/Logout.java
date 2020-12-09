@@ -10,10 +10,10 @@ import java.io.IOException;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-@WebServlet(name = "Logout", urlPatterns = { "/Logout" } )
+@WebServlet(name = "Logout", urlPatterns = {"/Logout"})
 public class Logout extends BaseServlet {
     private static final Logger log = getLogger(Logout.class);
-
+    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
@@ -21,7 +21,7 @@ public class Logout extends BaseServlet {
             req.getSession().invalidate();
             log.info("logged out");
             resp.sendRedirect(req.getContextPath() + "/");
-        } catch (IOException e){
+        } catch (IOException e) {
             log.warn(e.getMessage());
         }
     }

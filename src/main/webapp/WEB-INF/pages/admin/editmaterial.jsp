@@ -19,13 +19,6 @@
 <br>
 <br/> <br/>
 
-<%-- FOR DEBUGGING --%>
-<%--material: ${material}<br><br>--%>
-<%--usages: ${usages}<br><br>--%>
-<%--types: ${types}<br><br>--%>
-<%--units: ${units}<br><br>--%>
-
-
 <div class="row">
     <div class="col-6">
         <form action="Materials/Edit/" method="POST">

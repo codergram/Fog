@@ -2,7 +2,6 @@ package web.employee;
 
 import domain.customer.Customer;
 import domain.user.User;
-import domain.user.exceptions.UserNotFound;
 import org.slf4j.Logger;
 import web.BaseServlet;
 
@@ -20,9 +19,6 @@ public class Customers extends BaseServlet {
     
     private static final Logger log = getLogger(Customers.class);
     
-    public User curUser;
-    private List<Customer> customers;
-    
     /**
      * Renders the index.jsp page
      *
@@ -32,7 +28,7 @@ public class Customers extends BaseServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         try {
-            curUser = (User) req.getSession().getAttribute("user");
+            User curUser = (User) req.getSession().getAttribute("user");
             
             log("Trying to log into admin :" + curUser);
             
@@ -40,14 +36,14 @@ public class Customers extends BaseServlet {
                 log("User is not admin: " + curUser );
                 resp.sendError(401);
             } else {
-                customers = List.copyOf(api.getCustomers());
+                List<Customer> customers = List.copyOf(api.getCustomers());
                 req.setAttribute("customerlist", customers);
                 log("User is admin: " + curUser);
                 render("Customers", "/WEB-INF/pages/sales/customers.jsp", req, resp);
             }
             
         } catch (Exception e){
-            log(e.getMessage());
+            log.error(e.getMessage());
         }
     }
     

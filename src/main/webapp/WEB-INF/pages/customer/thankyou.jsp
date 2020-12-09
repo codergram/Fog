@@ -4,10 +4,12 @@
 <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
-        <h2 class="mt-4 mb-4 text-center">Vi takker for din forespørgelse. Du vil blive kontaktet af en sælger snarest :)</h2>
+        <h2 class="mt-4 mb-4 text-center">Tusinde tak for din forespørgelse!</h2>
         <br>
+        <p>Vi kontakter dig hurtigst muligt!</p>
         <br>
-        <br>
+        <p>Du kan følge din forespørgelse på denne side:</p>
+        <p><a href="${requestScope.orderUrl}">Status for forespørgelse <u>${requestScope.order.id}</u></a></p>
         <br>
         <br>
         <br>

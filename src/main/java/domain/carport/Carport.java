@@ -9,7 +9,7 @@ public class Carport {
         Flat,
         Peak
     }
-
+    
     private final int id;
     private final double length;
     private final double width;
@@ -37,9 +37,9 @@ public class Carport {
         this.partslist = partslist;
         this.price = price;
     }
-
+    
     public Carport(double length, double width, Enum<Roof> roofType, Shed shed, Partslist partslist) {
-        this.id = -1;
+        this.id = - 1;
         this.length = length;
         this.width = width;
         this.roofType = roofType;
@@ -47,9 +47,9 @@ public class Carport {
         this.partslist = partslist;
         this.price = calculatePrice(partslist);
     }
-
+    
     public Carport(double length, double width, Enum<Roof> roofType, Shed shed) {
-        this.id = -1;
+        this.id = - 1;
         this.length = length;
         this.width = width;
         this.roofType = roofType;
@@ -60,7 +60,7 @@ public class Carport {
     
     private double calculatePrice(Partslist partslist) {
         double x = 0.0;
-        for(Part p: partslist.getPartList()){
+        for (Part p : partslist.getPartList()) {
             x += p.getPrice();
         }
         return x;
@@ -91,7 +91,7 @@ public class Carport {
         return this.roofType;
     }
     
-    public boolean hasShed(){
+    public boolean hasShed() {
         return shed != null;
     }
     

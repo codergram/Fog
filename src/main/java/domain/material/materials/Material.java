@@ -1,14 +1,14 @@
 package domain.material.materials;
 
 public abstract class Material {
-        public enum Unit {
-            Stk,
-            Pk,
-            Rulle,
-            Sæt
-}
-
-        public enum Usage {
+    public enum Unit {
+        Stk,
+        Pk,
+        Rulle,
+        Sæt
+    }
+    
+    public enum Usage {
         //Flat roof
         UnderStarFronBack,
         UnderStarSide,
@@ -25,7 +25,7 @@ public abstract class Material {
         ShedCladding,
         WaterStarSide,
         WaterStartEnd,
-            RoffingSmall,
+        RoffingSmall,
         RoffingBig,
         FoffingSmall,
         Windshield,
@@ -41,11 +41,11 @@ public abstract class Material {
         UniversalFittings,
         Pole,
         InnerCladding,
-            InnerCladding300,
-            InnerCladding350,
+        InnerCladding300,
+        InnerCladding350,
         OuterCladding,
-            OuterCladding200,
-            OuterCladding400,
+        OuterCladding200,
+        OuterCladding400,
         Shed,
         RoofBattens,
         TopLath,
@@ -53,15 +53,15 @@ public abstract class Material {
         BackStone,
         RoofTiles,
         Star,
-            TopLayer
+        TopLayer
     }
-
+    
     protected final int id;
     protected final String name;
     protected final double price;
     protected final Enum<Usage> usage;
     protected final Enum<Unit> unit;
-
+    
     public Material(int id, String name, double price, Enum<Usage> usage, Enum<Unit> unit) {
         this.id = id;
         this.name = name;
@@ -69,27 +69,27 @@ public abstract class Material {
         this.usage = usage;
         this.unit = unit;
     }
-
+    
     public Material(String name, double price, Enum<Usage> usage, Enum<Unit> unit) {
-        this.id = -1;
+        this.id = - 1;
         this.name = name;
         this.price = price;
         this.usage = usage;
         this.unit = unit;
     }
-
+    
     public Enum<Material.Usage> getUsage() {
         return usage;
     }
-
+    
     public int getId() {
         return id;
     }
-
+    
     public String getName() {
         return name;
     }
-
+    
     public double getPrice() {
         return price;
     }
@@ -98,7 +98,7 @@ public abstract class Material {
         return unit;
     }
     
-    public String getUnitString(){
+    public String getUnitString() {
         return unit.name();
     }
     
@@ -112,7 +112,7 @@ public abstract class Material {
         if (o == null || getClass() != o.getClass()) return false;
         
         Material material = (Material) o;
-    
+        
         return name != null ? name.equals(material.name) : material.name == null;
     }
     

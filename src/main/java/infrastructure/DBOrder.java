@@ -32,14 +32,14 @@ public class DBOrder implements OrderRepository {
     }
     
     @Override
-    public int getOrderNumberFromUUID(UUID uuid){
+    public int getOrderNumberFromUUID(UUID uuid) {
         try (Connection conn = database.getConnection()) {
-        
-            try(PreparedStatement ps = conn.prepareStatement("SELECT order_id FROM links WHERE uuid=?")){
+            
+            try (PreparedStatement ps = conn.prepareStatement("SELECT id FROM orders WHERE uuid=?")) {
                 ps.setString(1, uuid.toString());
-            
+                
                 ResultSet rs = ps.executeQuery();
-            
+                
                 if (rs.next()) {
                     return rs.getInt(1);
                 }
@@ -47,7 +47,7 @@ public class DBOrder implements OrderRepository {
         } catch (SQLException e) {
             log.error(e.getMessage());
         }
-        return -1;
+        return - 1;
     }
     
     @Override
@@ -82,20 +82,19 @@ public class DBOrder implements OrderRepository {
                     "sheds.length AS \"shedLength\",\n" +
                     "sheds.width AS \"shedWidth\",\n" +
                     "carports.partlist_id AS \"partlistId\",\n" +
-                    "links.uuid AS \"uuid\"\n" +
+                    "orders.uuid AS \"uuid\"\n" +
                     "FROM\n" +
                     "orders\n" +
                     "LEFT JOIN users ON users.id = orders.employee_id\n" +
                     "JOIN customers ON customers.id = orders.customer_id\n" +
                     "JOIN carports ON carports.id = orders.carport_id\n" +
                     "JOIN partlists ON carports.partlist_id = partlists.id\n" +
-                    "LEFT JOIN links ON links.order_id = orders.id\n" +
                     "LEFT JOIN sheds ON sheds.id = carports.shed_id\n" +
                     "ORDER BY orders.id DESC";
             
-            try (PreparedStatement s = conn.prepareStatement(getOrdersQuery)){
+            try (PreparedStatement s = conn.prepareStatement(getOrdersQuery)) {
                 ResultSet rs = s.executeQuery();
-            
+                
                 while (rs.next()) {
                     Order tmpOrder = null;
                     User tmpUser = null;
@@ -115,18 +114,17 @@ public class DBOrder implements OrderRepository {
                     int customerId = rs.getInt("customerId");
                     int carportId = rs.getInt("carportId");
                     int partlistId = rs.getInt("partlistId");
-    
                     
                     
                     //UUID for links
-                    if(rs.getString("uuid") != null){
+                    if (rs.getString("uuid") != null) {
                         String uuidString = rs.getString("uuid");
                         uuid = UUID.fromString(uuidString);
                     }
-
-    
+                    
+                    
                     //Employee data
-                    if(employeeId != 0) {
+                    if (employeeId != 0) {
                         String employeeName = rs.getString("employeeName");
                         String employeeMail = rs.getString("employeeMail");
                         Enum<User.Role> employeeRole = User.Role.valueOf(rs.getString("employeeRole"));
@@ -142,7 +140,7 @@ public class DBOrder implements OrderRepository {
                     String customerEmail = rs.getString("customerEmail");
                     
                     tmpCustomer = new Customer(customerId, customerName, customerAddress, customerZip, customerCity, customerPhone, customerEmail);
-    
+                    
                     
                     //Carport data
                     double carportLength = rs.getDouble("carportLength");
@@ -150,18 +148,18 @@ public class DBOrder implements OrderRepository {
                     Carport.Roof carportRoof = Carport.Roof.valueOf(rs.getString("carportRoof"));
                     double carportPrice = rs.getDouble("carportPrice");
                     
-                        //Shed data
-                        double shedLength = rs.getDouble("shedLength");
-                        double shedWidth = rs.getDouble("shedWidth");
-                        
-                        if(shedLength != 0 && shedWidth != 0) {
-                            tmpShed = new Shed(shedLength, shedWidth);
-                        }
-                        
-                        List<Part> matList = getPartsOnOrder(partlistId);
-                        
-                        Partslist partslist = new Partslist(matList);
-                        
+                    //Shed data
+                    double shedLength = rs.getDouble("shedLength");
+                    double shedWidth = rs.getDouble("shedWidth");
+                    
+                    if (shedLength != 0 && shedWidth != 0) {
+                        tmpShed = new Shed(shedLength, shedWidth);
+                    }
+                    
+                    List<Part> matList = getPartsOnOrder(partlistId);
+                    
+                    Partslist partslist = new Partslist(matList);
+                    
                     tmpCarport = new Carport(carportId, carportLength, carportWidth, carportRoof, tmpShed, partslist, carportPrice);
                     
                     tmpOrder = new Order(orderId, orderWidth, orderLength, timestamp, tmpUser, tmpCustomer, orderStatus, tmpCarport, orderMargin, uuid);
@@ -171,7 +169,7 @@ public class DBOrder implements OrderRepository {
                 }
                 return orders;
             }
-            } catch (SQLException e) {
+        } catch (SQLException e) {
             log.error(e.getMessage());
         }
         return orders;
@@ -179,9 +177,9 @@ public class DBOrder implements OrderRepository {
     
     private List<Part> getPartsOnOrder(int partlistId) {
         List<Part> parts = new ArrayList<>();
-    
-        try (Connection conn = database.getConnection()) {
         
+        try (Connection conn = database.getConnection()) {
+            
             String getOrdersQuery = "SELECT \n" +
                     "parts.id AS \"partId\", parts.description AS \"description\", parts.amount AS \"amount\", parts.length AS \"length\",\n" +
                     "`usage`.`name` AS \"usageName\",\n" +
@@ -192,15 +190,14 @@ public class DBOrder implements OrderRepository {
                     "JOIN materiale ON materiale.id = `usage`.material_id\n" +
                     "JOIN type ON type.id = `usage`.type_id\n" +
                     "WHERE parts.partlist_id = ?";
-        
-            try (PreparedStatement s = conn.prepareStatement(getOrdersQuery)){
+            
+            try (PreparedStatement s = conn.prepareStatement(getOrdersQuery)) {
                 s.setInt(1, partlistId);
                 
                 
                 ResultSet rs = s.executeQuery();
                 
                 while (rs.next()) {
-                    int partId = rs.getInt("partId");
                     int amount = rs.getInt("amount");
                     String description = rs.getString("description");
                     int length = rs.getInt("length");
@@ -211,20 +208,20 @@ public class DBOrder implements OrderRepository {
                     String typeName = rs.getString("typeName");
                     
                     Material.Unit materialUnit = Material.Unit.valueOf(matUnit);
-    
+                    
                     Material tmpMaterial = null;
                     
                     boolean materialTypeFound = false;
                     
-                    for(Tree.Type t: Tree.Type.values()){
-                        if(t.name().equals(typeName)){
+                    for (Tree.Type t : Tree.Type.values()) {
+                        if (t.name().equals(typeName)) {
                             tmpMaterial = new Tree(materialName, length, materialPrice, materialUsage, t, materialUnit);
                             materialTypeFound = true;
                             break;
                         }
                     }
                     
-                    if(!materialTypeFound){
+                    if (! materialTypeFound) {
                         tmpMaterial = new Options(materialName, materialPrice, materialUsage, Options.Type.valueOf(typeName), materialUnit);
                     }
                     
@@ -232,8 +229,9 @@ public class DBOrder implements OrderRepository {
                     
                     //Add part to list
                     parts.add(tmpPart);
-                }}
-        
+                }
+            }
+            
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -242,28 +240,21 @@ public class DBOrder implements OrderRepository {
     
     @Override
     public Order getOrderById(int id) throws OrderNotFound {
-        for(Order o: getAllOrders()){
-            if(o.getId() == id){
+        for (Order o : getAllOrders()) {
+            if (o.getId() == id) {
                 return o;
             }
         }
         return null;
     }
-    
     @Override
-    public boolean deleteOrderById(int id) throws OrderException {
-        return false;
-    }
-    
-    @Override
-    public boolean updateOrderStatusById(int id, Order.Status status) throws OrderException {
+    public void updateOrderStatusById(int id, Order.Status status) throws OrderException {
         try (Connection conn = database.getConnection()) {
-            try(PreparedStatement ps = conn.prepareStatement("UPDATE orders SET status=? WHERE id=?;")){
+            try (PreparedStatement ps = conn.prepareStatement("UPDATE orders SET status=? WHERE id=?;")) {
                 ps.setString(1, status.name());
-                ps.setInt(2,id);
+                ps.setInt(2, id);
                 ps.executeUpdate();
             }
-            return true;
         } catch (Exception e) {
             throw new OrderException(e.getMessage());
         }
@@ -272,13 +263,14 @@ public class DBOrder implements OrderRepository {
     @Override
     public void assignOrder(int ordrenummer, int userId) throws OrderNotFound {
         try (Connection conn = database.getConnection()) {
-            try(PreparedStatement ps = conn.prepareStatement("UPDATE orders SET orders.employee_id=? WHERE orders.id=?;")){
-            
+            try (PreparedStatement ps = conn.prepareStatement("UPDATE orders SET orders.employee_id=? WHERE orders.id=?;")) {
+                
                 ps.setInt(1, userId);
-                ps.setInt(2,ordrenummer);
+                ps.setInt(2, ordrenummer);
                 ps.executeUpdate();
                 
-            }} catch (Exception e) {
+            }
+        } catch (Exception e) {
             throw new OrderNotFound(e.getMessage());
         }
     }
@@ -286,10 +278,10 @@ public class DBOrder implements OrderRepository {
     @Override
     public void updateMargin(int orderId, double newMargin) throws OrderException {
         try (Connection conn = database.getConnection()) {
-            try(PreparedStatement ps = conn.prepareStatement("UPDATE orders SET margin=? WHERE id=?;")){
-            
+            try (PreparedStatement ps = conn.prepareStatement("UPDATE orders SET margin=? WHERE id=?;")) {
+                
                 ps.setDouble(1, newMargin);
-                ps.setInt(2,orderId);
+                ps.setInt(2, orderId);
                 ps.executeUpdate();
             }
         } catch (Exception e) {
@@ -300,29 +292,30 @@ public class DBOrder implements OrderRepository {
     @Override
     public void releaseOrder(int orderId) throws OrderNotFound {
         try (Connection conn = database.getConnection()) {
-            try(PreparedStatement ps = conn.prepareStatement("UPDATE orders SET orders.employee_id=NULL WHERE orders.id=?;")){
-            
+            try (PreparedStatement ps = conn.prepareStatement("UPDATE orders SET orders.employee_id=NULL WHERE orders.id=?;")) {
+                
                 ps.setInt(1, orderId);
                 ps.executeUpdate();
-            
-            }} catch (Exception e) {
+                
+            }
+        } catch (Exception e) {
             throw new OrderNotFound(e.getMessage());
         }
     }
     
-    private int getPartUsageId(Part part){
+    private int getPartUsageId(Part part) {
         try (Connection conn = database.getConnection()) {
             
             Material mat = part.getMaterial();
             String usage = mat.getUsage().name();
             int matId = mat.getId();
-            int typeId = -1;
-    
-            try(PreparedStatement ps = conn.prepareStatement("SELECT id FROM `type` WHERE name=?")){
-                if(mat instanceof Tree) {
+            int typeId = - 1;
+            
+            try (PreparedStatement ps = conn.prepareStatement("SELECT id FROM `type` WHERE name=?")) {
+                if (mat instanceof Tree) {
                     ps.setString(1, ((Tree) mat).getType().name());
                 } else {
-                    ps.setString(1,((Options) mat).getType().name());
+                    ps.setString(1, ((Options) mat).getType().name());
                 }
                 
                 ResultSet rs = ps.executeQuery();
@@ -332,14 +325,13 @@ public class DBOrder implements OrderRepository {
                 }
             }
             
-        
-            try(PreparedStatement ps = conn.prepareStatement("SELECT id FROM `usage` WHERE name=? AND material_id=? AND type_id=?")){
-                ps.setString(1,usage);
-                ps.setInt(2,matId);
-                ps.setInt(3,typeId);
             
+            try (PreparedStatement ps = conn.prepareStatement("SELECT id FROM `usage` WHERE name=? AND material_id=? AND type_id=?")) {
+                ps.setString(1, usage);
+                ps.setInt(2, matId);
+                ps.setInt(3, typeId);
                 
-            
+                
                 ResultSet rs = ps.executeQuery();
                 if (rs.next()) {
                     return rs.getInt(1);
@@ -348,69 +340,44 @@ public class DBOrder implements OrderRepository {
         } catch (SQLException e) {
             log.error(e.getMessage());
         }
-        return -1;
+        return - 1;
     }
     
-    private List<Integer> createPartsInDb(Partslist partlist, int partlistId){
-        List<Integer> partIdsInDb = new ArrayList<>();
-            try (Connection conn = database.getConnection()) {
-                String sql = "INSERT INTO parts (description, usage_id, amount, length, partlist_id) " +
-                        "VALUE (?,?,?,?,?);";
-                for(Part p: partlist.getPartList()) {
-                    try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-        
-                        ps.setString(1, p.getDescription());
-                        ps.setInt(2, getPartUsageId(p));
-                        ps.setInt(3, p.getAmount());
-                        if(p.getMaterial() instanceof Tree) {
-                            ps.setDouble(4, ((Tree) p.getMaterial()).getLength());
-                        } else {
-                            ps.setDouble(4,0.0);
-                        }
-                        ps.setInt(5, partlistId);
-        
-                        ps.executeUpdate();
-        
-                        ResultSet rs = ps.getGeneratedKeys();
-                        if (rs.next()) {
-                            int id = rs.getInt(1);
-                            partIdsInDb.add(id);
-                        }
-                    }
-                }
-            } catch (SQLException e) {
-                log.error(e.getMessage());
-            }
-        return partIdsInDb;
-    }
-    
-    private int createPartlistInDb(){
+    private void createPartsInDb(Partslist partlist, int partlistId) {
         try (Connection conn = database.getConnection()) {
-            String sql = "INSERT INTO partlists (id) VALUES (null);";
-            
+            String sql = "INSERT INTO parts (description, usage_id, amount, length, partlist_id) " +
+                    "VALUE (?,?,?,?,?);";
+            for (Part p : partlist.getPartList()) {
                 try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-                
+                    
+                    ps.setString(1, p.getDescription());
+                    ps.setInt(2, getPartUsageId(p));
+                    ps.setInt(3, p.getAmount());
+                    if (p.getMaterial() instanceof Tree) {
+                        ps.setDouble(4, ((Tree) p.getMaterial()).getLength());
+                    } else {
+                        ps.setDouble(4, 0.0);
+                    }
+                    ps.setInt(5, partlistId);
+                    
                     ps.executeUpdate();
-                
+                    
                     ResultSet rs = ps.getGeneratedKeys();
                     if (rs.next()) {
-                        return rs.getInt(1);
+                        int id = rs.getInt(1);
                     }
                 }
+            }
         } catch (SQLException e) {
             log.error(e.getMessage());
         }
-        return -1;
     }
     
-    private int createShedInDb(Shed shed){
+    private int createPartlistInDb() {
         try (Connection conn = database.getConnection()) {
-            String sql = "INSERT INTO sheds (length, width) VALUES (?,?);";
+            String sql = "INSERT INTO partlists (id) VALUES (null);";
             
             try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-                
-                ps.setDouble(1,shed.getLength());
-                ps.setDouble(2,shed.getWidth());
                 
                 ps.executeUpdate();
                 
@@ -422,39 +389,61 @@ public class DBOrder implements OrderRepository {
         } catch (SQLException e) {
             log.error(e.getMessage());
         }
-        return -1;
+        return - 1;
+    }
+    
+    private int createShedInDb(Shed shed) {
+        try (Connection conn = database.getConnection()) {
+            String sql = "INSERT INTO sheds (length, width) VALUES (?,?);";
+            
+            try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                
+                ps.setDouble(1, shed.getLength());
+                ps.setDouble(2, shed.getWidth());
+                
+                ps.executeUpdate();
+                
+                ResultSet rs = ps.getGeneratedKeys();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            log.error(e.getMessage());
+        }
+        return - 1;
     }
     
     @Override
     public Order createNewOrder(Order order) throws OrderException {
         double margin = order.getMargin();
-    
+        
         UUID uuid = UUID.randomUUID();
         
         int partListId = createPartlistInDb();
         Customer customer = order.getCustomer();
         Carport carport = order.getCarport();
-        int carportId = -1;
+        int carportId = - 1;
         
-        int shedId = -1;
+        int shedId = - 1;
         
         createPartsInDb(carport.getPartslist(), partListId);
         
         String carportSql = "INSERT INTO carports(length, width, roof, price, partlist_id) " +
                 "VALUE (?,?,?,?,?);";
         
-        if(carport.hasShed()) {
+        if (carport.hasShed()) {
             shedId = createShedInDb(carport.getShed());
             carportSql = "INSERT INTO carports(length, width, roof, shed_id, price, partlist_id) " +
                     "VALUE (?,?,?,?,?,?);";
         }
-    
-        try (Connection conn = database.getConnection()) {
-    
-            try(PreparedStatement ps = conn.prepareStatement(carportSql,
-                    Statement.RETURN_GENERATED_KEYS)){
         
-                if(carport.hasShed()) {
+        try (Connection conn = database.getConnection()) {
+            
+            try (PreparedStatement ps = conn.prepareStatement(carportSql,
+                    Statement.RETURN_GENERATED_KEYS)) {
+                
+                if (carport.hasShed()) {
                     ps.setDouble(1, carport.getLength());
                     ps.setDouble(2, carport.getWidth());
                     ps.setString(3, carport.getRoofType().name());
@@ -468,47 +457,37 @@ public class DBOrder implements OrderRepository {
                     ps.setDouble(4, order.getCarport().getPrice());
                     ps.setInt(5, partListId);
                 }
-        
+                
                 ps.executeUpdate();
-        
+                
                 ResultSet rs = ps.getGeneratedKeys();
                 if (rs.next()) {
                     carportId = rs.getInt(1);
                 }
             }
-        
-            try(PreparedStatement ps = conn.prepareStatement("INSERT INTO orders(width, length, customer_id, status, carport_id, margin) " +
-                    "VALUE (?,?,?,?,?,?);",
-                    Statement.RETURN_GENERATED_KEYS)){
+            
+            try (PreparedStatement ps = conn.prepareStatement("INSERT INTO orders(width, length, customer_id, status, carport_id, margin, uuid) " +
+                            "VALUE (?,?,?,?,?,?,?);",
+                    Statement.RETURN_GENERATED_KEYS)) {
                 
                 ps.setDouble(1, carport.getWidth());
-                ps.setDouble(2,carport.getLength());
-                ps.setInt(3,customer.getId());
+                ps.setDouble(2, carport.getLength());
+                ps.setInt(3, customer.getId());
                 ps.setString(4, Order.Status.New.name());
-                ps.setInt(5,carportId);
-                ps.setDouble(6,margin);
-            
+                ps.setInt(5, carportId);
+                ps.setDouble(6, margin);
+                ps.setString(7, uuid.toString());
+                
                 ps.executeUpdate();
-            
+                
                 ResultSet rs = ps.getGeneratedKeys();
                 if (rs.next()) {
                     order.setId(rs.getInt(1));
-                }
-            }
-    
-            try(PreparedStatement ps = conn.prepareStatement("INSERT INTO links (order_id, uuid) VALUE (?,?);")){
-        
-                ps.setInt(1, order.getId());
-                ps.setString(2,uuid.toString());
-        
-                ps.executeUpdate();
-                
-                if(ps.getUpdateCount() > 0){
                     order.setUuid(uuid);
                     return order;
                 }
             }
-        
+            
         } catch (SQLException e) {
             log.error(e.getMessage());
         }

@@ -10,7 +10,7 @@ public class LocalSVG implements SVGFactory {
     public SVGSide createSVGSideCarport(Carport carport, boolean isCustomer) {
         return new SVGSide(carport, isCustomer);
     }
-
+    
     @Override
     public SVGTop createSVGTopCarport(Carport carport, boolean isCustomer) {
         return new SVGTop(carport, isCustomer);
