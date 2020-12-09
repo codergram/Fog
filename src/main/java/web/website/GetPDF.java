@@ -31,7 +31,7 @@ public class GetPDF extends BaseServlet {
 
       log.info("UUID requested: {}", uuidReq);
 
-      File pdfToDownload = api.getPdf(String.valueOf(uuidReq));
+      File pdfToDownload = api.getPdf(uuidReq);
 
       downloadFile(resp, pdfToDownload);
 
