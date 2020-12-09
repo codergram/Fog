@@ -1,59 +1,53 @@
 <!doctype html>
-<html lang="en">
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link rel="stylesheet" href="/fog/styles/styles.css">
-
     <title>Ordre nr. $$ORDRENUMMER$$</title>
+    <style type="text/css">
+        .container {
+            margin: 0px auto;
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+        .tg  {border-collapse:collapse;border-spacing:0;margin:0px auto;}
+        .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+            overflow:hidden;padding:10px 5px;word-break:normal;}
+        .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+            font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+        .tg .tg-1wig{font-weight:bold;text-align:left;vertical-align:top}
+        .tg .tg-0lax{text-align:left;vertical-align:top}
+        @media screen and (max-width: 767px) {.tg {width: auto !important;}.tg col {width: auto !important;}.tg-wrap {overflow-x: auto;-webkit-overflow-scrolling: touch;margin: auto 0px;}}
+    </style>
 </head>
 <body>
 <div class="container">
     <h1 class="mt-4 mb-4 text-center">Ordre nr. $$ORDRENUMMER$$</h1>
-    <br>
-        <div class="row">
-            <div class="col-12">
-            <h2 class="text-center">Tegninger</h2>
-                <hr>
-            </div>
-
-        <div class="col-12">
-            <h4 class="text-center">Tegning fra siden</h4>
+    <h2 class="text-center">Tegninger</h2>
             $$sideDrawing$$
-            <hr>
-        </div>
 
-        <div class="col-12">
-            <h4 class="text-center">Tegning fra toppen</h4>
             $$topDrawing$$
-            <hr>
-        </div>
-        </div>
-    <br><br><br>
-    <div class="row">
-        <div class="col-12">
-            <h3 class="text-center">Stykliste</h3>
-        </div>
-        <div class="col-12">
-        <table class="table table-striped table-bordered" >
+
+    <div style="page-break-after:always">&nbsp;</div>
+    <h3 class="text-center">Stykliste</h3>
+
+    <div class="tg-wrap">
+        <table class="tg">
             <thead>
-            <th>Materiale</th>
-            <th>Længde</th>
-            <th>Antal</th>
-            <th>Enhed</th>
-            <th>Beskrivelse</th>
+            <tr>
+                <th class="tg-1wig">Materiale</th>
+                <th class="tg-1wig">Længde</th>
+                <th class="tg-1wig">Antal</th>
+                <th class="tg-1wig">Enhed</th>
+                <th class="tg-1wig">Beskrivelse</th>
             </tr>
             </thead>
             <tbody>
-
             $$PARTROWS$$
+            </tbody>
         </table>
-            <br><br><br>
-        </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-
 </body>
 </html>
