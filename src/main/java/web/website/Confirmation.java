@@ -120,6 +120,7 @@ public class Confirmation extends BaseServlet {
     req.setAttribute("svgTop", svgTop);
     req.getSession().setAttribute("carport", carport);
 
+    try{
     if (actionVal != null) {
       if (actionVal.equals("preview")) {
         System.out.println("preview carport");
@@ -128,6 +129,9 @@ public class Confirmation extends BaseServlet {
       } else {
         render("Bekræft Carport", "/WEB-INF/pages/customer/confirmation.jsp", req, resp);
       }
+    }
+    } catch (ServletException | IOException e){
+      log.error(e.getMessage());
     }
   }
 
@@ -171,6 +175,10 @@ public class Confirmation extends BaseServlet {
 
     req.setAttribute("order", order);
 
+    try{
     render("Bekræft Carport", "/WEB-INF/pages/customer/thankyou.jsp", req, resp);
+    } catch (ServletException | IOException e){
+      log.error(e.getMessage());
+    }
   }
 }

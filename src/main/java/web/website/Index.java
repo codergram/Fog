@@ -22,6 +22,10 @@ public class Index extends BaseServlet {
 
     log.info("Serving page {}", req.getRequestURI());
 
+    try{
     render("Startside", "/WEB-INF/pages/index.jsp", req, resp);
+    } catch (ServletException | IOException e){
+      log.error(e.getMessage());
+    }
   }
 }

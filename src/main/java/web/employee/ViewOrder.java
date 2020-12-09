@@ -105,7 +105,7 @@ public class ViewOrder extends BaseServlet {
         case "createPdf":
           Order pdfOrder = api.getOrderById(orderId);
           File pdfFile = api.createPdf(pdfOrder);
-          String downloadUrl = req.getParameter("downloadurl"); // TODO : Ændre til ordre url
+          String downloadUrl = req.getParameter("downloadurl");
           sendMail(pdfOrder.getCustomer().getEmail(), downloadUrl, pdfFile);
           break;
         default:

@@ -15,6 +15,7 @@ public class Utils {
   public static String fileToString(String file) {
     if (file == null || file.isEmpty()) return null;
     try (InputStream input = Api.class.getClassLoader().getResourceAsStream(file)) {
+      if(input == null) return null;
       return IOUtils.toString(input);
     } catch (IOException ex) {
       ex.printStackTrace();

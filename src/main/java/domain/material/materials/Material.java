@@ -62,7 +62,7 @@ public abstract class Material {
   protected final Enum<Usage> usage;
   protected final Enum<Unit> unit;
 
-  public Material(int id, String name, double price, Enum<Usage> usage, Enum<Unit> unit) {
+  protected Material(int id, String name, double price, Enum<Usage> usage, Enum<Unit> unit) {
     this.id = id;
     this.name = name;
     this.price = price;
@@ -70,7 +70,7 @@ public abstract class Material {
     this.unit = unit;
   }
 
-  public Material(String name, double price, Enum<Usage> usage, Enum<Unit> unit) {
+  protected Material(String name, double price, Enum<Usage> usage, Enum<Unit> unit) {
     this.id = -1;
     this.name = name;
     this.price = price;

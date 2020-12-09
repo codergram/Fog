@@ -119,7 +119,7 @@
                 <input type="hidden" name="action" value="createPdf">
                 <input type="hidden" name="redirect" value="viewOrder">
                 <input type="hidden" name="ordrenummer" value="${order.id}" />
-                <input type="hidden" name="downloadurl" value="${downloadURL}" />
+                <input type="hidden" name="downloadurl" value="${customURL}" />
                 <div class="input-group-append">
                     <button class="btn btn-primary" type="button" id="button-createpdf" onclick="this.form.submit()">Opret og send PDF</button>
                 </div>

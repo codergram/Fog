@@ -1,5 +1,8 @@
 package web.website;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
+import org.slf4j.Logger;
 import web.BaseServlet;
 
 import javax.servlet.ServletException;
@@ -12,11 +15,16 @@ import java.io.IOException;
     name = "Shop",
     urlPatterns = {"/Shop"})
 public class Shop extends BaseServlet {
+  private static final Logger log = getLogger(Shop.class);
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
-    render("Din carport", "/WEB-INF/pages/customer/carport.jsp", request, response);
+    try {
+      render("Din carport", "/WEB-INF/pages/customer/carport.jsp", request, response);
+    } catch (ServletException | IOException ex) {
+      log.error(ex.getMessage());
+    }
   }
 }

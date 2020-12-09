@@ -382,7 +382,7 @@ public class DBOrder implements OrderRepository {
           "INSERT INTO parts (description, usage_id, amount, length, partlist_id) "
               + "VALUE (?,?,?,?,?);";
       for (Part p : partlist.getPartList()) {
-        try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
 
           ps.setString(1, p.getDescription());
           ps.setInt(2, getPartUsageId(p));
@@ -395,11 +395,6 @@ public class DBOrder implements OrderRepository {
           ps.setInt(5, partlistId);
 
           ps.executeUpdate();
-
-          ResultSet rs = ps.getGeneratedKeys();
-          if (rs.next()) {
-            int id = rs.getInt(1);
-          }
         }
       }
     } catch (SQLException e) {
