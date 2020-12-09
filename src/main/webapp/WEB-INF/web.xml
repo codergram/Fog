@@ -1,49 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
-         version="4.0">
-    <display-name>Fog</display-name>
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+  version="4.0">
+  <display-name>Fog</display-name>
 
-<!--    <security-constraint>-->
-<!--        <web-resource-collection>-->
-<!--            <web-resource-name>Fog</web-resource-name>-->
-<!--            <url-pattern>/fog/*</url-pattern>-->
-<!--            <http-method>GET</http-method>-->
-<!--            <http-method>POST</http-method>-->
-<!--        </web-resource-collection>-->
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Fog</web-resource-name>
+      <url-pattern>/*</url-pattern>
+    </web-resource-collection>
+    <user-data-constraint>
+<!--      <transport-guarantee>CONFIDENTIAL</transport-guarantee>-->
+                  <transport-guarantee>NONE</transport-guarantee>
+    </user-data-constraint>
 
-<!--        <user-data-constraint>-->
-<!--            &lt;!&ndash;      <transport-guarantee>CONFIDENTIAL</transport-guarantee>&ndash;&gt;-->
-<!--            <transport-guarantee>NONE</transport-guarantee>-->
-<!--        </user-data-constraint>-->
+  </security-constraint>
 
-<!--    </security-constraint>-->
+  <jsp-config>
+    <jsp-property-group>
+      <url-pattern>*.jsp</url-pattern>
+      <page-encoding>UTF-8</page-encoding>
+    </jsp-property-group>
+  </jsp-config>
 
-    <jsp-config>
-        <jsp-property-group>
-            <url-pattern>*.jsp</url-pattern>
-            <page-encoding>UTF-8</page-encoding>
-        </jsp-property-group>
-    </jsp-config>
+  <error-page>
+    <location>/WEB-INF/errorpages/error.jsp</location>
+  </error-page>
 
-    <error-page>
-        <location>/WEB-INF/errorpages/error.jsp</location>
-    </error-page>
+  <error-page>
+    <error-code>404</error-code>
+    <location>/WEB-INF/errorpages/404.jsp</location>
+  </error-page>
 
-    <error-page>
-        <error-code>404</error-code>
-        <location>/WEB-INF/errorpages/404.jsp</location>
-    </error-page>
+  <error-page>
+    <error-code>401</error-code>
+    <location>/WEB-INF/errorpages/401.jsp</location>
+  </error-page>
 
-    <error-page>
-        <error-code>401</error-code>
-        <location>/WEB-INF/errorpages/401.jsp</location>
-    </error-page>
-
-    <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
-    </session-config>
+  <session-config>
+    <session-timeout>
+      30
+    </session-timeout>
+  </session-config>
 </web-app>

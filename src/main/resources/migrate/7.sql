@@ -68,12 +68,12 @@ CREATE TABLE `customers` (
 BEGIN;
 INSERT INTO `customers` VALUES (3, 'Emil test', 'Vejnavn 123', 1234, 'Bynavn', 12345678, 'emil@test.dk');
 INSERT INTO `customers` VALUES (4, 'Kurt Verner', 'Ingenvej 666', 1234, 'VarmBy', 12345678, 'cph-en93@cphbusiness.dk');
-INSERT INTO `customers` VALUES (5, 'John smith', 'Kedeligvej 12', 2200, 'NÃ¸rrebronx', 12345678, 'john@smith.com');
+INSERT INTO `customers` VALUES (5, 'John smith', 'Kedeligvej 12', 2200, 'Nørrebronx', 12345678, 'john@smith.com');
 INSERT INTO `customers` VALUES (6, 'Arnold', 'vejnavn 1234', 2100, 'Speltbro', 12345678, 'arnold@hej.dk');
 INSERT INTO `customers` VALUES (7, 'test navn', 'test addresse', 1234, 'by', 12121212, 'test@mail.dk');
 INSERT INTO `customers` VALUES (8, 'arik', 'vejnavn 234', 1234, 'bynavn', 12345678, 'arik@arik.dk');
 INSERT INTO `customers` VALUES (9, 'Emil', 'Testvej 1234', 9999, 'Bynavn', 60146057, 'emil@evsn.dk');
-INSERT INTO `customers` VALUES (10, 'Johnny madsen', 'Rygevej 69', 1234, 'FanÃ¸', 12345678, 'emil@vta.dk');
+INSERT INTO `customers` VALUES (10, 'Johnny madsen', 'Rygevej 69', 1234, 'Fanø', 12345678, 'emil@vta.dk');
 COMMIT;
 
 -- ----------------------------
@@ -156,7 +156,7 @@ CREATE TABLE `orders` (
 -- Records of orders
 -- ----------------------------
 BEGIN;
-INSERT INTO `orders` VALUES (202001, 600, 780, '2020-12-07 20:23:19', 1, 4, 'Paid', 12, 15.24, '10f96d5b-5e3a-4f85-a0cd-7ad224071769');
+INSERT INTO `orders` VALUES (202001, 600, 780, '2020-12-07 20:23:19', 1, 4, 'Completed', 12, 15.24, '10f96d5b-5e3a-4f85-a0cd-7ad224071769');
 INSERT INTO `orders` VALUES (202002, 300, 580, '2020-12-08 13:25:09', 1, 4, 'New', 13, 30.00, '09e14312-29b1-4d5b-8295-68a315c5224d');
 INSERT INTO `orders` VALUES (202003, 350, 630, '2020-12-09 13:30:30', NULL, 9, 'New', 15, 30.00, '87f27eb6-6b8c-4c11-a1f9-c9fd293bf783');
 INSERT INTO `orders` VALUES (202004, 360, 640, '2020-12-09 13:39:34', 1, 10, 'New', 16, 30.00, '1cc7b4e1-2c46-43e3-bc24-5ce6eb8f65c5');
