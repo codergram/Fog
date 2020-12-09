@@ -14,52 +14,50 @@ import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-
 @WebServlet("/ViewOrder/*")
 public class ViewOrder extends BaseServlet {
-    
-    private static final Logger log = getLogger(ViewOrder.class);
-    
-    /**
-     * Renders the index.jsp page
-     *
-     * @see BaseServlet
-     */
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        try {
-            resp.setCharacterEncoding("UTF-8");
-            req.setCharacterEncoding("UTF-8");
-            
-            String uuidReq = req.getPathInfo().substring(1);
-            int orderId = - 1;
-            
-            log.info("UUID requested: {}", uuidReq);
-            orderId = api.getOrderByUUID(uuidReq);
-            
-            
-            Order order = api.getOrderById(orderId);
-            
-            String svgSide = api.getSVGSide(order.getCarport(), ! order.isPaid());
-            String svgTop = api.getSVGTop(order.getCarport(), ! order.isPaid());
-            
-            List<String> statuslist = new ArrayList<>();
-            for (Order.Status s : Order.Status.values()) {
-                statuslist.add(s.name());
-            }
-            req.setAttribute("statuslist", statuslist);
-            
-            //Save requests and sessions
-            req.setAttribute("svgSide", svgSide);
-            req.setAttribute("svgTop", svgTop);
-            req.setAttribute("carport", order.getCarport());
-            req.setAttribute("order", order);
-            
-            render("Ordre", "/WEB-INF/pages/customer/vieworder.jsp", req, resp);
-            
-        } catch (Exception e) {
-            log(e.getMessage());
-        }
+
+  private static final Logger log = getLogger(ViewOrder.class);
+
+  /**
+   * Renders the index.jsp page
+   *
+   * @see BaseServlet
+   */
+  @Override
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+      throws ServletException, IOException {
+    try {
+      resp.setCharacterEncoding("UTF-8");
+      req.setCharacterEncoding("UTF-8");
+
+      String uuidReq = req.getPathInfo().substring(1);
+      int orderId = -1;
+
+      log.info("UUID requested: {}", uuidReq);
+      orderId = api.getOrderByUUID(uuidReq);
+
+      Order order = api.getOrderById(orderId);
+
+      String svgSide = api.getSVGSide(order.getCarport(), !order.isPaid());
+      String svgTop = api.getSVGTop(order.getCarport(), !order.isPaid());
+
+      List<String> statuslist = new ArrayList<>();
+      for (Order.Status s : Order.Status.values()) {
+        statuslist.add(s.name());
+      }
+      req.setAttribute("statuslist", statuslist);
+
+      // Save requests and sessions
+      req.setAttribute("svgSide", svgSide);
+      req.setAttribute("svgTop", svgTop);
+      req.setAttribute("carport", order.getCarport());
+      req.setAttribute("order", order);
+
+      render("Ordre", "/WEB-INF/pages/customer/vieworder.jsp", req, resp);
+
+    } catch (Exception e) {
+      log(e.getMessage());
     }
+  }
 }

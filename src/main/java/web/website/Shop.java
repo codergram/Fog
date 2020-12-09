@@ -8,14 +8,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "Shop", urlPatterns = {"/Shop"})
+@WebServlet(
+    name = "Shop",
+    urlPatterns = {"/Shop"})
 public class Shop extends BaseServlet {
-    
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        render("Din carport", "/WEB-INF/pages/customer/carport.jsp", request, response);
-    }
-    
+
+  @Override
+  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
+
+    render("Din carport", "/WEB-INF/pages/customer/carport.jsp", request, response);
+  }
 }
