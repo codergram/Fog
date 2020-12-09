@@ -11,8 +11,8 @@ public class Partslist {
     public Partslist() {
         materialList = new LinkedList<>();
     }
-
-    public Partslist( List<Part> materialList) {
+    
+    public Partslist(List<Part> materialList) {
         this.materialList = materialList;
     }
     
@@ -42,9 +42,6 @@ public class Partslist {
     public Part getItem(int index) {
         return materialList.get(index);
     }
-    
-    
-    
     
     
 }

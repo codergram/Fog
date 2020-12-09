@@ -1,6 +1,6 @@
 package domain.order.exceptions;
 
-public class OrderNotFound extends Exception{
+public class OrderNotFound extends Exception {
     public OrderNotFound() {
         super("Order not found");
     }

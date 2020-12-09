@@ -1,6 +1,6 @@
 package domain.carport.shed;
 
-public class ShedException extends Exception{
+public class ShedException extends Exception {
     public ShedException() {
     }
     

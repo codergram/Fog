@@ -20,186 +20,196 @@ public class DBUser implements UserRepository {
     @Override
     public List<User> getAllUsersFromDB() throws UserNotFound {
         List<User> allUsersFromDB = new ArrayList<>();
-    
-        try (Connection conn = database.getConnection()){
         
+        try (Connection conn = database.getConnection()) {
+            
             String query = "SELECT * FROM users";
-        
-            PreparedStatement ps = conn.prepareStatement( query );
-        
-            ResultSet rs = ps.executeQuery();
-        
-            while ( rs.next() ) {
-                int userId = rs.getInt("users.id");
-                String usersName = rs.getString("users.name");
-                String userEmail = rs.getString( "users.email" );
-                String userRole = rs.getString( "users.role" );
             
-                User user = new User( userId, usersName, userEmail, User.Role.valueOf(userRole));
-            
-                allUsersFromDB.add(user);
+            ResultSet rs;
+            try (PreparedStatement ps = conn.prepareStatement(query)) {
+                
+                rs = ps.executeQuery();
+                
+                while (rs.next()) {
+                    int userId = rs.getInt("users.id");
+                    String usersName = rs.getString("users.name");
+                    String userEmail = rs.getString("users.email");
+                    String userRole = rs.getString("users.role");
+                    
+                    User user = new User(userId, usersName, userEmail, User.Role.valueOf(userRole));
+                    
+                    allUsersFromDB.add(user);
+                }
             }
-        } catch ( SQLException ex ) {
+        } catch (SQLException ex) {
             throw new UserNotFound();
         }
-    
+        
         return allUsersFromDB;
     }
     
     @Override
     public User getUserById(int userId) throws UserNotFound, UserExists {
         User user = null;
-    
-        try (Connection conn = database.getConnection()){
         
-            String query = "SELECT * FROM users "
-                    + "WHERE id = ?";
-        
-            PreparedStatement ps = conn.prepareStatement( query );
-            ps.setInt( 1, userId );
-            ResultSet rs = ps.executeQuery();
-        
-            if ( rs.next() ) {
-                String usersName = rs.getString("users.name");
-                String userEmail = rs.getString( "users.email" );
-                String userRole = rs.getString( "users.role" );
+        try (Connection conn = database.getConnection()) {
             
-                user = new User( userId, usersName, userEmail, User.Role.valueOf(userRole));
+            String query = "SELECT * FROM users WHERE id = ?";
             
-                return user;
-            } else {
-                throw new UserNotFound();
+            ResultSet rs;
+            try (PreparedStatement ps = conn.prepareStatement(query)) {
+                ps.setInt(1, userId);
+                rs = ps.executeQuery();
+                
+                if (rs.next()) {
+                    String usersName = rs.getString("users.name");
+                    String userEmail = rs.getString("users.email");
+                    String userRole = rs.getString("users.role");
+                    
+                    user = new User(userId, usersName, userEmail, User.Role.valueOf(userRole));
+                    
+                    return user;
+                } else {
+                    throw new UserNotFound();
+                }
             }
-        } catch ( SQLException ex ) {
+            
+        } catch (SQLException ex) {
             throw new UserExists(ex.getMessage());
         }
     }
     
     @Override
     public User createUser(User user) throws UserExists {
-        try (Connection conn = database.getConnection()){
-        
+        try (Connection conn = database.getConnection()) {
+            
             //Prepare a SQL statement from the DB connection
             String query = "INSERT INTO users (name, email, role, salt, secret) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement ps = conn.prepareStatement( query, Statement.RETURN_GENERATED_KEYS );
-        
-            //Link variables to the SQL statement
-            ps.setString(1,user.getName());
-            ps.setString(2, user.getEmail());
-            ps.setString(3, user.getRole().name());
-            ps.setBytes(4, user.getSalt());
-            ps.setBytes(5, user.getSecret());
-        
-            //Execute the SQL statement to update the DB
-            ps.executeUpdate();
-        
-            //Optional: Get result from the SQL execution, that returns the executed keys (user_id, user_name etc..)
-            ResultSet rs = ps.getGeneratedKeys();
-        
-            //Search if there is a result from the DB execution
-            if (rs.next()) {
-                //Create user from the user_id key that is returned form the DB execution
-                return user.withId(rs.getInt(1));
-            
-            } else {
-                //Return null, if no result is returned form the execution
-                return null;
+            ResultSet rs;
+            try (PreparedStatement ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+                
+                //Link variables to the SQL statement
+                ps.setString(1, user.getName());
+                ps.setString(2, user.getEmail());
+                ps.setString(3, user.getRole().name());
+                ps.setBytes(4, user.getSalt());
+                ps.setBytes(5, user.getSecret());
+                
+                //Execute the SQL statement to update the DB
+                ps.executeUpdate();
+                
+                //Optional: Get result from the SQL execution, that returns the executed keys (user_id, user_name etc..)
+                rs = ps.getGeneratedKeys();
+                
+                //Search if there is a result from the DB execution
+                if (rs.next()) {
+                    //Create user from the user_id key that is returned form the DB execution
+                    return user.withId(rs.getInt(1));
+                    
+                } else {
+                    //Return null, if no result is returned form the execution
+                    return null;
+                }
             }
-        } catch ( SQLException ex ) {
+        } catch (SQLException ex) {
             throw new UserExists(ex.getMessage());
         }
     }
     
     @Override
     public void updateUserById(int userId, User user) throws UserNotFound {
-        try (Connection conn = database.getConnection()){
-        
+        try (Connection conn = database.getConnection()) {
+            
             //Prepare a SQL statement from the DB connection
             String query = "UPDATE users SET role = ?"
                     + " WHERE id = ? ";
-            PreparedStatement ps = conn.prepareStatement( query );
-        
-            //Link variables to the SQL statement
-            ps.setString(1, user.getRole().name());
-            ps.setInt(2, userId);
-        
-            //Execute the SQL statement to update the DB
-            ps.executeUpdate();
-        
-        } catch ( SQLException ex ) {
+            try (PreparedStatement ps = conn.prepareStatement(query)) {
+                
+                //Link variables to the SQL statement
+                ps.setString(1, user.getRole().name());
+                ps.setInt(2, userId);
+                
+                //Execute the SQL statement to update the DB
+                ps.executeUpdate();
+            }
+            
+        } catch (SQLException ex) {
             throw new UserNotFound();
         }
     }
     
     @Override
     public void deleteUserById(int userId) throws UserNotFound {
-        try (Connection conn = database.getConnection()){
-        
+        try (Connection conn = database.getConnection()) {
+            
             //Prepare a SQL statement from the DB connection
             String query = "DELETE FROM users WHERE id = ?";
-            PreparedStatement ps = conn.prepareStatement( query );
-        
-            //Link variables to the SQL statement
-            ps.setInt(1, userId);
-        
-            //Execute the SQL statement to update the DB
-            ps.executeUpdate();
-        
-        } catch ( SQLException ex ) {
+            try (PreparedStatement ps = conn.prepareStatement(query)) {
+                
+                //Link variables to the SQL statement
+                ps.setInt(1, userId);
+                
+                //Execute the SQL statement to update the DB
+                ps.executeUpdate();
+            }
+            
+        } catch (SQLException ex) {
             throw new UserNotFound();
         }
     }
     
     @Override
     public void changeUserRole(int userId, User.Role role) throws UserNotFound {
-        try (Connection conn = database.getConnection()){
-        
+        try (Connection conn = database.getConnection()) {
+            
             //Prepare a SQL statement from the DB connection
             String query = "UPDATE users SET role = ? "
                     + " WHERE id = ? ";
-            PreparedStatement ps = conn.prepareStatement( query );
-        
-            //Link variables to the SQL statement
-            ps.setString(1, role.name());
-            ps.setInt(2, userId);
+            try (PreparedStatement ps = conn.prepareStatement(query)) {
+                
+                //Link variables to the SQL statement
+                ps.setString(1, role.name());
+                ps.setInt(2, userId);
+                
+                
+                //Execute the SQL statement to update the DB
+                ps.executeUpdate();
+            }
             
-            
-        
-            //Execute the SQL statement to update the DB
-            ps.executeUpdate();
-        
-        } catch ( SQLException ex ) {
+        } catch (SQLException ex) {
             throw new UserNotFound();
         }
     }
     
     @Override
     public User getUserByEmail(String email) throws UserNotFound, UserExists {
-        try (Connection conn = database.getConnection()){
-        
+        try (Connection conn = database.getConnection()) {
+            
             //Prepare a SQL statement from the DB connection
             String query = "SELECT * FROM users WHERE email = ?";
-            PreparedStatement ps = conn.prepareStatement( query );
-        
-            //Link variables to the SQL statement
-            ps.setString(1, email);
-        
-            //Execute the SQL query and save the result
-            ResultSet rs = ps.executeQuery();
-        
-            //Search if there is a result from the DB execution
-            if (rs.next()) {
-                int userId = rs.getInt("users.id");
-                String usersName = rs.getString("users.name");
-                String userMail = rs.getString( "users.email" );
-                User.Role userRole = User.Role.valueOf(rs.getString("users.role"));
-                byte[] userSalt = rs.getBytes("users.salt");
-                byte[] userSecret = rs.getBytes("users.secret");
+            ResultSet rs;
+            try (PreparedStatement ps = conn.prepareStatement(query)) {
                 
-                return new User(userId, usersName, userMail,userRole,userSalt,userSecret);
-            
-            } else {
-                throw new UserNotFound();
+                //Link variables to the SQL statement
+                ps.setString(1, email);
+                
+                //Execute the SQL query and save the result
+                rs = ps.executeQuery();
+                
+                //Search if there is a result from the DB execution
+                if (rs.next()) {
+                    int userId = rs.getInt("users.id");
+                    String usersName = rs.getString("users.name");
+                    String userMail = rs.getString("users.email");
+                    User.Role userRole = User.Role.valueOf(rs.getString("users.role"));
+                    byte[] userSalt = rs.getBytes("users.salt");
+                    byte[] userSecret = rs.getBytes("users.secret");
+                    
+                    return new User(userId, usersName, userMail, userRole, userSalt, userSecret);
+                    
+                } else {
+                    throw new UserNotFound();
+                }
             }
         } catch (SQLException e) {
             throw new UserExists(e.getMessage());

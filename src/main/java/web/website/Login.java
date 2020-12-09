@@ -16,16 +16,16 @@ import java.io.IOException;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-@WebServlet(name = "Login", urlPatterns = { "/Login" } )
+@WebServlet(name = "Login", urlPatterns = {"/Login"})
 public class Login extends BaseServlet {
     
     private static final Logger log = getLogger(Login.class);
     
-
+    
     protected void render(HttpServletRequest request, HttpServletResponse response) {
         try {
             super.render("Log ind", "/WEB-INF/pages/login.jsp", request, response);
-        } catch (ServletException | IOException e){
+        } catch (ServletException | IOException e) {
             log.error(e.getMessage());
         }
         
@@ -33,27 +33,27 @@ public class Login extends BaseServlet {
     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            render(req, resp);
+        render(req, resp);
     }
-
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             request.setAttribute("providedMail", request.getParameter("inputEmail"));
             User curUser = login(request);
             
-            if(curUser.isAdmin() || curUser.isEmployee()) {
+            if (curUser.isAdmin() || curUser.isEmployee()) {
                 response.sendRedirect(request.getContextPath() + "/Ordre");
             } else {
                 response.sendRedirect(request.getContextPath() + "/");
             }
-        
+            
         } catch (InvalidPassword | UserNotFound i) {
             log.info(i.getMessage());
             request.setAttribute("errorMsg", i.getMessage());
             request.setAttribute("error", true);
             render(request, response);
-        } catch (DBException e){
+        } catch (DBException e) {
             log.warn(e.getMessage());
         }
     }
@@ -71,6 +71,6 @@ public class Login extends BaseServlet {
         
         return curUsr;
     }
-
-
+    
+    
 }

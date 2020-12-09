@@ -20,8 +20,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class ViewOrder extends BaseServlet {
     private static final Logger log = getLogger(ViewOrder.class);
     
-    private User curUser;
-    private int orderId = -1;
+    private static final String encoding = "UTF-8";
     
     /**
      * Renders the index.jsp page
@@ -32,46 +31,51 @@ public class ViewOrder extends BaseServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         try {
-            resp.setCharacterEncoding("UTF-8");
-            req.setCharacterEncoding("UTF-8");
+            resp.setCharacterEncoding(encoding);
+            req.setCharacterEncoding(encoding);
             
-            curUser = (User) req.getSession().getAttribute("user");
+            User curUser = (User) req.getSession().getAttribute("user");
             
             log("Trying to log into admin :" + curUser);
             
-            if (curUser == null || !curUser.isAdmin()) {
-                log("User is not admin: " + curUser );
+            if (curUser == null || ! curUser.isAdmin()) {
+                log("User is not admin: " + curUser);
                 resp.sendError(401);
             } else {
-                orderId = Integer.parseInt(req.getPathInfo().substring(1));
+                int orderId = Integer.parseInt(req.getPathInfo().substring(1));
                 Order order = null;
                 
-                for(Order o: api.getOrders()){
-                    if(o.getId() == orderId){
+                for (Order o : api.getOrders()) {
+                    if (o.getId() == orderId) {
                         order = o;
                     }
                 }
                 req.setAttribute("order", order);
                 log("User is admin: " + curUser);
-    
-                String svgSide = api.getSVGSide(order.getCarport(), false);
-                String svgTop = api.getSVGTop(order.getCarport(), false);
-    
-                List<String> statuslist = new ArrayList<>();
-                for(Order.Status s: Order.Status.values()){
-                    statuslist.add(s.name());
+                
+                String svgSide = "";
+                String svgTop = "";
+                if (order != null) {
+                    svgSide = api.getSVGSide(order.getCarport(), false);
+                    svgTop = api.getSVGTop(order.getCarport(), false);
+                    
+                    
+                    List<String> statuslist = new ArrayList<>();
+                    for (Order.Status s : Order.Status.values()) {
+                        statuslist.add(s.name());
+                    }
+                    req.setAttribute("statuslist", statuslist);
+                    
+                    //Save requests and sessions
+                    req.setAttribute("svgSide", svgSide);
+                    req.setAttribute("svgTop", svgTop);
+                    req.setAttribute("carport", order.getCarport());
                 }
-                req.setAttribute("statuslist", statuslist);
-    
-                //Save requests and sessions
-                req.setAttribute("svgSide", svgSide);
-                req.setAttribute("svgTop", svgTop);
-                req.setAttribute("carport", order.getCarport());
                 
                 render("Ordre", "/WEB-INF/pages/sales/vieworder.jsp", req, resp);
             }
             
-        } catch (Exception e){
+        } catch (Exception e) {
             log(e.getMessage());
         }
     }
@@ -80,10 +84,10 @@ public class ViewOrder extends BaseServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         try {
-            resp.setCharacterEncoding("UTF-8");
-            req.setCharacterEncoding("UTF-8");
+            resp.setCharacterEncoding(encoding);
+            req.setCharacterEncoding(encoding);
             
-            orderId = Integer.parseInt(req.getParameter("ordrenummer"));
+            int orderId = Integer.parseInt(req.getParameter("ordrenummer"));
             switch (req.getParameter("action")) {
                 case "updatePrice":
                     double newPrice = Double.parseDouble(req.getParameter("salgspris"));
@@ -97,28 +101,28 @@ public class ViewOrder extends BaseServlet {
                     String linkFromReq = req.getParameter("ordreurl");
                     String link = "<a href=\"" + linkFromReq + "\">" + linkFromReq + "</a>";
                     api.sendLinkByMail(o, link);
-                    createAlert(req,"success", "Mailen blev sendt til " + o.getCustomer().getEmail());
+                    createAlert(req, "success", "Mailen blev sendt til " + o.getCustomer().getEmail());
                     break;
                 case "createPdf":
                     Order pdfOrder = api.getOrderById(orderId);
                     File pdfFile = api.createPdf(pdfOrder);
-                    String downloadUrl = req.getParameter("downloadurl");
+                    String downloadUrl = req.getParameter("downloadurl"); //TODO : Ændre til ordre url
                     sendMail(pdfOrder.getCustomer().getEmail(), downloadUrl, pdfFile);
                     break;
                 default:
                     break;
             }
-                redirect(req, resp, "Ordre/View/"+orderId);
-        } catch (Exception e){
+            redirect(req, resp, "Ordre/View/" + orderId);
+        } catch (Exception e) {
             log.error(e.getMessage());
-            createAlert(req,"alert", e.getMessage());
-            redirect(req, resp, "Ordre/View/"+orderId);
+            createAlert(req, "alert", e.getMessage());
+            redirect(req, resp, "Ordre");
         }
     }
     
-    private void sendMail(String email, String url, File pdf){
-        String message = "Tillykke med din nye carport! Du finder din vejledning vedhæftet denne mail og den kan downloads her: " + url;
-        api.sendMail(email,"Din stykliste", "Her er din stykliste", message, pdf);
+    private void sendMail(String email, String url, File pdf) {
+        String message = "Du er nu et skridt nærmere din nye carport!<br>Din vejledning er vedhæftet denne mail og kan ligeledes findes her: " + url + "<br><br>Tak fordi du valgte Fog!";
+        api.sendMail(email, "Din nye carport", "Tillykke!", message, pdf);
     }
     
     private void createAlert(HttpServletRequest req, String type, String message) {

@@ -10,94 +10,91 @@
 <c:set var="customURL" value="${baseURL}/ViewOrder/${order.uuid}" />
 <c:set var="downloadURL" value="${baseURL}/GetPDF/${order.uuid}" />
 
-<div class="row">
-    <a href="javascript:history.back()" class="btn-danger">Tilbage til alle ordre</a>
-</div>
+<br>
 <h2 class="mt-4 mb-4 text-center">Order ${order.id}</h2>
+<input type="text" name="link" class="form-control text-center" aria-label="link" value="${customURL}" aria-describedby="button-link" readonly>
 <br>
 <br>
 <br/> <br/>
 
-<div class="row">
-    <div class="col-4">
+<div class="row text-center">
+    <div class="col-6">
         <h5>Ordre information</h5>
-        Kunde: ${requestScope.order.customer.name}<br>
-        Sælger: ${order.salesEmployee.name}<br>
+        <b>Dato:</b> ${order.orderDate}<br>
+        <b>Anmodet længde:</b> ${order.length}cm<br>
+        <b>Anmodet bredde:</b> ${order.width}cm<br>
+        <c:choose>
+            <c:when test="${order.carport.hasShed()}">
+                <b>Ønsker skur:</b> Ja<br>
+                <b>Ønsket skurbredde:</b> ${order.carport.shed.width}cm<br>
+                <b>Ønsket skurlængde:</b> ${order.carport.shed.length}cm<br>
+            </c:when>
+            <c:otherwise>
+                <b>Ønsker skur:</b> Nej<br>
+            </c:otherwise>
+        </c:choose>
+        <c:if test ="${order.hasSalesman()}">
+            <b>Sælger:</b> ${order.salesEmployee.name}<br>
+        </c:if>
         <br>
-        <label for="status">Status:</label>
+        <label for="statusselect">Status:</label>
         <div class="input-group mb-3">
-            <form action="Ordre/View/" method="POST">
+            <form action="Ordre/View/" method="POST" style="margin: 0 auto;">
                 <input type="hidden" name="action" value="changeStatus">
                 <input type="hidden" name="redirect" value="viewOrder">
                 <input type="hidden" name="ordrenummer" value="${order.id}" />
-                <select class="custom-select" name="statusvalue" id="status" aria-label="status"  onchange="this.form.submit()">
+                <select class="custom-select text-center" name="statusvalue" id="statusselect" aria-label="statusselect"  onchange="this.form.submit()">
                     <c:forEach items="${requestScope.statuslist}" var="status" varStatus="vs">
                         <option value="${status}"<c:if test ="${order.status.name() == status}"> selected</c:if><c:if test ="${!order.hasSalesman()}">disabled</c:if>>${status}</option>
                     </c:forEach>
                 </select>
             </form>
-        </div>
-
+        </div><br>
     </div>
-    <div class="col-8 my-auto">
-        <form action="Ordre/View/" method="POST">
-            <div class="input-group mb-6">
-                <input type="hidden" name="action" value="sendLink">
-                <input type="hidden" name="redirect" value="viewOrder">
-                <input type="hidden" name="ordrenummer" value="${order.id}" />
-                <input type="hidden" name="ordreurl" value="${customURL}" />
-                <input type="text" name="link" class="form-control" aria-label="link" value="${customURL}" aria-describedby="button-link" readonly>
-                <div class="input-group-append">
-                    <button class="btn btn-success" type="button" id="button-link" onclick="this.form.submit()">Send link til kunde</button>
-                </div>
-
-                <c:if test="${requestScope.alert} && ${requestScope.alertType == 'success'}">
-                    <div class="alert alert-${requestScope.alertType}" role="alert">
-                            ${requestScope.alertMsg}
-                    </div>
-                </c:if>
-            </div>
-        </form>
+    <div class="col-6">
+        <h5>Kunde information</h5>
+        <b>Navn:</b> ${order.customer.name}<br>
+        <b>E-mail:</b> ${order.customer.email}<br>
+        <b>Telefon:</b> ${order.customer.phoneNo}<br>
+        <b>Addresse:</b> ${order.customer.address}<br>
+        <b>By:</b> ${order.customer.city} ${order.customer.postalCode}<br>
     </div>
-
 </div>
-
-
 
 <br>
 
 <div class="row">
-    <div class="col-4">
-<form action="Ordre/View/" method="POST">
-<label for="salgspris">Salgspris</label>
-<div class="input-group mb-3">
+    <form action="Ordre/View/" method="POST" style="width:100%;">
+        <label for="salgspris">Salgspris</label>
+        <div class="input-group mb-3">
+                <input type="hidden" name="action" value="updatePrice">
+                <input type="hidden" name="redirect" value="viewOrder">
+                <input type="hidden" name="ordrenummer" value="${order.id}" />
+                <div class="input-group-prepend">
+                    <span class="input-group-text">kr</span>
+                </div>
+                <input type="number" id="salgspris" name="salgspris" class="form-control" aria-label="salgspris" value="<fmt:formatNumber type="number" pattern="###.###" value="${order.carport.price + (order.margin/100) * order.carport.price}"/>" aria-describedby="button-salgspris" min="${order.carport.price * 1.15}" step=0.01 required>
+                <div class="input-group-append">
+                    <button class="btn btn-success" type="button" id="button-salgspris" onclick="this.form.submit()">Gem pris</button>
+                </div>
+            <c:if test="${requestScope.alert && requestScope.alertType == 'alert'}">
+                <div class="alert alert-${requestScope.alertType}" role="alert">
+                        ${requestScope.alertMsg}
+                </div>
+            </c:if>
+        </div>
+    </form>
 
-        <input type="hidden" name="action" value="updatePrice">
-        <input type="hidden" name="redirect" value="viewOrder">
-        <input type="hidden" name="ordrenummer" value="${order.id}" />
+    <label for="kostpris">Kostpris</label>
+    <div class="input-group mb-3">
         <div class="input-group-prepend">
             <span class="input-group-text">kr</span>
         </div>
-        <input type="number" id="salgspris" name="salgspris" class="form-control" aria-label="salgspris" value="<fmt:formatNumber type="number" pattern="###.###" value="${order.carport.price + (order.margin/100) * order.carport.price}"/>" aria-describedby="button-salgspris" min="${order.carport.price * 1.15}" step=0.01 required>
-        <div class="input-group-append">
-            <button class="btn btn-success" type="button" id="button-salgspris" onclick="this.form.submit()">Gem pris</button>
-        </div>
-    <c:if test="${requestScope.alert && requestScope.alertType == 'alert'}">
-        <div class="alert alert-${requestScope.alertType}" role="alert">
-                ${requestScope.alertMsg}
-        </div>
-    </c:if>
-</div>
-</form>
-
-<label for="kostpris">Kostpris</label>
-<div class="input-group mb-3">
-    <div class="input-group-prepend">
-        <span class="input-group-text">kr</span>
+        <input type="number" id="kostpris" class="form-control" aria-label="kostpris" value="<fmt:formatNumber type="number" pattern="###.###" value="${order.carport.price}"/>" disabled>
     </div>
-    <input type="number" id="kostpris" class="form-control" aria-label="salgspris" value="<fmt:formatNumber type="number" pattern="###.###" value="${order.carport.price}"/>" disabled>
 </div>
-
+<div class="row">
+        <div class="col-6">
         <label for="avance">Avance</label>
         <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -105,7 +102,18 @@
             </div>
             <input type="text" id="avance" class="form-control" aria-label="salgspris" value="<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${(order.carport.price + (order.margin/100) * order.carport.price) - order.carport.price}" />" disabled>
         </div>
-
+        </div>
+        <div class="col-6">
+            <label for="margin">Dækningsgrad</label>
+            <div class="input-group mb-3">
+                <input type="text" id="margin" class="form-control text-right" aria-label="margin" value="<fmt:formatNumber type="number" value="${order.margin}" />" disabled>
+                <div class="input-group-append">
+                    <span class="input-group-text">%</span>
+                </div>
+            </div>
+        </div>
+</div>
+        <c:if test ="${order.status.name() == 'Completed'}">
         <form action="Ordre/View/" method="POST">
             <div class="input-group mb-6">
                 <input type="hidden" name="action" value="createPdf">
@@ -117,21 +125,33 @@
                 </div>
             </div>
         </form>
+        </c:if>
 
-    </div>
-</div>
+        <form action="Ordre/View/" method="POST">
+                    <div class="input-group mb-6">
+                        <input type="hidden" name="action" value="sendLink">
+                        <input type="hidden" name="redirect" value="viewOrder">
+                        <input type="hidden" name="ordrenummer" value="${order.id}" />
+                        <input type="hidden" name="ordreurl" value="${customURL}" />
+                        <button class="btn btn-success" type="button" id="button-link" onclick="this.form.submit()">Send link til kunde</button>
+                        <c:if test="${requestScope.alert} && ${requestScope.alertType == 'success'}">
+                            <div class="alert alert-${requestScope.alertType}" role="alert">
+                                    ${requestScope.alertMsg}
+                            </div>
+                        </c:if>
+                    </div>
+        </form>
 
 <br>
 <br>
 
 <div class="row">
-    <p>
     <div class="col-md-12 text-center">
         <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#sideDrawing" aria-expanded="false" aria-controls="sideDrawing">Se tegning fra siden</button>
         <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#topDrawing" aria-expanded="false" aria-controls="topDrawing">Se tegning fra toppen</button>
         <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="true" aria-controls="sideDrawing topDrawing">Se begge</button>
     </div>
-    </p>
+
 </div>
 <br><br>
 <div class="row">

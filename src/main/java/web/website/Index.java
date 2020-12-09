@@ -15,7 +15,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class Index extends BaseServlet {
     
     private static final Logger log = getLogger(Index.class);
-
+    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -24,7 +24,7 @@ public class Index extends BaseServlet {
         log.info("Serving page {}", req.getRequestURI());
         
         render("Startside", "/WEB-INF/pages/index.jsp", req, resp);
-
+        
     }
-
+    
 }

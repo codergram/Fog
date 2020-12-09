@@ -1,6 +1,11 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page pageEncoding="UTF-8"%>
+<c:set var="req" value="${pageContext.request}" />
+<c:set var="baseURL" value="${fn:replace(req.requestURL, fn:substring(req.requestURI, 0, fn:length(req.requestURI)), req.contextPath)}" />
+<c:set var="customURL" value="${baseURL}/ViewOrder/" />
 <div class="row">
     <div class="col-md-12">
         <h2 class="mt-6 mb-6 text-center">Tegning af din helt egen carport herunder</h2>
@@ -37,6 +42,7 @@
         <br>
         <h3>Indtast dine oplysninger</h3>
         <form action="${pageContext.request.contextPath}/Confirmation" method="POST">
+            <input type="hidden" name="orderurl" value="${customURL}">
             <div class="form-group">
                 <label for="name">Dit navn</label>
                 <input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp" required>

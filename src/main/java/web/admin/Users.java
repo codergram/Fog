@@ -14,14 +14,11 @@ import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-@WebServlet(name = "Users", urlPatterns = { "/Users" } )
+@WebServlet(name = "Users", urlPatterns = {"/Users"})
 public class Users extends BaseServlet {
     
     private static final Logger log = getLogger(Users.class);
-
-    public User curUser;
-    private List<User> users;
-
+    
     /**
      * Renders the index.jsp page
      *
@@ -31,21 +28,21 @@ public class Users extends BaseServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         try {
-            curUser = (User) req.getSession().getAttribute("user");
-
+            User curUser = (User) req.getSession().getAttribute("user");
+            
             log("Trying to log into admin :" + curUser);
-
-            if (curUser == null || !curUser.isAdmin()) {
-                log("User is not admin: " + curUser );
+            
+            if (curUser == null || ! curUser.isAdmin()) {
+                log("User is not admin: " + curUser);
                 resp.sendError(401);
             } else {
-                users = List.copyOf(api.getUsers());
+                List<User> users = List.copyOf(api.getUsers());
                 req.setAttribute("userlist", users);
                 log("User is admin: " + curUser);
                 render("Users", "/WEB-INF/pages/admin/users.jsp", req, resp);
             }
-
-        } catch (Exception e){
+            
+        } catch (Exception e) {
             log(e.getMessage());
         }
     }
@@ -68,22 +65,20 @@ public class Users extends BaseServlet {
                 default:
                     break;
             }
-            redirect(req,resp,"Users");
-        } catch (Exception e){
+            redirect(req, resp, "Users");
+        } catch (Exception e) {
             log.error(e.getMessage());
         }
         
     }
     
-    private void deleteUser(HttpServletRequest req){
+    private void deleteUser(HttpServletRequest req) {
         try {
             api.deleteUser(Integer.parseInt(req.getParameter("userid")));
-        } catch (UserNotFound e){
+        } catch (UserNotFound e) {
             log.error(e.getMessage());
         }
     }
-
-
+    
+    
 }
-
-

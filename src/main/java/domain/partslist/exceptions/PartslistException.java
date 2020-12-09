@@ -1,6 +1,6 @@
 package domain.partslist.exceptions;
 
-public class PartslistException extends Exception{
+public class PartslistException extends Exception {
     public PartslistException() {
         super("Styklisten blev ikke fundet");
     }

@@ -23,6 +23,7 @@ import infrastructure.LocalPartslist;
 import infrastructure.exceptions.DBException;
 import infrastructure.exceptions.PDFNotFound;
 import org.slf4j.Logger;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,10 +33,10 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 public class Api {
     
-    public final static String genericSiteTitle = "Fog Trælast";
-    public final static double requiredMargin = 15.0;
+    public static final String genericSiteTitle = "Fog Trælast";
+    public static final double requiredMargin = 15.0;
     private static final Logger log = getLogger(Api.class);
-
+    
     private final UserRepository userRepository;
     private final EmailService emailService;
     private final FileService fileService;
@@ -57,7 +58,7 @@ public class Api {
         customererRepository = customerRepository;
     }
     
-    public File createPdf(Order o) throws PDFNotCreated{
+    public File createPdf(Order o) throws PDFNotCreated {
         return fileService.generatePdf(o, getSVGSide(o.getCarport(), false), getSVGTop(o.getCarport(), false));
     }
     
@@ -65,177 +66,163 @@ public class Api {
         return fileService.getPdf(filename);
     }
     
-    public synchronized boolean sendMail(String mailAddress, String title, String subject, String msg, File file){
+    private String generateMailMessage(String title, String subject, String message) {
+        return Utils.fileToString("mail/mailtemplate.html")
+                .replace("$$TITEL$$", title)
+                .replace("$$OVERSKRIFT$$", subject)
+                .replace("$$TEKST$$", message);
+    }
+    
+    public void sendMail(String mailAddress, String title, String subject, String msg, File file) {
         try {
-            String message = Utils.fileToString("mail/mailtemplate.html")
-                    .replace("$$TITEL$$", title)
-                    .replace("$$OVERSKRIFT$$", subject)
-                    .replace("$$TEKST$$", msg);
-            
-            emailService.sendEmail(mailAddress, title, message, file);
+            emailService.sendEmail(mailAddress, title, generateMailMessage(title, subject, msg), file);
+        } catch (EmailNotSent e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    public boolean sendMail(String mailAddress, String title, String subject, String msg) {
+        try {
+            emailService.sendEmail(mailAddress, title, generateMailMessage(title, subject, msg), null);
             return true;
-        } catch (EmailNotSent e){
+        } catch (EmailNotSent e) {
             System.out.println(e.getMessage());
             return false;
         }
     }
     
-    public synchronized boolean sendMail(String mailAddress, String title, String subject, String msg){
+    public void sendLinkByMail(Order order, String link) {
         try {
-            String message = Utils.fileToString("mail/mailtemplate.html")
-                    .replace("$$TITEL$$", title)
-                    .replace("$$OVERSKRIFT$$", subject)
-                    .replace("$$TEKST$$", msg);
-            
-            emailService.sendEmail(mailAddress, title, message, null);
-            return true;
-        } catch (EmailNotSent e){
-            System.out.println(e.getMessage());
-            return false;
-        }
-    }
-    
-    public synchronized boolean sendLinkByMail(Order order, String link){
-        try {
-            String message = Utils.fileToString("mail/mailtemplate.html")
-                    .replace("$$TITEL$$", "Ordre " + order.getId())
-                    .replace("$$OVERSKRIFT$$", "Dit nye link til ordren")
-                    .replace("$$TEKST$$", link);
+            String message = generateMailMessage("Ordre " + order.getId(), "Dit nye link til ordren", link);
             
             emailService.sendEmail(order.getCustomer().getEmail(), "Ordre " + order.getId(), message, null);
-            return true;
-        } catch (EmailNotSent e){
+        } catch (EmailNotSent e) {
             System.out.println(e.getMessage());
-            return false;
         }
     }
-
     
-    public synchronized User createUser(String name, String email, String password, User.Role role) throws UserExists {
+    
+    public User createUser(String name, String email, String password, User.Role role) throws UserExists {
         var salt = User.generateSalt();
         
-            //Create user
-            User user = new User(0, name, email,role, salt, User.calculateSecret(salt, password));
-            //Save/create the user in the DB and return the users (No longer id -1)
-            user = userRepository.createUser(user);
-            return user;
+        User user = new User(0, name, email, role, salt, User.calculateSecret(salt, password));
+        user = userRepository.createUser(user);
+        return user;
     }
     
-    public synchronized void deleteUser(int id) throws UserNotFound {
+    public void deleteUser(int id) throws UserNotFound {
         userRepository.deleteUserById(id);
     }
-
     
-    public synchronized User login(String email, String password) throws InvalidPassword, UserNotFound, DBException {
+    
+    public User login(String email, String password) throws InvalidPassword, UserNotFound {
         User user = null;
         try {
             user = userRepository.getUserByEmail(email);
         } catch (UserExists userExists) {
             log.info(userExists.getMessage());
         }
-    
-        if(user == null){
+        if (user == null) {
             throw new UserNotFound();
-        } else if (!user.isPasswordCorrect(password)) {
+        } else if (! user.isPasswordCorrect(password)) {
             throw new InvalidPassword();
-        } else  {
+        } else {
             //Return user if password is validated
             return user;
         }
     }
     
-    public synchronized List<User> getUsers(){
+    public List<User> getUsers() {
         try {
             return userRepository.getAllUsersFromDB();
-        } catch (UserNotFound e){
+        } catch (UserNotFound e) {
             log.info(e.getMessage());
         }
-        return null;
+        return new ArrayList<>();
     }
     
-    public synchronized Customer createCustomer(Customer customer) throws DBException {
+    public Customer createCustomer(Customer customer) throws DBException {
         return customererRepository.createCustomer(customer);
     }
     
-    public synchronized Order createOrder(Order order, Customer customer) throws OrderException, DBException {
-        List<Customer> customerList = new ArrayList();
+    public Order createOrder(Order order, Customer customer) throws OrderException, DBException {
+        List<Customer> customerList;
+        customerList = new ArrayList<>();
         Customer tmpCustomer = customer;
         try {
-             customerList = customererRepository.getAllCustomers();
+            customerList = customererRepository.getAllCustomers();
         } catch (DBException e) {
             log.error(e.getMessage());
         }
         
         boolean found = false;
-        for(Customer c: customerList){
-            if(c.getName().equals(customer.getName()) || c.getEmail().equals(customer.getEmail())){
+        for (Customer c : customerList) {
+            if (c.getName().equals(customer.getName()) || c.getEmail().equals(customer.getEmail())) {
                 tmpCustomer = c;
                 found = true;
                 break;
             }
         }
         
-        if(!found){
+        if (! found) {
             tmpCustomer = createCustomer(customer);
         }
         
         Order tmpOrder = new Order(order.getWidth(), order.getLength(), tmpCustomer, order.getCarport());
         
-        
-    
         return orderRepository.createNewOrder(tmpOrder);
     }
     
-    public synchronized List<Order> getOrders() throws OrderNotFound {
+    public List<Order> getOrders() throws OrderNotFound {
         return orderRepository.getAllOrders();
     }
-
-    public synchronized String getSVGSide(Carport carport, boolean isCustomer){
-        return svgFactory.createSVGSideCarport(carport, isCustomer).getSvgSide();
+    
+    public String getSVGSide(Carport carport, boolean isCustomer) {
+        return svgFactory.createSVGSideCarport(carport, isCustomer).getSvgCode();
     }
-
-    public synchronized String getSVGTop(Carport carport, boolean isCustomer){
+    
+    public String getSVGTop(Carport carport, boolean isCustomer) {
         return svgFactory.createSVGTopCarport(carport, isCustomer).getSvgTop();
     }
-
-    public synchronized List<Material> getAllMaterielsFromDB() throws DBException {
+    
+    public List<Material> getAllMaterielsFromDB() throws DBException {
         return materielRepository.getAllMaterials();
     }
     
     public List<Material> getAllRawMaterielsFromDB() throws DBException {
         return materielRepository.getAllRawMaterials();
     }
-
-    public synchronized List<Part> getLocalPartslist(){
+    
+    public List<Part> getLocalPartslist() {
         return partslistServices.createPartsList();
     }
-
-    public synchronized List<Part> addToLocalPartslist(Carport carport, List<Material> allMaterialsFromDB, List<Part> LocalPartlist){
-        return partslistServices.addToPartslist(carport, allMaterialsFromDB, LocalPartlist);
+    
+    public List<Part> addToLocalPartslist(Carport carport, List<Material> allMaterialsFromDB, List<Part> localPartlist) {
+        return partslistServices.addToPartslist(carport, allMaterialsFromDB, localPartlist);
     }
     
-    public synchronized void assignOrder(int ordrenummer, int userId) throws OrderNotFound {
+    public void assignOrder(int ordrenummer, int userId) throws OrderNotFound {
         orderRepository.assignOrder(ordrenummer, userId);
     }
     
-    public synchronized List<Customer> getCustomers() {
+    public List<Customer> getCustomers() {
         try {
             return customererRepository.getAllCustomers();
-        } catch (DBException e){
+        } catch (DBException e) {
             log.info(e.getMessage());
         }
-        return null;
+        return new ArrayList<>();
     }
     
-    public synchronized void changeOrderStatus(int orderId, String status) throws OrderException {
+    public void changeOrderStatus(int orderId, String status) throws OrderException {
         orderRepository.updateOrderStatusById(orderId, Order.Status.valueOf(status));
     }
     
-    public synchronized void updatePrice(int orderId, double newPrice) throws OrderNotFound, OrderException {
+    public void updatePrice(int orderId, double newPrice) throws OrderNotFound, OrderException {
         Order tmpOrder = orderRepository.getOrderById(orderId);
         double oldPrice = tmpOrder.getCarport().getPrice();
         double newMargin = ((newPrice / oldPrice) - 1.0) * 100;
-        if(newMargin >= requiredMargin){
+        if (newMargin >= requiredMargin) {
             orderRepository.updateMargin(orderId, newMargin);
         } else {
             throw new OrderException("Dækningsgrad er for lav!");
@@ -243,15 +230,15 @@ public class Api {
         
     }
     
-    public synchronized void releaseOrder(int orderId) throws OrderNotFound {
+    public void releaseOrder(int orderId) throws OrderNotFound {
         orderRepository.releaseOrder(orderId);
     }
     
-    public synchronized int getOrderByUUID(String uuid){
+    public int getOrderByUUID(String uuid) {
         return orderRepository.getOrderNumberFromUUID(UUID.fromString(uuid));
     }
     
-    public synchronized Order getOrderById(int id) throws OrderNotFound {
+    public Order getOrderById(int id) throws OrderNotFound {
         return orderRepository.getOrderById(id);
     }
     

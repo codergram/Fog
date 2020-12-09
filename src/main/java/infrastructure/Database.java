@@ -6,47 +6,47 @@ import java.io.*;
 import java.sql.*;
 
 public class Database {
-    private final String URL;
-    private final String USER;
-    private final String PSW;
-
+    private final String url;
+    private final String user;
+    private final String password;
+    
     // Database version
     private static final int version = 1;
-
+    
     public Database(String url, String user, String psw) {
-        this.URL = url == null ? "jdbc:mysql://localhost:3306/fog?serverTimezone=Europe/Copenhagen" : url;
-        this.USER = user == null ? "fog" : user;
-        this.PSW = psw == null ? "codergram" : psw;
+        this.url = url == null ? "jdbc:mysql://localhost:3306/fog?serverTimezone=Europe/Copenhagen" : url;
+        this.user = user == null ? "fog" : user;
+        this.password = psw == null ? "codergram" : psw;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
-
+    
     public Database() {
         this(null, null, null);
     }
-
+    
     public void runMigrations() {
         try {
             int currentVersion = getCurrentVersion();
             while (currentVersion < version) {
-                System.out.printf("Current DB version %d is smaller than expected %d\n", currentVersion, version);
+                System.out.printf("Current DB version %d is smaller than expected %d%n", currentVersion, version);
                 runMigration(currentVersion + 1);
-                int new_version = getCurrentVersion();
-                if (new_version > currentVersion) {
-                    currentVersion = new_version;
-                    System.out.println("Updated database to version: " + new_version);
+                int newVersion = getCurrentVersion();
+                if (newVersion > currentVersion) {
+                    currentVersion = newVersion;
+                    System.out.println("Updated database to version: " + newVersion);
                 } else {
-                    throw new RuntimeException("Something went wrong, version not increased: " + new_version);
+                    throw new RuntimeException("Something went wrong, version not increased: " + newVersion);
                 }
             }
         } catch (SQLException | IOException e) {
             throw new RuntimeException(e);
         }
     }
-
+    
     private void runMigration(int i) throws IOException, SQLException {
         String migrationFile = String.format("migrate/%d.sql", i);
         System.out.println("Running migration: " + migrationFile);
@@ -64,11 +64,13 @@ public class Database {
         }
         System.out.println("Done running migration");
     }
-
+    
     public int getCurrentVersion() {
         try (Connection conn = getConnection()) {
-            Statement s = conn.createStatement();
-            ResultSet rs = s.executeQuery("SELECT value FROM properties WHERE name = 'version';");
+            ResultSet rs;
+            try (Statement s = conn.createStatement()) {
+                rs = s.executeQuery("SELECT value FROM properties WHERE name = 'version';");
+            }
             if (rs.next()) {
                 String column = rs.getString("value");
                 return Integer.parseInt(column);
@@ -76,16 +78,16 @@ public class Database {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        return -1;
+        return - 1;
     }
-
+    
     public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PSW);
+        return DriverManager.getConnection(url, user, password);
     }
-
+    
     public static int getVersion() {
         return version;
     }
-
+    
 }
 

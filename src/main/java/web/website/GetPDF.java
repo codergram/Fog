@@ -3,7 +3,6 @@ package web.website;
 import org.slf4j.Logger;
 import web.BaseServlet;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,68 +21,76 @@ public class GetPDF extends BaseServlet {
     
     /**
      * Renders the index.jsp page
+     *
      * @see BaseServlet
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         try {
-                String uuidReq = req.getPathInfo().substring(1);
+            String uuidReq = req.getPathInfo().substring(1);
             
-                log.info("UUID requested: " + uuidReq);
-               
-                
-                File pdfToDownload = api.getPdf(String.valueOf(uuidReq));
-                
-                try{
-                    downloadFile(req,resp,pdfToDownload);
-                } catch ( IOException e){
-                    log.error(e.getMessage());
-                }
+            log.info("UUID requested: {}", uuidReq);
             
-        } catch (Exception e){
+            
+            File pdfToDownload = api.getPdf(String.valueOf(uuidReq));
+            
+            downloadFile(resp, pdfToDownload);
+            
+        } catch (Exception e) {
             log(e.getMessage());
         }
     }
     
-    private void downloadFile(HttpServletRequest req, HttpServletResponse resp, File file) throws IOException {
-        // reads input file from an absolute path
-        File downloadFile = file;
-        FileInputStream inStream = new FileInputStream(downloadFile);
-    
-        Path path = downloadFile.toPath();
-        String mimeType = Files.probeContentType(path);
-        
-        // obtains ServletContext
-        ServletContext context = getServletContext();
-    
-        // gets MIME type of the file
-        if (mimeType == null) {
-            // set to binary type if MIME mapping not found
-            mimeType = "application/octet-stream";
+    private FileInputStream getFileInputStream(File file) {
+        try {
+            return new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
-        System.out.println("MIME type: " + mimeType);
+        return null;
+    }
     
-        // modifies response
-        resp.setContentType(mimeType);
-        resp.setContentLength((int) downloadFile.length());
-    
-        // forces download
-        String headerKey = "Content-Disposition";
-        String headerValue = String.format("attachment; filename=\"%s\"", downloadFile.getName());
-        resp.setHeader(headerKey, headerValue);
-    
-        // obtains response's output stream
-        OutputStream outStream = resp.getOutputStream();
-    
-        byte[] buffer = new byte[4096];
-        int bytesRead = -1;
-    
-        while ((bytesRead = inStream.read(buffer)) != -1) {
-            outStream.write(buffer, 0, bytesRead);
+    private void downloadFile(HttpServletResponse resp, File file) throws IOException {
+        try {
+            // reads input file from an absolute path
+            FileInputStream inStream = getFileInputStream(file);
+            
+            Path path = file.toPath();
+            String mimeType = Files.probeContentType(path);
+            // gets MIME type of the file
+            if (mimeType == null) {
+                // set to binary type if MIME mapping not found
+                mimeType = "application/octet-stream";
+            }
+            System.out.println("MIME type: " + mimeType);
+            
+            // modifies response
+            resp.setContentType(mimeType);
+            resp.setContentLength((int) file.length());
+            
+            // forces download
+            String headerKey = "Content-Disposition";
+            String headerValue = String.format("attachment; filename=\"%s\"", file.getName());
+            resp.setHeader(headerKey, headerValue);
+            
+            // obtains response's output stream
+            OutputStream outStream = resp.getOutputStream();
+            
+            byte[] buffer = new byte[4096];
+            int bytesRead = - 1;
+            
+            if (inStream != null) {
+                while ((bytesRead = inStream.read(buffer)) != - 1) {
+                    outStream.write(buffer, 0, bytesRead);
+                }
+                
+                inStream.close();
+            }
+            
+            outStream.close();
+        } catch (Exception e) {
+            log.error(e.getMessage());
         }
-    
-        inStream.close();
-        outStream.close();
     }
 }

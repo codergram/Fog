@@ -29,20 +29,20 @@ public class JavaXEmailService implements EmailService {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-    
+        
         Authenticator auth = new Authenticator() {
             @Override
             public PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(properties.getProperty("USERNAME"), properties.getProperty("PASSWORD"));
             }
         };
-    
+        
         Session session = Session.getInstance(properties, auth);
-    
+        
         Message msg = new MimeMessage(session);
         Multipart multipart = new MimeMultipart();
         
-    
+        
         try {
             msg.setFrom(new InternetAddress(properties.getProperty("SENT_FROM"), properties.getProperty("SENT_FROM_NAME")));
             InternetAddress[] toAddresses = {new InternetAddress(toAddress)};
@@ -54,8 +54,9 @@ public class JavaXEmailService implements EmailService {
             MimeBodyPart messageBodyPart = new MimeBodyPart();
             messageBodyPart.setContent(message, "text/html");
             
+            multipart.addBodyPart(messageBodyPart);
             
-            if(file != null) {
+            if (file != null) {
                 //Bodypart for attacthment
                 BodyPart attachment = new MimeBodyPart();
                 String filename = file.getAbsolutePath();
@@ -67,12 +68,10 @@ public class JavaXEmailService implements EmailService {
                 multipart.addBodyPart(attachment);
             }
             
-            multipart.addBodyPart(messageBodyPart);
-            
             
             //Sets content of message
             msg.setContent(multipart);
-    
+            
             //Sends mail
             Transport.send(msg);
             

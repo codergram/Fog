@@ -1,7 +1,7 @@
 package domain.material.materials;
 
 public class Tree extends Material {
-
+    
     public enum Type {
         Poles,
         Boards,
@@ -10,33 +10,34 @@ public class Tree extends Material {
         Rafts,
         Roofing
     }
-
+    
     private double length;
     private final Enum<Type> type;
-
+    
     public Tree(int id, String name, double length, double price, Enum<Usage> usage, Enum<Type> type, Enum<Unit> unit) {
         super(id, name, price, usage, unit);
         this.length = length;
         this.type = type;
     }
+    
     public Tree(String name, double length, double price, Enum<Usage> usage, Enum<Type> type, Enum<Unit> unit) {
-        this(-1,name, length, price, usage, type, unit);
-
+        this(- 1, name, length, price, usage, type, unit);
+        
     }
     
-    public Tree(int id, String name, double price, Enum<Usage> usage, Enum<Type> type, Enum<Unit> unit){
+    public Tree(int id, String name, double price, Enum<Usage> usage, Enum<Type> type, Enum<Unit> unit) {
         this(id, name, 0.0, price, usage, type, unit);
     }
-
+    
     public double getLength() {
         return length;
     }
-
+    
     public Enum<Type> getType() {
         return type;
     }
     
-    public String getLengthString(){
+    public String getLengthString() {
         return String.format("%.0f mm", length);
     }
     
