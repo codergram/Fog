@@ -9,23 +9,30 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PartTest {
 
+  @Test
+  void partCalculation() {
 
-    @Test
+    Tree tree =
+        new Tree(
+            "test",
+            300,
+            10,
+            Material.Usage.valueOf("Door"),
+            Tree.Type.valueOf("Rafts"),
+            Material.Unit.valueOf("Stk"));
+    Part part = new Part(tree, 3, "");
 
-    void partCalculation(){
+    assertEquals(90, part.getPrice());
 
-        Tree tree = new Tree("test", 300, 10, Material.Usage.valueOf("Door"), Tree.Type.valueOf("Rafts"), Material.Unit.valueOf("Stk"));
-        Part part = new Part(tree, 3, "");
+    Options options =
+        new Options(
+            "test",
+            10,
+            Material.Usage.valueOf("Door"),
+            Options.Type.valueOf("Screw"),
+            Material.Unit.valueOf("Stk"));
+    Part part1 = new Part(options, 3, "");
 
-        assertEquals(90, part.getPrice());
-
-
-
-        Options options = new Options("test", 10, Material.Usage.valueOf("Door"), Options.Type.valueOf("Screw"), Material.Unit.valueOf("Stk"));
-        Part part1 = new Part(options, 3, "");
-
-        assertEquals(30, part1.getPrice());
-    }
-
-
+    assertEquals(30, part1.getPrice());
+  }
 }
