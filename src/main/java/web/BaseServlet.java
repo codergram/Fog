@@ -31,6 +31,7 @@ public class BaseServlet extends HttpServlet {
 
   protected static final Api api;
   private static final Logger log = getLogger(BaseServlet.class);
+  protected static final boolean apiAuth = false;
 
   static {
     api = createFogApi();
@@ -70,5 +71,10 @@ public class BaseServlet extends HttpServlet {
     } catch (IOException ee) {
       log.info(ee.getMessage());
     }
+  }
+
+  protected void error(HttpServletResponse resp, int status) {
+    resp.setStatus(status);
+    log.error("API error status {}", status);
   }
 }
