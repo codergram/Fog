@@ -1,20 +1,27 @@
+/*
+ * Copyright (c) 2020. Team CoderGram
+ *
+ * @author Emil Elkjær Nielsen (cph-en93@cphbusiness.dk)
+ * @author Sigurd Arik Twena Nielsen (cph-at89@cphbusiness.dk)
+ * @author Jacob Lange Nielsen (cph-jn352@cphbusiness.dk)
+ */
+
 package web.employee;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 import domain.order.Order;
 import domain.user.User;
-import org.slf4j.Logger;
-import web.BaseServlet;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.slf4j.LoggerFactory.getLogger;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import web.BaseServlet;
 
 @WebServlet("/Ordre/View/*")
 public class ViewOrder extends BaseServlet {
@@ -51,16 +58,16 @@ public class ViewOrder extends BaseServlet {
           }
         }
 
-        if (!order.getSalesEmployee().getEmail().equals(curUser.getEmail())) {
-          log.error("{} not assigned to order {}", curUser.getEmail(), order.getId());
-        }
-
         req.setAttribute("order", order);
         log("User is admin: " + curUser);
 
         String svgSide = "";
         String svgTop = "";
         if (order != null) {
+          if (!order.getSalesEmployee().getEmail().equals(curUser.getEmail())) {
+            log.error("{} not assigned to order {}", curUser.getEmail(), order.getId());
+            resp.sendError(401);
+          }
           svgSide = api.getSVGSide(order.getCarport(), false);
           svgTop = api.getSVGTop(order.getCarport(), false);
 

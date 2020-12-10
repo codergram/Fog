@@ -1,15 +1,9 @@
-/*!
- * jQuery JavaScript Library v3.4.1
- * https://jquery.com/
+/*
+ * Copyright (c) 2020. Team CoderGram
  *
- * Includes Sizzle.js
- * https://sizzlejs.com/
- *
- * Copyright JS Foundation and other contributors
- * Released under the MIT license
- * https://jquery.org/license
- *
- * Date: 2019-05-01T21:04Z
+ * @author Emil Elkjær Nielsen (cph-en93@cphbusiness.dk)
+ * @author Sigurd Arik Twena Nielsen (cph-at89@cphbusiness.dk)
+ * @author Jacob Lange Nielsen (cph-jn352@cphbusiness.dk)
  */
 ( function( global, factory ) {
 

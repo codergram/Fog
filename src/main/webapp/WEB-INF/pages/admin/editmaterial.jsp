@@ -3,6 +3,14 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page pageEncoding="UTF-8"%>
+<%--
+  ~ Copyright (c) 2020. Team CoderGram
+  ~
+  ~ @author Emil Elkjær Nielsen (cph-en93@cphbusiness.dk)
+  ~ @author Sigurd Arik Twena Nielsen (cph-at89@cphbusiness.dk)
+  ~ @author Jacob Lange Nielsen (cph-jn352@cphbusiness.dk)
+  --%>
+
 <c:set var="material" value="${requestScope.material}"/>
 <c:set var="usages" value="${requestScope.usages}"/>
 <c:set var="types" value="${requestScope.types}"/>

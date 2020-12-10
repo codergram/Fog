@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2020. Team CoderGram
+  ~
+  ~ @author Emil Elkjær Nielsen (cph-en93@cphbusiness.dk)
+  ~ @author Sigurd Arik Twena Nielsen (cph-at89@cphbusiness.dk)
+  ~ @author Jacob Lange Nielsen (cph-jn352@cphbusiness.dk)
+  -->
+
 <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"

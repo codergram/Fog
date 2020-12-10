@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2020. Team CoderGram
+ *
+ * @author Emil Elkjær Nielsen (cph-en93@cphbusiness.dk)
+ * @author Sigurd Arik Twena Nielsen (cph-at89@cphbusiness.dk)
+ * @author Jacob Lange Nielsen (cph-jn352@cphbusiness.dk)
+ */
+
 package domain.carport;
 
 import domain.carport.shed.Shed;
@@ -64,6 +72,10 @@ public class Carport {
     this.shed = shed;
     this.partslist = null;
     this.price = 0.0;
+  }
+
+  public String nicePrice(double price) {
+    return String.format("%.2f", price);
   }
 
   private double calculatePrice(Partslist partslist) {

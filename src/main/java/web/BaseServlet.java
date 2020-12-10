@@ -1,17 +1,31 @@
+/*
+ * Copyright (c) 2020. Team CoderGram
+ *
+ * @author Emil Elkjær Nielsen (cph-en93@cphbusiness.dk)
+ * @author Sigurd Arik Twena Nielsen (cph-at89@cphbusiness.dk)
+ * @author Jacob Lange Nielsen (cph-jn352@cphbusiness.dk)
+ */
+
 package web;
 
-import api.Api;
-import infrastructure.*;
-import org.slf4j.Logger;
-import web.widget.Navbar;
+import static org.slf4j.LoggerFactory.getLogger;
 
+import api.Api;
+import infrastructure.DBCustomer;
+import infrastructure.DBMaterial;
+import infrastructure.DBOrder;
+import infrastructure.DBUser;
+import infrastructure.Database;
+import infrastructure.JavaXEmailService;
+import infrastructure.LocalSVG;
+import infrastructure.PDFService;
+import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
-import static org.slf4j.LoggerFactory.getLogger;
+import org.slf4j.Logger;
+import web.widget.Navbar;
 
 public class BaseServlet extends HttpServlet {
 

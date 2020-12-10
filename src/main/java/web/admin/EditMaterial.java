@@ -1,24 +1,31 @@
+/*
+ * Copyright (c) 2020. Team CoderGram
+ *
+ * @author Emil Elkjær Nielsen (cph-en93@cphbusiness.dk)
+ * @author Sigurd Arik Twena Nielsen (cph-at89@cphbusiness.dk)
+ * @author Jacob Lange Nielsen (cph-jn352@cphbusiness.dk)
+ */
+
 package web.admin;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 import domain.material.materials.Material;
 import domain.material.materials.Material.Usage;
 import domain.material.materials.Options;
 import domain.material.materials.Tree;
 import domain.user.User;
-import org.slf4j.Logger;
-import web.BaseServlet;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import static org.slf4j.LoggerFactory.getLogger;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import web.BaseServlet;
 
 @WebServlet("/Materials/Edit/*")
 public class EditMaterial extends BaseServlet {
@@ -65,7 +72,6 @@ public class EditMaterial extends BaseServlet {
 
           Set<Material.Usage> usedUsages = getMaterialUsages(materialsWithName);
 
-
           req.setAttribute("material", material);
           log("User is admin: " + curUser);
 
@@ -110,8 +116,6 @@ public class EditMaterial extends BaseServlet {
     }
     return usedUsages;
   }
-
-
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)

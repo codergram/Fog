@@ -1,7 +1,10 @@
-/*! jQuery UI - v1.12.1 - 2018-12-06
-* http://jqueryui.com
-* Includes: widget.js, position.js, keycode.js, unique-id.js, widgets/autocomplete.js, widgets/menu.js
-* Copyright jQuery Foundation and other contributors; Licensed MIT */
+/*
+ * Copyright (c) 2020. Team CoderGram
+ *
+ * @author Emil Elkjær Nielsen (cph-en93@cphbusiness.dk)
+ * @author Sigurd Arik Twena Nielsen (cph-at89@cphbusiness.dk)
+ * @author Jacob Lange Nielsen (cph-jn352@cphbusiness.dk)
+ */
 
 (function( factory ) {
 	if ( typeof define === "function" && define.amd ) {

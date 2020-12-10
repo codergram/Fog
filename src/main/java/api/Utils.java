@@ -1,9 +1,16 @@
-package api;
+/*
+ * Copyright (c) 2020. Team CoderGram
+ *
+ * @author Emil Elkjær Nielsen (cph-en93@cphbusiness.dk)
+ * @author Sigurd Arik Twena Nielsen (cph-at89@cphbusiness.dk)
+ * @author Jacob Lange Nielsen (cph-jn352@cphbusiness.dk)
+ */
 
-import org.apache.commons.io.IOUtils;
+package api;
 
 import java.io.IOException;
 import java.io.InputStream;
+import org.apache.commons.io.IOUtils;
 
 public class Utils {
 

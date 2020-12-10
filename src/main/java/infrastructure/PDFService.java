@@ -1,25 +1,36 @@
+/*
+ * Copyright (c) 2020. Team CoderGram
+ *
+ * @author Emil Elkjær Nielsen (cph-en93@cphbusiness.dk)
+ * @author Sigurd Arik Twena Nielsen (cph-at89@cphbusiness.dk)
+ * @author Jacob Lange Nielsen (cph-jn352@cphbusiness.dk)
+ */
+
 package infrastructure;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 import api.FileService;
 import api.Utils;
 import api.exceptions.ApiError;
 import api.exceptions.PDFNotCreated;
+import com.itextpdf.html2pdf.HtmlConverter;
 import domain.material.materials.Tree;
 import domain.order.Order;
-
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.UUID;
-
-import com.itextpdf.html2pdf.HtmlConverter;
 import domain.partslist.Part;
 import infrastructure.exceptions.PDFNotFound;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.transcoder.image.PNGTranscoder;
 import org.slf4j.Logger;
-
-import static org.slf4j.LoggerFactory.getLogger;
 
 public class PDFService implements FileService {
   private static final Logger log = getLogger(PDFService.class);
