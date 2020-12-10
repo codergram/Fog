@@ -26,7 +26,7 @@ public class Navbar {
           new Item("Byg din carport", "/Shop", "hammer", false, false),
           new Item("Log ind", "/Login", "sign-in", false, false),
           new Item("Ordre", "/Ordre", "book", true, false),
-          new Item("Kunder", "/Customers", "address-book", true, false),
+          new Item("Kunder", "/Customers", "address-book", true, true),
           new Item("Ansatte", "/Users", "address-card", true, true),
           new Item("Materialer", "/Materials", "tools", true, true),
           new Item("Log ud", "/Logout", "sign-out", true, false));
