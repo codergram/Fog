@@ -1,61 +1,74 @@
 @startuml
 Title Navigationsdiagram
 
-state index.jsp
-state login.jsp
-
-
-note top of login.jsp
-User objekt gemmes
-i en session
-end note
-
-
-[*] --> index.jsp: Start bestilling
-[*] --> email: Se bestilling
-index.jsp -right-> carport.jsp
-index.jsp -left-> login.jsp
-
-
-login.jsp --> login.jsp:error
-
-
-carport.jsp --> confimation.jsp
-confimation.jsp --> thankyou.jsp
-
-state kundeOmråde {
-        email ----> vieworder: Link via email
-        thankyou.jsp --> vieworder
-    }
 
 
 
-state LoggetInd {
 
 
-    state adminOmråde{
 
-        login.jsp --> orders
-        orders --> customers
-        orders --> vieworder:Adgang via link
-        orders --> materials.jsp
-        materials.jsp --> editmaterial.jsp
-        orders --> users.jsp
-        orders --> logout
+state "/" as index
 
-    }
+[*] --> index
 
-    state salesOmråde{
+state "users" as u {
 
-            login.jsp --> orders.jsp
-            orders.jsp --> customers.jsp
-            orders.jsp --> vieworder:Adgang via link
-            orders.jsp --> logout.jsp
-        }
+    state "Login/" as u_login :Login
+    state "Orders/" as u_orders :Se alle ordre
+    state "ViewOrder/{id}" as u_order_details :Se aktuel ordre
+
+    [*] --> u_login
+    u_login --> u_orders
+    u_orders --> u_order_details
 
 }
 
+state "admins" as a {
 
+    state "Login/" as a_login :Login
+    state "Orders/" as a_orders :Se alle ordre
+    state "ViewOrder/{id}" as a_order_details :Se aktuel ordre
 
+    state "Customers/" as a_customer :Se alle kunder
+
+    state "Users/" as a_users :Se, opret og slet ansatte
+
+    state "Materials/" as a_materials :Se og ret i materialer
+
+    [*] --> a_login
+    a_login --> a_orders
+    a_orders --> a_order_details
+
+    a_orders --> a_customer
+
+    a_orders --> a_users
+
+    a_orders --> a_materials
+}
+
+state "customerNew" as cn {
+
+    state "Shop/" as cn_shop :Bestil carport
+    state "Confirmation/" as cn_confirmation :Bekræft bestilling
+    state "Confirmation/" as cn_thankyou :Ordre bekræftelse
+    state "ViewOrder/{id}" as cn_vieworder :Se ordre
+
+    [*] --> cn_shop
+    cn_shop --> cn_confirmation
+    cn_confirmation --> cn_thankyou
+    cn_thankyou --> cn_vieworder
+}
+
+state "customerReturn" as co {
+
+    state "ViewOrder/{id}" as co_vieworder :Se ordre
+
+    [*] --> co_vieworder
+}
+
+index -down-> u
+index -down-> a
+index -down-> cn
+index -down-> co
 
 @enduml
