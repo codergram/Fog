@@ -6,20 +6,16 @@
  * @author Jacob Lange Nielsen (cph-jn352@cphbusiness.dk)
  */
 
-package domain.partslist;
+package domain.material;
 
-import domain.material.Material;
-import domain.material.Options;
-import domain.material.Tree;
+import domain.partslist.Part;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class PartTest {
+class MaterialTest {
 
   @Test
-  void partCalculation() {
-
+  void test(){
     Tree tree =
         new Tree(
             "test",
@@ -30,7 +26,7 @@ class PartTest {
             Material.Unit.valueOf("Stk"));
     Part part = new Part(tree, 3, "");
 
-    assertEquals(90, part.getPrice());
+    Assertions.assertEquals("Door", part.getMaterial().usage.name());
 
     Options options =
         new Options(
@@ -41,6 +37,7 @@ class PartTest {
             Material.Unit.valueOf("Stk"));
     Part part1 = new Part(options, 3, "");
 
-    assertEquals(30, part1.getPrice());
+    Assertions.assertEquals("Door", part.getMaterial().usage.name());
   }
+
 }

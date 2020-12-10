@@ -9,7 +9,7 @@
 package domain.partslist.exceptions;
 
 import domain.carport.Carport;
-import domain.material.materials.Material;
+import domain.material.Material;
 import domain.partslist.Part;
 import java.util.List;
 

@@ -10,10 +10,10 @@ package web.admin;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-import domain.material.materials.Material;
-import domain.material.materials.Material.Usage;
-import domain.material.materials.Options;
-import domain.material.materials.Tree;
+import domain.material.Material;
+import domain.material.Material.Usage;
+import domain.material.Options;
+import domain.material.Tree;
 import domain.user.User;
 import java.io.IOException;
 import java.util.ArrayList;

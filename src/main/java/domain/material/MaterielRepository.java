@@ -8,7 +8,6 @@
 
 package domain.material;
 
-import domain.material.materials.Material;
 import infrastructure.exceptions.DBException;
 import java.util.List;
 

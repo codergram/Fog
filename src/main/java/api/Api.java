@@ -16,7 +16,7 @@ import domain.carport.Carport;
 import domain.customer.Customer;
 import domain.customer.CustomerRepository;
 import domain.material.MaterielRepository;
-import domain.material.materials.Material;
+import domain.material.Material;
 import domain.order.Order;
 import domain.order.OrderRepository;
 import domain.order.exceptions.OrderException;
