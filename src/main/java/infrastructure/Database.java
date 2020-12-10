@@ -26,7 +26,7 @@ public class Database {
   private final String password;
 
   // Database version
-  private static final int version = 1;
+  private static final int version = 2;
 
   public Database(String url, String user, String psw) {
     this.url =

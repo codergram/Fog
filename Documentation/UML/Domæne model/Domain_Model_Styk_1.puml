@@ -17,7 +17,7 @@ class Tag {
 }
 
 class Tagbeklædning {
-
+  type
 }
 
 class TagMontering {
