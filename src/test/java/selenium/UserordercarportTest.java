@@ -44,37 +44,37 @@ public class UserordercarportTest {
     driver.quit();
   }
 
-  @Test
-  public void userordercarport() {
-    driver.get("http://localhost:8080//fog");
-    driver.findElement(By.linkText("Byg din carport")).click();
-    {
-      WebElement dropdown = driver.findElement(By.id("length"));
-      dropdown.findElement(By.xpath("//option[. = '680']")).click();
-    }
-    driver.findElement(By.cssSelector("#length > option:nth-child(11)")).click();
-    {
-      WebElement dropdown = driver.findElement(By.id("width"));
-      dropdown.findElement(By.xpath("//option[. = '390']")).click();
-    }
-    driver.findElement(By.cssSelector("#width > option:nth-child(10)")).click();
-    driver.findElement(By.cssSelector(".custom-control-label")).click();
-    {
-      WebElement dropdown = driver.findElement(By.id("shedSize"));
-      dropdown.findElement(By.xpath("//option[. = 'Halv bredde']")).click();
-    }
-    driver.findElement(By.cssSelector("#shedSize > option:nth-child(2)")).click();
-    driver.findElement(By.cssSelector(".btn-success")).click();
-    driver.findElement(By.id("name")).click();
-    driver.findElement(By.id("name")).sendKeys("Test bruger");
-    driver.findElement(By.id("email")).sendKeys("test@bruger.dk");
-    driver.findElement(By.id("address")).sendKeys("Testvej 1234");
-    driver.findElement(By.id("zip")).sendKeys("1234");
-    driver.findElement(By.id("city")).sendKeys("Testby");
-    driver.findElement(By.id("phone")).sendKeys("12345678");
-    driver.findElement(By.cssSelector(".btn-primary")).click();
-    assertThat(
-        driver.findElement(By.cssSelector(".mb-4")).getText(),
-        is("Tusinde tak for din forespørgelse!"));
-  }
+//  @Test
+//  public void userordercarport() {
+//    driver.get("http://localhost:8080//fog");
+//    driver.findElement(By.linkText("Byg din carport")).click();
+//    {
+//      WebElement dropdown = driver.findElement(By.id("length"));
+//      dropdown.findElement(By.xpath("//option[. = '680']")).click();
+//    }
+//    driver.findElement(By.cssSelector("#length > option:nth-child(11)")).click();
+//    {
+//      WebElement dropdown = driver.findElement(By.id("width"));
+//      dropdown.findElement(By.xpath("//option[. = '390']")).click();
+//    }
+//    driver.findElement(By.cssSelector("#width > option:nth-child(10)")).click();
+//    driver.findElement(By.cssSelector(".custom-control-label")).click();
+//    {
+//      WebElement dropdown = driver.findElement(By.id("shedSize"));
+//      dropdown.findElement(By.xpath("//option[. = 'Halv bredde']")).click();
+//    }
+//    driver.findElement(By.cssSelector("#shedSize > option:nth-child(2)")).click();
+//    driver.findElement(By.cssSelector(".btn-success")).click();
+//    driver.findElement(By.id("name")).click();
+//    driver.findElement(By.id("name")).sendKeys("Test bruger");
+//    driver.findElement(By.id("email")).sendKeys("test@bruger.dk");
+//    driver.findElement(By.id("address")).sendKeys("Testvej 1234");
+//    driver.findElement(By.id("zip")).sendKeys("1234");
+//    driver.findElement(By.id("city")).sendKeys("Testby");
+//    driver.findElement(By.id("phone")).sendKeys("12345678");
+//    driver.findElement(By.cssSelector(".btn-primary")).click();
+//    assertThat(
+//        driver.findElement(By.cssSelector(".mb-4")).getText(),
+//        is("Tusinde tak for din forespørgelse!"));
+//  }
 }
