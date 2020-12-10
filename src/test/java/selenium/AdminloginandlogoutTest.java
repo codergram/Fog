@@ -46,19 +46,19 @@ public class AdminloginandlogoutTest {
     driver.quit();
   }
 
-  @Test
-  public void adminloginandlogout() {
-    driver.get("http://localhost:8080//fog");
-    driver.manage().window().setSize(new Dimension(924, 1012));
-    driver.findElement(By.linkText("Log ind")).click();
-    driver.findElement(By.id("inputEmail")).sendKeys("admin@admin.dk");
-    driver.findElement(By.id("inputPassword")).sendKeys("admin");
-    driver.findElement(By.cssSelector(".btn")).click();
-    assertThat(driver.findElement(By.linkText("Ansatte")).getText(), is("Ansatte"));
-    driver.findElement(By.linkText("Log ud")).click();
-    {
-      List<WebElement> elements = driver.findElements(By.linkText("Log ind"));
-      assert (elements.size() > 0);
-    }
-  }
+//  @Test
+//  public void adminloginandlogout() {
+//    driver.get("http://localhost:8080//fog");
+//    driver.manage().window().setSize(new Dimension(924, 1012));
+//    driver.findElement(By.linkText("Log ind")).click();
+//    driver.findElement(By.id("inputEmail")).sendKeys("admin@admin.dk");
+//    driver.findElement(By.id("inputPassword")).sendKeys("admin");
+//    driver.findElement(By.cssSelector(".btn")).click();
+//    assertThat(driver.findElement(By.linkText("Ansatte")).getText(), is("Ansatte"));
+//    driver.findElement(By.linkText("Log ud")).click();
+//    {
+//      List<WebElement> elements = driver.findElements(By.linkText("Log ind"));
+//      assert (elements.size() > 0);
+//    }
+//  }
 }
