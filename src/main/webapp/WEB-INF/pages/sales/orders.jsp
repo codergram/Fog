@@ -21,7 +21,7 @@
     </thead>
     <tbody>
     <c:forEach items="${requestScope.orderlist}" var="order" varStatus="vs">
-        <c:if test ="${order.salesEmployee.email == sessionScope.user.email || !order.hasSalesman()}">
+        <c:if test ="${order.salesEmployee.email == sessionScope.user.email || !order.hasSalesman() || sessionScope.user.admin}">
     <tr>
         <td class="text-center">
             <a href="Ordre/View/${order.id}">
