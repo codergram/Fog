@@ -32,9 +32,16 @@
         <c:if test ="${order.salesEmployee.email == sessionScope.user.email || !order.hasSalesman() || sessionScope.user.admin}">
     <tr>
         <td class="text-center">
-            <a href="Ordre/View/${order.id}">
-                ${order.id}
-            </a>
+            <c:choose>
+                <c:when test="${order.salesEmployee.email == sessionScope.user.email || sessionScope.user.admin}">
+                    <a href="Ordre/View/${order.id}">
+                            ${order.id}
+                    </a>
+                </c:when>
+                <c:otherwise>
+                    ${order.id}
+                </c:otherwise>
+            </c:choose>
         </td>
         <td>
                 ${order.orderDate}
