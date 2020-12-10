@@ -7,27 +7,27 @@ actor sælger
 actor admin
 
 rectangle hjemmeside {
-    kunde -- (Vælge carport m/u skur)
-    (Vælge carport m/u skur) -- (Send forespørgsel):inkl.
-    (Send forespørgsel) -- (Se forespørgsel): inkl.
-    kunde -- (Se bestillling)
+    kunde --> (Vælge carport m/u skur)
+    (Vælge carport m/u skur) ..> (Send forespørgsel):<<includes>>
+    (Send forespørgsel) ..> (Se forespørgsel):<<includes>>
+    kunde --> (Se bestillling)
 
 
-    sælger -- (Login)
-    sælger -- (Logout)
-    sælger -- (Se forespørgsler)
-    (Se forespørgsler) -- (Ret forespørgsel) : inkl.
-    (Se forespørgsler) -- (Se listepriser) : inkl.
-    sælger -- (Se kunder)
+    sælger --> (Login)
+    sælger --> (Logout)
+    sælger --> (Se forespørgsler)
+    (Se forespørgsler) ..> (Ret forespørgsel):<<includes>>
+    (Se forespørgsler) ..> (Se listepriser):<<includes>>
+    sælger --> (Se kunder)
 
-    admin -- (Login)
-    admin -- (Logout)
-    admin -- (Se sælgere)
-    (Se sælgere) -- (Opret sælger) : inkl.
-    (Se sælgere) -- (Slet sælger) : inkl.
-    admin -- (Se forespørgsler)
-    admin -- (Se listepriser)
-    (Se listepriser) -- (Ændre listepriser) : inkl. (admin)
+    admin --> (Login)
+    admin --> (Logout)
+    admin --> (Se sælgere)
+    (Se sælgere) ..> (Opret sælger):<<includes>>
+    (Se sælgere) ..> (Slet sælger):<<includes>>
+    admin --> (Se forespørgsler)
+    admin --> (Se listepriser)
+    (Se listepriser) ..> (Ret listepriser):<<includes>> (admin)
 
 }
 
