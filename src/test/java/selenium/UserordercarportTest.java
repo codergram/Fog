@@ -12,8 +12,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,14 +23,14 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class UserordercarportTest {
   private WebDriver driver;
-  private final static String OS = System.getProperty("os.name").toLowerCase();
+  private static final String OS = System.getProperty("os.name").toLowerCase();
   JavascriptExecutor js;
 
   @Before
   public void setUp() {
     String path = "src/test/resources/geckodriver";
 
-    if(OS.contains("win")) path += ".exe";
+    if (OS.contains("win")) path += ".exe";
 
     File file = new File(path);
     System.setProperty("webdriver.gecko.driver", file.getAbsolutePath());
