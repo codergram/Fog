@@ -64,9 +64,11 @@ public class ViewOrder extends BaseServlet {
         String svgSide = "";
         String svgTop = "";
         if (order != null) {
-          if (!order.getSalesEmployee().getEmail().equals(curUser.getEmail())) {
-            log.error("{} not assigned to order {}", curUser.getEmail(), order.getId());
-            resp.sendError(401);
+          if (!curUser.isAdmin()) {
+            if (!order.getSalesEmployee().getEmail().equals(curUser.getEmail())) {
+              log.error("{} not assigned to order {}", curUser.getEmail(), order.getId());
+              resp.sendError(401);
+            }
           }
           svgSide = api.getSVGSide(order.getCarport(), false);
           svgTop = api.getSVGTop(order.getCarport(), false);
