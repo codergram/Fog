@@ -11,9 +11,6 @@
 <c:set var="usedUsage" value="${requestScope.usedUsage}" />
 
 
-<div class="row">
-    <a href="javascript:history.back()" class="btn-danger">Tilbage til alle materialer</a>
-</div>
 <h2 class="mt-4 mb-4 text-center">${material.name}</h2>
 <br>
 <br>
