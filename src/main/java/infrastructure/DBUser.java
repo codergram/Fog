@@ -1,11 +1,22 @@
+/*
+ * Copyright (c) 2020. Team CoderGram
+ *
+ * @author Emil Elkjær Nielsen (cph-en93@cphbusiness.dk)
+ * @author Sigurd Arik Twena Nielsen (cph-at89@cphbusiness.dk)
+ * @author Jacob Lange Nielsen (cph-jn352@cphbusiness.dk)
+ */
+
 package infrastructure;
 
 import domain.user.User;
 import domain.user.UserRepository;
 import domain.user.exceptions.UserExists;
 import domain.user.exceptions.UserNotFound;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 

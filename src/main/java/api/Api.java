@@ -1,4 +1,14 @@
+/*
+ * Copyright (c) 2020. Team CoderGram
+ *
+ * @author Emil Elkjær Nielsen (cph-en93@cphbusiness.dk)
+ * @author Sigurd Arik Twena Nielsen (cph-at89@cphbusiness.dk)
+ * @author Jacob Lange Nielsen (cph-jn352@cphbusiness.dk)
+ */
+
 package api;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 import api.exceptions.EmailNotSent;
 import api.exceptions.PDFNotCreated;
@@ -8,28 +18,25 @@ import domain.customer.CustomerRepository;
 import domain.material.MaterielRepository;
 import domain.material.materials.Material;
 import domain.order.Order;
+import domain.order.OrderRepository;
 import domain.order.exceptions.OrderException;
+import domain.order.exceptions.OrderNotFound;
 import domain.partslist.Part;
 import domain.partslist.exceptions.PartslistServices;
 import domain.svg.SVGFactory;
-import domain.order.OrderRepository;
-import domain.order.exceptions.OrderNotFound;
 import domain.user.User;
-import domain.user.*;
+import domain.user.UserRepository;
 import domain.user.exceptions.InvalidPassword;
 import domain.user.exceptions.UserExists;
 import domain.user.exceptions.UserNotFound;
 import infrastructure.LocalPartslist;
 import infrastructure.exceptions.DBException;
 import infrastructure.exceptions.PDFNotFound;
-import org.slf4j.Logger;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import static org.slf4j.LoggerFactory.getLogger;
+import org.slf4j.Logger;
 
 public class Api {
 

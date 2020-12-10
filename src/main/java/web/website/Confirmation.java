@@ -1,4 +1,14 @@
+/*
+ * Copyright (c) 2020. Team CoderGram
+ *
+ * @author Emil Elkjær Nielsen (cph-en93@cphbusiness.dk)
+ * @author Sigurd Arik Twena Nielsen (cph-at89@cphbusiness.dk)
+ * @author Jacob Lange Nielsen (cph-jn352@cphbusiness.dk)
+ */
+
 package web.website;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 import domain.carport.Carport;
 import domain.carport.shed.Shed;
@@ -9,17 +19,14 @@ import domain.order.exceptions.OrderException;
 import domain.partslist.Part;
 import domain.partslist.Partslist;
 import infrastructure.exceptions.DBException;
-import org.slf4j.Logger;
-import web.BaseServlet;
-
+import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.List;
-
-import static org.slf4j.LoggerFactory.getLogger;
+import org.slf4j.Logger;
+import web.BaseServlet;
 
 @WebServlet(
     name = "Confirmation",
@@ -120,17 +127,17 @@ public class Confirmation extends BaseServlet {
     req.setAttribute("svgTop", svgTop);
     req.getSession().setAttribute("carport", carport);
 
-    try{
-    if (actionVal != null) {
-      if (actionVal.equals("preview")) {
-        System.out.println("preview carport");
-        req.setAttribute("showCarport", true);
-        render("Se din carport", "/WEB-INF/pages/customer/carport.jsp", req, resp);
-      } else {
-        render("Bekræft Carport", "/WEB-INF/pages/customer/confirmation.jsp", req, resp);
+    try {
+      if (actionVal != null) {
+        if (actionVal.equals("preview")) {
+          System.out.println("preview carport");
+          req.setAttribute("showCarport", true);
+          render("Se din carport", "/WEB-INF/pages/customer/carport.jsp", req, resp);
+        } else {
+          render("Bekræft Carport", "/WEB-INF/pages/customer/confirmation.jsp", req, resp);
+        }
       }
-    }
-    } catch (ServletException | IOException e){
+    } catch (ServletException | IOException e) {
       log.error(e.getMessage());
     }
   }
@@ -175,9 +182,9 @@ public class Confirmation extends BaseServlet {
 
     req.setAttribute("order", order);
 
-    try{
-    render("Bekræft Carport", "/WEB-INF/pages/customer/thankyou.jsp", req, resp);
-    } catch (ServletException | IOException e){
+    try {
+      render("Bekræft Carport", "/WEB-INF/pages/customer/thankyou.jsp", req, resp);
+    } catch (ServletException | IOException e) {
       log.error(e.getMessage());
     }
   }

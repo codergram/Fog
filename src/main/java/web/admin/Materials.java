@@ -1,18 +1,25 @@
+/*
+ * Copyright (c) 2020. Team CoderGram
+ *
+ * @author Emil Elkjær Nielsen (cph-en93@cphbusiness.dk)
+ * @author Sigurd Arik Twena Nielsen (cph-at89@cphbusiness.dk)
+ * @author Jacob Lange Nielsen (cph-jn352@cphbusiness.dk)
+ */
+
 package web.admin;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 import domain.material.materials.Material;
 import domain.user.User;
-import org.slf4j.Logger;
-import web.BaseServlet;
-
+import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.List;
-
-import static org.slf4j.LoggerFactory.getLogger;
+import org.slf4j.Logger;
+import web.BaseServlet;
 
 @WebServlet(
     name = "Materials",

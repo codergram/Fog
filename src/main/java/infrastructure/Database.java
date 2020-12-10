@@ -1,9 +1,24 @@
+/*
+ * Copyright (c) 2020. Team CoderGram
+ *
+ * @author Emil Elkjær Nielsen (cph-en93@cphbusiness.dk)
+ * @author Sigurd Arik Twena Nielsen (cph-at89@cphbusiness.dk)
+ * @author Jacob Lange Nielsen (cph-jn352@cphbusiness.dk)
+ */
+
 package infrastructure;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import org.apache.ibatis.jdbc.ScriptRunner;
-
-import java.io.*;
-import java.sql.*;
 
 public class Database {
   private final String url;
@@ -72,10 +87,10 @@ public class Database {
       ResultSet rs;
       try (Statement s = conn.createStatement()) {
         rs = s.executeQuery("SELECT value FROM properties WHERE name = 'version';");
-      }
-      if (rs.next()) {
-        String column = rs.getString("value");
-        return Integer.parseInt(column);
+        if (rs.next()) {
+          String column = rs.getString("value");
+          return Integer.parseInt(column);
+        }
       }
     } catch (SQLException e) {
       System.err.println(e.getMessage());

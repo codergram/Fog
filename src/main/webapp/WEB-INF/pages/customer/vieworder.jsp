@@ -2,6 +2,14 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%--
+  ~ Copyright (c) 2020. Team CoderGram
+  ~
+  ~ @author Emil Elkjær Nielsen (cph-en93@cphbusiness.dk)
+  ~ @author Sigurd Arik Twena Nielsen (cph-at89@cphbusiness.dk)
+  ~ @author Jacob Lange Nielsen (cph-jn352@cphbusiness.dk)
+  --%>
+
 <c:set var="order" value="${requestScope.order}"/>
 
 <h2 class="mt-4 mb-4 text-center">Order ${order.id}</h2>

@@ -1,9 +1,16 @@
+/*
+ * Copyright (c) 2020. Team CoderGram
+ *
+ * @author Emil Elkjær Nielsen (cph-en93@cphbusiness.dk)
+ * @author Sigurd Arik Twena Nielsen (cph-at89@cphbusiness.dk)
+ * @author Jacob Lange Nielsen (cph-jn352@cphbusiness.dk)
+ */
+
 package domain.order;
 
 import domain.carport.Carport;
 import domain.customer.Customer;
 import domain.user.User;
-
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;

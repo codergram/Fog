@@ -1,15 +1,26 @@
+/*
+ * Copyright (c) 2020. Team CoderGram
+ *
+ * @author Emil Elkjær Nielsen (cph-en93@cphbusiness.dk)
+ * @author Sigurd Arik Twena Nielsen (cph-at89@cphbusiness.dk)
+ * @author Jacob Lange Nielsen (cph-jn352@cphbusiness.dk)
+ */
+
 package infrastructure;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 import domain.customer.Customer;
 import domain.customer.CustomerRepository;
 import infrastructure.exceptions.DBException;
-import org.slf4j.Logger;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.slf4j.LoggerFactory.getLogger;
+import org.slf4j.Logger;
 
 public class DBCustomer implements CustomerRepository {
   private final Database database;

@@ -3,6 +3,14 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%--
+  ~ Copyright (c) 2020. Team CoderGram
+  ~
+  ~ @author Emil Elkjær Nielsen (cph-en93@cphbusiness.dk)
+  ~ @author Sigurd Arik Twena Nielsen (cph-at89@cphbusiness.dk)
+  ~ @author Jacob Lange Nielsen (cph-jn352@cphbusiness.dk)
+  --%>
+
 <c:set var="order" value="${requestScope.order}"/>
 
 <c:set var="req" value="${pageContext.request}" />
@@ -12,7 +20,18 @@
 
 <br>
 <h2 class="mt-4 mb-4 text-center">Order ${order.id}</h2>
-<input type="text" name="link" class="form-control text-center" aria-label="link" value="${customURL}" aria-describedby="button-link" readonly>
+<form action="Ordre/View/" method="POST">
+    <div class="input-group mb-6">
+        <input type="hidden" name="action" value="sendLink">
+        <input type="hidden" name="redirect" value="viewOrder">
+        <input type="hidden" name="ordrenummer" value="${order.id}" />
+        <input type="hidden" name="ordreurl" value="${customURL}" />
+        <input type="text" name="link" class="form-control text-center" aria-label="link" value="${customURL}" aria-describedby="button-link" readonly>
+        <div class="input-group-append">
+            <button class="btn btn-success" type="button" id="button-link" onclick="this.form.submit()">Send link til kunde</button>
+        </div>
+    </div>
+</form>
 <br>
 <br>
 <br/> <br/>
@@ -75,7 +94,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text">kr</span>
                 </div>
-                <input type="number" id="salgspris" name="salgspris" class="form-control" aria-label="salgspris" value="<fmt:formatNumber type="number" pattern="###.###" value="${order.carport.price + (order.margin/100) * order.carport.price}"/>" aria-describedby="button-salgspris" min="${order.carport.price * 1.15}" step=0.01 required>
+                <input type="text" id="salgspris" name="salgspris"  class="form-control" aria-label="salgspris" value="${order.carport.nicePrice(order.carport.price + (order.margin/100) * order.carport.price)}" aria-describedby="button-salgspris" min="${order.carport.price * 1.15}" onkeyup="this.value=this.value.replace(/[^\d]/,'')" required>
                 <div class="input-group-append">
                     <button class="btn btn-success" type="button" id="button-salgspris" onclick="this.form.submit()">Gem pris</button>
                 </div>
@@ -92,7 +111,7 @@
         <div class="input-group-prepend">
             <span class="input-group-text">kr</span>
         </div>
-        <input type="number" id="kostpris" class="form-control" aria-label="kostpris" value="<fmt:formatNumber type="number" pattern="###.###" value="${order.carport.price}"/>" disabled>
+        <input type="text" id="kostpris" class="form-control" aria-label="kostpris" value="${order.carport.nicePrice(order.carport.price)}" onkeyup="this.value=this.value.replace(/[^\d]/,'')" disabled>
     </div>
 </div>
 <div class="row">
@@ -131,20 +150,6 @@
 </div>
 <div class="col-2"></div>
 </div>
-        <form action="Ordre/View/" method="POST">
-                    <div class="input-group mb-6">
-                        <input type="hidden" name="action" value="sendLink">
-                        <input type="hidden" name="redirect" value="viewOrder">
-                        <input type="hidden" name="ordrenummer" value="${order.id}" />
-                        <input type="hidden" name="ordreurl" value="${customURL}" />
-                        <button class="btn btn-success" type="button" id="button-link" onclick="this.form.submit()">Send link til kunde</button>
-                        <c:if test="${requestScope.alert} && ${requestScope.alertType == 'success'}">
-                            <div class="alert alert-${requestScope.alertType}" role="alert">
-                                    ${requestScope.alertMsg}
-                            </div>
-                        </c:if>
-                    </div>
-        </form>
 
 <br>
 <br>

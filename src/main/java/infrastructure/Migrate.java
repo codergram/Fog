@@ -1,15 +1,25 @@
+/*
+ * Copyright (c) 2020. Team CoderGram
+ *
+ * @author Emil Elkjær Nielsen (cph-en93@cphbusiness.dk)
+ * @author Sigurd Arik Twena Nielsen (cph-at89@cphbusiness.dk)
+ * @author Jacob Lange Nielsen (cph-jn352@cphbusiness.dk)
+ */
+
 package infrastructure;
 
-import org.apache.ibatis.jdbc.ScriptRunner;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.SQLException;
+import org.apache.ibatis.jdbc.ScriptRunner;
 
 public class Migrate {
 
   Database database = new Database();
-  //    !!!Remember to change the DB name in the Connector!!!
 
   public static void main(String[] args) throws IOException, SQLException {
     new Migrate().runMigrations();

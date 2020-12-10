@@ -1,17 +1,28 @@
+/*
+ * Copyright (c) 2020. Team CoderGram
+ *
+ * @author Emil Elkjær Nielsen (cph-en93@cphbusiness.dk)
+ * @author Sigurd Arik Twena Nielsen (cph-at89@cphbusiness.dk)
+ * @author Jacob Lange Nielsen (cph-jn352@cphbusiness.dk)
+ */
+
 package web.website;
 
-import org.slf4j.Logger;
-import web.BaseServlet;
+import static org.slf4j.LoggerFactory.getLogger;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
-import static org.slf4j.LoggerFactory.getLogger;
+import org.slf4j.Logger;
+import web.BaseServlet;
 
 @WebServlet("/GetPDF/*")
 public class GetPDF extends BaseServlet {
