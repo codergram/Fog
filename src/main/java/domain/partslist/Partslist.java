@@ -8,7 +8,7 @@
 
 package domain.partslist;
 
-import domain.material.materials.Material;
+import domain.material.Material;
 import java.util.LinkedList;
 import java.util.List;
 

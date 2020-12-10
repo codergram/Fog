@@ -6,19 +6,25 @@
  * @author Jacob Lange Nielsen (cph-jn352@cphbusiness.dk)
  */
 
-package domain.partslist;
-
-import domain.material.Material;
-import domain.material.Options;
-import domain.material.Tree;
-import org.junit.jupiter.api.Test;
+package domain.carport;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PartTest {
+import domain.carport.Carport.Roof;
+import domain.carport.shed.Shed;
+import domain.material.Material;
+import domain.material.Options;
+import domain.material.Tree;
+import domain.partslist.Part;
+import domain.partslist.Partslist;
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+
+class CarportTest {
 
   @Test
-  void partCalculation() {
+  void test(){
 
     Tree tree =
         new Tree(
@@ -42,5 +48,19 @@ class PartTest {
     Part part1 = new Part(options, 3, "");
 
     assertEquals(30, part1.getPrice());
+
+    List<Part> materialList = new ArrayList<>();
+    materialList.add(part);
+    materialList.add(part1);
+
+    Partslist partslist = new Partslist(materialList);
+
+    Shed shed = null;
+
+    Carport carport = new Carport(0, 600, 300, Roof.valueOf("Peak"), shed, partslist);
+
+    assertEquals(120, carport.getPrice());
+
   }
+
 }

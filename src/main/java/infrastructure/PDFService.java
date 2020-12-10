@@ -15,7 +15,7 @@ import api.Utils;
 import api.exceptions.ApiError;
 import api.exceptions.PDFNotCreated;
 import com.itextpdf.html2pdf.HtmlConverter;
-import domain.material.materials.Tree;
+import domain.material.Tree;
 import domain.order.Order;
 import domain.partslist.Part;
 import infrastructure.exceptions.PDFNotFound;

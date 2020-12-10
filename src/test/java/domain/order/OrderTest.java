@@ -10,9 +10,9 @@ package domain.order;
 
 import domain.carport.Carport;
 import domain.customer.Customer;
-import domain.material.materials.Material;
-import domain.material.materials.Options;
-import domain.material.materials.Tree;
+import domain.material.Material;
+import domain.material.Options;
+import domain.material.Tree;
 import domain.partslist.Part;
 import domain.partslist.Partslist;
 import domain.user.User;
@@ -35,15 +35,9 @@ class OrderTest {
     Partslist partslist = new Partslist();
     partslist.addItem(
         new Part(
-            new Tree("20x20 bjælke", 550, 20, Tree.Usage.Door, Tree.Type.Boards, Material.Unit.Stk),
-            15,
+            new Tree("20x20 bjælke", 100, 20, Tree.Usage.Door, Tree.Type.Boards, Material.Unit.Stk),
+            2,
             "Bjælke til siden" // total price: 300
-            ));
-    partslist.addItem(
-        new Part(
-            new Tree("30x10 spær", 430, 12.5, Tree.Usage.Door, Tree.Type.Boards, Material.Unit.Stk),
-            30,
-            "Spær til tagkonstruktion" // total price: 375
             ));
     partslist.addItem(
         new Part(
@@ -51,42 +45,19 @@ class OrderTest {
             200,
             "Søm til vægbeklædning" // total price: 50
             ));
-    //        partslist.addItem(
-    //                new Part(
-    //                    new Tree("20x20 bjælke", 550, 20, Material.usage.Door, Tree.type.Boards),
-    // 15, "Bjælke til siden" //total price: 300
-    //                ));
-    //        partslist.addItem(
-    //                new Part(
-    //                        new Tree("30x10 spær", 430, 12.5, Material.usage.Door,
-    // Tree.type.Boards), 30, "Spær til tagkonstruktion" //total price: 375
-    //                ));
-    //        partslist.addItem(
-    //                new Part(
-    //                        new Options("Søm", 0.25, Material.usage.Door, Tree.type.Boards), 200,
-    // "Søm til vægbeklædning" //total price: 50
-    //                ));
 
-    // Total of parts: 725
 
     Carport carportOne = new Carport(1, 6500, 3020, Carport.Roof.Flat, null, partslist);
 
     Order expectedOrder =
         new Order(1, 3000, 6500, ts, employee, customer, Order.Status.New, carportOne, 0.0);
 
-    Carport carportTwo =
-        new Carport(
-            1,
-            expectedOrder.getLength(),
-            expectedOrder.getWidth(),
-            Carport.Roof.Flat,
-            null,
-            partslist);
+
     Order actualOrder =
         new Order(2, 3000, 6500, ts, employee, customer, Order.Status.New, carportOne, 0.0);
 
     assertEquals(expectedOrder.getCarport().getLength(), actualOrder.getCarport().getLength());
     assertEquals(expectedOrder.getCarport().getWidth(), actualOrder.getCarport().getWidth());
-    assertEquals(725.0, actualOrder.getCarport().getPrice());
+    assertEquals(90.0, actualOrder.getCarport().getPrice());
   }
 }

@@ -10,9 +10,9 @@ package infrastructure;
 
 import domain.carport.Carport;
 import domain.material.MaterielRepository;
-import domain.material.materials.Material;
-import domain.material.materials.Options;
-import domain.material.materials.Tree;
+import domain.material.Material;
+import domain.material.Options;
+import domain.material.Tree;
 import domain.partslist.Part;
 import domain.partslist.exceptions.PartslistServices;
 import infrastructure.exceptions.DBException;

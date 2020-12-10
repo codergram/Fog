@@ -10,7 +10,7 @@ package web.admin;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-import domain.material.materials.Material;
+import domain.material.Material;
 import domain.user.User;
 import java.io.IOException;
 import java.util.List;

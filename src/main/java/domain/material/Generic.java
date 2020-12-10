@@ -6,7 +6,7 @@
  * @author Jacob Lange Nielsen (cph-jn352@cphbusiness.dk)
  */
 
-package domain.material.materials;
+package domain.material;
 
 public class Generic extends Material {
 

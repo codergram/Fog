@@ -13,7 +13,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 import domain.carport.Carport;
 import domain.carport.shed.Shed;
 import domain.customer.Customer;
-import domain.material.materials.Material;
+import domain.material.Material;
 import domain.order.Order;
 import domain.order.exceptions.OrderException;
 import domain.partslist.Part;

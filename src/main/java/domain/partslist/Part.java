@@ -8,8 +8,8 @@
 
 package domain.partslist;
 
-import domain.material.materials.Material;
-import domain.material.materials.Tree;
+import domain.material.Material;
+import domain.material.Tree;
 
 public class Part {
   private final Material material;

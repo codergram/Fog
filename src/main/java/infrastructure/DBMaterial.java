@@ -11,10 +11,10 @@ package infrastructure;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import domain.material.MaterielRepository;
-import domain.material.materials.Generic;
-import domain.material.materials.Material;
-import domain.material.materials.Options;
-import domain.material.materials.Tree;
+import domain.material.Generic;
+import domain.material.Material;
+import domain.material.Options;
+import domain.material.Tree;
 import infrastructure.exceptions.DBException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
