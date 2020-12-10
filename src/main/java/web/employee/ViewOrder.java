@@ -38,7 +38,7 @@ public class ViewOrder extends BaseServlet {
 
       log("Trying to log into admin :" + curUser);
 
-      if (curUser == null || !curUser.isAdmin()) {
+      if (curUser == null || !curUser.isEmployee()) {
         log("User is not admin: " + curUser);
         resp.sendError(401);
       } else {
@@ -50,6 +50,11 @@ public class ViewOrder extends BaseServlet {
             order = o;
           }
         }
+
+        if (!order.getSalesEmployee().getEmail().equals(curUser.getEmail())) {
+          log.error("{} not assigned to order {}", curUser.getEmail(), order.getId());
+        }
+
         req.setAttribute("order", order);
         log("User is admin: " + curUser);
 

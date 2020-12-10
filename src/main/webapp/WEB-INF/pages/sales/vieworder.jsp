@@ -62,7 +62,9 @@
 </div>
 
 <br>
-
+<div class="row">
+<div class="col-2"></div>
+<div class="col-8">
 <div class="row">
     <form action="Ordre/View/" method="POST" style="width:100%;">
         <label for="salgspris">Salgspris</label>
@@ -126,7 +128,9 @@
             </div>
         </form>
         </c:if>
-
+</div>
+<div class="col-2"></div>
+</div>
         <form action="Ordre/View/" method="POST">
                     <div class="input-group mb-6">
                         <input type="hidden" name="action" value="sendLink">
