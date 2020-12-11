@@ -9,7 +9,9 @@
 package domain.svg;
 
 import domain.carport.Carport;
+import domain.carport.Carport.Roof;
 import domain.carport.shed.Shed;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,7 +25,7 @@ class SVGSideTest {
     double shedLength = 210;
     double shedWidth = width - 75.0;
     Shed shed = new Shed(shedLength, shedWidth);
-    Carport carport = new Carport(780, 600, Carport.Roof.Flat, shed);
+    Carport carport = new Carport(length, width, Carport.Roof.Flat, shed);
 
     String expectedResult =
         "<svg version=\"1.1\"\n"
@@ -32,6 +34,28 @@ class SVGSideTest {
             + "     preserveAspectRatio=\"xMinYMin\">";
 
     SVGSide svgSide = new SVGSide(carport, false);
+
+    assertTrue(svgSide.getSvgCode().startsWith(expectedResult));
+  }
+
+  @Test
+  void testSVGSide1() {
+    double length = 600;
+    double width = 300;
+    double shedLength = 210;
+    double shedWidth = width - 75.0;
+    Shed shed = new Shed(shedLength, shedWidth);
+    Carport carport = new Carport(length, width, Roof.Peak, shed);
+
+    String expectedResult =
+        "<svg version=\"1.1\"\n"
+            + "     xmlns=\"http://www.w3.org/2000/svg\"\n"
+            + "     height=\"100%\"  width=\"100%\" viewBox=\"0 0 750.0 405.0\"\n"
+            + "     preserveAspectRatio=\"xMinYMin\" ";
+
+    SVGSide svgSide = new SVGSide(carport, false);
+
+    System.out.println(svgSide.getSvgCode());
 
     assertTrue(svgSide.getSvgCode().startsWith(expectedResult));
   }
