@@ -56,7 +56,7 @@ public class Confirmation extends BaseServlet {
       actionVal = Jsoup.parse(req.getParameter("action")).text();
       length = Double.parseDouble(req.getParameter("length"));
       width = Double.parseDouble(req.getParameter("width"));
-      withShed = Jsoup.parse(req.getParameter("shedOption")).text().equalsIgnoreCase("on");
+      withShed = req.getParameter("shedOption").equalsIgnoreCase("on");
     } catch (NullPointerException | NumberFormatException e) {
       log.warn(e.getMessage());
     }
@@ -67,7 +67,7 @@ public class Confirmation extends BaseServlet {
       roofType = Carport.Roof.Flat;
     }
 
-    String shedSize = Jsoup.parse(req.getParameter("shedSize")).text();
+    String shedSize = req.getParameter("shedSize");
 
     // Calculate Shed dimensions
     if (roofType == Carport.Roof.Peak) {
