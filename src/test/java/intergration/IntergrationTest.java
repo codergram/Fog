@@ -189,13 +189,13 @@ public class IntergrationTest {
       // Get all Materiel's from DB
       List<Material> allMaterialsFromDB = api.getAllMaterielsFromDB();
 
-      // Get the local empty Partlist
+      // Get the local empty Drawing
       List<Part> localPartlist = api.getLocalPartslist();
 
       // Carport object
       carport = new Carport(length, width, roofType, shed);
 
-      // Add to the local Partlist with compared Materiel from DB
+      // Add to the local Drawing with compared Materiel from DB
       List<Part> carportPartslist =
           api.addToLocalPartslist(carport, allMaterialsFromDB, localPartlist);
 
