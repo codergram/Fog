@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import web.BaseServlet;
 
-@WebServlet("/api/users")
+@WebServlet("/api/users/")
 public class Users extends BaseServlet {
 
   private static final Logger log = getLogger(Users.class);
