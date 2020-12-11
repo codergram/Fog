@@ -275,8 +275,8 @@ public class Api {
   /**
    * @param carport Carport to be built
    * @param allMaterialsFromDB List of materials
-   * @param localPartlist Partlist to be populated with materials
-   * @return Partlist of required materials to built carport
+   * @param localPartlist Drawing to be populated with materials
+   * @return Drawing of required materials to built carport
    */
   public List<Part> addToLocalPartslist(
       Carport carport, List<Material> allMaterialsFromDB, List<Part> localPartlist) {

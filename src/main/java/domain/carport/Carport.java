@@ -126,4 +126,17 @@ public class Carport {
   public void setPrice(double price) {
     this.price = price;
   }
+
+  @Override
+  public String toString() {
+    return "Carport{" +
+        "id=" + id +
+        ", length=" + length +
+        ", width=" + width +
+        ", roofType=" + roofType +
+        ", shed=" + shed +
+        ", price=" + price +
+        ", partslist=" + partslist +
+        '}';
+  }
 }

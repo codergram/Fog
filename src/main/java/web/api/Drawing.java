@@ -10,16 +10,11 @@ package web.api;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-import com.google.gson.Gson;
 import domain.carport.Carport;
 import domain.carport.Carport.Roof;
 import domain.carport.shed.Shed;
-import domain.material.Material;
-import domain.partslist.Part;
-import domain.partslist.Partslist;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,21 +22,23 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import web.BaseServlet;
 
-@WebServlet("/api/carport/partlist/")
-public class Partlist extends BaseServlet {
+@WebServlet("/api/carport/drawing/")
+public class Drawing extends BaseServlet {
 
-  private static final Logger log = getLogger(Partlist.class);
+  private static final Logger log = getLogger(Drawing.class);
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
 
     try {
+      String view = req.getParameter("view");
       double width = Double.parseDouble(req.getParameter("width"));
       double length = Double.parseDouble(req.getParameter("length"));
       String roofTypeStr = req.getParameter("rooftype");
       roofTypeStr = roofTypeStr.substring(0, 1).toUpperCase() + roofTypeStr.substring(1);
       Roof roofType = Roof.valueOf(roofTypeStr);
+      boolean dimensions = !req.getParameter("dimensions").equals("true");
 
       Shed shed = null;
       String shedSize = req.getParameter("shedsize");
@@ -67,33 +64,23 @@ public class Partlist extends BaseServlet {
         shed = new Shed(shedLength, shedWidth);
       }
 
-      // Get all Materiel's from DB
-      List<Material> allMaterialsFromDB = api.getAllMaterielsFromDB();
-
-      // Get the local empty Drawing
-      List<Part> localPartlist = api.getLocalPartslist();
-
-      // Carport object
       Carport c = new Carport(length, width, roofType, shed);
-
-      // Add to the local Drawing with compared Materiel from DB
-      List<Part> carportPartslist =
-          api.addToLocalPartslist(c, allMaterialsFromDB, localPartlist);
-
-      // Create partslist
-      Partslist partslist = new Partslist(carportPartslist);
-
-      // Adds created partlist to the carport
-      c.setPartslist(partslist);
-
 
       log.info("API request for the following: {}", c);
 
+
+      String svgSource;
+      if (view.equals("top")) {
+        svgSource = api.getSVGTop(c, dimensions);
+      } else {
+        svgSource = api.getSVGSide(c, dimensions);
+      }
+
       PrintWriter out = resp.getWriter();
-      resp.setContentType("application/json");
+      resp.setContentType("image/svg+xml");
       resp.setCharacterEncoding("UTF-8");
       req.setCharacterEncoding("UTF-8");
-      out.print(new Gson().toJson(c.getPartslist().getPartList()));
+      out.print(svgSource);
       out.flush();
     } catch (Exception e) {
       log.error(e.getMessage());
