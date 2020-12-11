@@ -10,6 +10,7 @@ package web.website;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
+import com.itextpdf.styledxmlparser.jsoup.Jsoup;
 import domain.carport.Carport;
 import domain.carport.shed.Shed;
 import domain.customer.Customer;
@@ -52,21 +53,21 @@ public class Confirmation extends BaseServlet {
     Shed shed = null;
 
     try {
-      actionVal = req.getParameter("action");
+      actionVal = Jsoup.parse(req.getParameter("action")).text();
       length = Double.parseDouble(req.getParameter("length"));
       width = Double.parseDouble(req.getParameter("width"));
-      withShed = req.getParameter("shedOption").equalsIgnoreCase("on");
+      withShed = Jsoup.parse(req.getParameter("shedOption")).text().equalsIgnoreCase("on");
     } catch (NullPointerException | NumberFormatException e) {
       log.warn(e.getMessage());
     }
-    String roof = req.getParameter("roof");
+    String roof = Jsoup.parse(req.getParameter("roof")).text();
     if (roof.equalsIgnoreCase("peak")) {
       roofType = Carport.Roof.Peak;
     } else {
       roofType = Carport.Roof.Flat;
     }
 
-    String shedSize = req.getParameter("shedSize");
+    String shedSize = Jsoup.parse(req.getParameter("shedSize")).text();
 
     // Calculate Shed dimensions
     if (roofType == Carport.Roof.Peak) {
@@ -157,11 +158,11 @@ public class Confirmation extends BaseServlet {
     int phone = 0;
 
     try {
-      name = req.getParameter("name");
-      email = req.getParameter("email");
-      address = req.getParameter("address");
+      name = Jsoup.parse(req.getParameter("name")).text();
+      email = Jsoup.parse(req.getParameter("email")).text();
+      address = Jsoup.parse(req.getParameter("address")).text();
       zip = Integer.parseInt(req.getParameter("zip"));
-      city = req.getParameter("city");
+      city = Jsoup.parse(req.getParameter("city")).text();
       phone = Integer.parseInt(req.getParameter("phone"));
     } catch (NumberFormatException e) {
       log.error(e.getMessage());
@@ -174,7 +175,8 @@ public class Confirmation extends BaseServlet {
     try {
       order = api.createOrder(order, customer);
       String orderUrl = req.getParameter("orderurl") + order.getUuid().toString();
-      api.sendMail(order.getCustomer().getEmail(), "Order " + order.getId(), "Link til din ordre", orderUrl);
+      api.sendMail(
+          order.getCustomer().getEmail(), "Order " + order.getId(), "Link til din ordre", orderUrl);
       req.setAttribute("orderUrl", orderUrl);
     } catch (OrderException | DBException e) {
       log.error(e.getMessage());

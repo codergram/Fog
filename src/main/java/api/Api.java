@@ -15,8 +15,8 @@ import api.exceptions.PDFNotCreated;
 import domain.carport.Carport;
 import domain.customer.Customer;
 import domain.customer.CustomerRepository;
-import domain.material.MaterielRepository;
 import domain.material.Material;
+import domain.material.MaterielRepository;
 import domain.order.Order;
 import domain.order.OrderRepository;
 import domain.order.exceptions.OrderException;
@@ -79,8 +79,13 @@ public class Api {
    * @throws PDFNotCreated Error in generating PDF
    */
   public File createPdf(Order o) throws PDFNotCreated {
-    return fileService.generatePdf(
-        o, getSVGSide(o.getCarport(), false), getSVGTop(o.getCarport(), false));
+    File pdf =
+        fileService.generatePdf(
+            o, getSVGSide(o.getCarport(), false), getSVGTop(o.getCarport(), false));
+
+    log.info("Generated PDF for order {}: {}", o.getId(), pdf.getAbsolutePath());
+
+    return pdf;
   }
 
   /**
@@ -118,7 +123,7 @@ public class Api {
     try {
       emailService.sendEmail(mailAddress, title, generateMailMessage(title, subject, msg), file);
     } catch (EmailNotSent e) {
-      System.out.println(e.getMessage());
+      log.error("Error sending mail to {}: {}", mailAddress, e.getMessage());
     }
   }
 
@@ -131,7 +136,7 @@ public class Api {
     try {
       emailService.sendEmail(mailAddress, title, generateMailMessage(title, subject, msg), null);
     } catch (EmailNotSent e) {
-      System.out.println(e.getMessage());
+      log.error("Error sending mail to {}: {}", mailAddress, e.getMessage());
     }
   }
 
@@ -146,10 +151,14 @@ public class Api {
    */
   public User createUser(String name, String email, String password, User.Role role)
       throws UserExists {
+    log.info("Trying to create {} user for {} with mail {}.", role, name, email);
     var salt = User.generateSalt();
 
     User user = new User(0, name, email, role, salt, User.calculateSecret(salt, password));
     user = userRepository.createUser(user);
+
+    log.info("User created with ID {}", user.getId());
+
     return user;
   }
 
@@ -158,7 +167,9 @@ public class Api {
    * @throws UserNotFound If user is not found in database
    */
   public void deleteUser(int id) throws UserNotFound {
+    log.info("Trying to delete user with ID {}", id);
     userRepository.deleteUserById(id);
+    log.info("User deleted with ID {}", id);
   }
 
   /**
@@ -172,8 +183,9 @@ public class Api {
     User user = null;
     try {
       user = userRepository.getUserByEmail(email);
+      log.debug("User trying to login: {}", user);
     } catch (UserExists userExists) {
-      log.info(userExists.getMessage());
+      log.warn(userExists.getMessage());
     }
     if (user == null) {
       throw new UserNotFound();
@@ -181,6 +193,7 @@ public class Api {
       throw new InvalidPassword();
     } else {
       // Return user if password is validated
+      log.info("User logged in: {}", user);
       return user;
     }
   }
@@ -190,7 +203,7 @@ public class Api {
     try {
       return userRepository.getAllUsersFromDB();
     } catch (UserNotFound e) {
-      log.info(e.getMessage());
+      log.warn(e.getMessage());
     }
     return new ArrayList<>();
   }
