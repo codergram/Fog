@@ -30,6 +30,11 @@
                         </a>
                     </li>
                 </c:forEach>
+                <c:if test="${sessionScope.user != null}">
+                        <span class="navbar-text" style="color:white;">
+                            (${sessionScope.user.email})
+                        </span>
+                </c:if>
             </ul>
         </div>
     </div>
