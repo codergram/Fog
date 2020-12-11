@@ -174,7 +174,7 @@ public class Confirmation extends BaseServlet {
     try {
       order = api.createOrder(order, customer);
       String orderUrl = req.getParameter("orderurl") + order.getUuid().toString();
-      api.sendLinkByMail(order, orderUrl);
+      api.sendMail(order.getCustomer().getEmail(), "Order " + order.getId(), "Link til din ordre", orderUrl);
       req.setAttribute("orderUrl", orderUrl);
     } catch (OrderException | DBException e) {
       log.error(e.getMessage());

@@ -136,22 +136,6 @@ public class Api {
   }
 
   /**
-   * @param order Order to be mailed to
-   * @param link Link to be mailed
-   */
-  public void sendLinkByMail(Order order, String link) {
-    try {
-      String message =
-          generateMailMessage("Ordre " + order.getId(), "Dit nye link til ordren", link);
-
-      emailService.sendEmail(
-          order.getCustomer().getEmail(), "Ordre " + order.getId(), message, null);
-    } catch (EmailNotSent e) {
-      System.out.println(e.getMessage());
-    }
-  }
-
-  /**
    * @param name Users name
    * @param email Users email
    * @param password Users password (plain-text)
