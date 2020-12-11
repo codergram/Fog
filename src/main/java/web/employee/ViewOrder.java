@@ -113,7 +113,7 @@ public class ViewOrder extends BaseServlet {
           Order o = api.getOrderById(orderId);
           String linkFromReq = req.getParameter("ordreurl");
           String link = "<a href=\"" + linkFromReq + "\">" + linkFromReq + "</a>";
-          api.sendLinkByMail(o, link);
+          api.sendMail(o.getCustomer().getEmail(), "Order " + o.getId(), "Link til din ordre", link);
           createAlert(req, "success", "Mailen blev sendt til " + o.getCustomer().getEmail());
           break;
         case "createPdf":
