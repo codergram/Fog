@@ -33,7 +33,7 @@
                 <form action="Users" method="post">
                     <input type="hidden" name="action" value="deleteUser"/>
                     <input type="hidden" name="userid" value="${user.id}"/>
-                    <input type="submit" class="btn btn-danger" value="Slet bruger" onclick="return confirm('Er du sikker?')"/>
+                    <input type="submit" class="btn btn-danger" value="Slet bruger" onclick="return confirm('Er du sikker?')" <c:if test="${sessionScope.user.id == user.id}">disabled</c:if>/>
                 </form>
             </td>
     </tr>

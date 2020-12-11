@@ -197,7 +197,6 @@
                ${part.material.name}
             </td>
             <td>
-                <!-- TODO: Fix -->
                 <c:if test ="${part.material.getClass().name == 'Tree'}">
                 ${part.material.length}
                 </c:if>
