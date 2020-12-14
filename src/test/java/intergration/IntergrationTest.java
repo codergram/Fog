@@ -38,6 +38,7 @@ import infrastructure.LocalSVG;
 import infrastructure.PDFService;
 import infrastructure.exceptions.DBException;
 import infrastructure.Database;
+import java.sql.ClientInfoStatus;
 import java.sql.Timestamp;
 import java.util.List;
 import org.apache.ibatis.jdbc.ScriptRunner;
@@ -58,6 +59,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Tag("intergration-test")
 public class IntergrationTest {
+
+  User user = null;
+  User user1 = null;
+  Carport carport = null;
+  Shed shed = null;
 
   Api api;
 
@@ -110,15 +116,14 @@ public class IntergrationTest {
     DBCustomer dbCustomer = new DBCustomer(db);
 
     api = new Api(dbUser, javaXEmailService, pDFService, localSVG, dbMaterial, dbOrder, dbCustomer);
+
   }
 
   @Test
-  void createCarport() {
+  void userStory1() {
     String name = "test";
     String email = "test@test.dk";
     String password1 = "1234";
-    User user = null;
-    User user1 = null;
 
     // Create user
     try {
@@ -147,9 +152,35 @@ public class IntergrationTest {
     } catch (UserNotFound e) {
       e.getMessage();
     }
+  }
 
-    Carport carport = null;
-    Shed shed = null;
+  @Test
+  void userStory2() {
+    String name = "test";
+    String email = "test@test.dk";
+    String password1 = "1234";
+
+    // Create user
+    try {
+      user = api.createUser(name, email, password1, User.Role.Employee);
+      assertEquals(email, user.getEmail());
+    } catch (UserExists userExists) {
+      userExists.printStackTrace();
+    }
+
+    if (user.getRole().name().equals("Employee")) {
+      try {
+        List<Order> allOrdersFromDB = api.getOrders();
+        assertEquals(2, allOrdersFromDB.size());
+      } catch (OrderNotFound orderNotFound) {
+        orderNotFound.printStackTrace();
+      }
+    }
+  }
+
+
+  @Test
+  void userStory3_4_7() {
     double length = 600;
     double width = 300;
     double shedLength;
@@ -290,7 +321,7 @@ public class IntergrationTest {
 
 
   @Test
-  void getMaterials() {
+  void userStory5_10() {
     try {
       List<Material> getAllRawMaterielsFromDB = api.getAllRawMaterielsFromDB();
 
@@ -309,6 +340,22 @@ public class IntergrationTest {
     } catch (DBException e) {
       e.printStackTrace();
     }
+  }
+
+  @Test
+  void getAllCustomers() {
+
+    List<Customer> allCustomersFromDB = api.getCustomers();
+    assertEquals(2, allCustomersFromDB.size());
+
+  }
+
+  @Test
+  void getAllUsers() {
+
+    List<User> allUsersFromDB = api.getUsers();
+    assertEquals(2, allUsersFromDB.size());
+
   }
 
 
