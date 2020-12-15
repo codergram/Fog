@@ -8,24 +8,26 @@
 
 package intergration;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.slf4j.LoggerFactory.getLogger;
+
 import api.Api;
-import api.EmailService;
 import domain.carport.Carport;
 import domain.carport.Carport.Roof;
 import domain.carport.shed.Shed;
 import domain.customer.Customer;
 import domain.material.Material;
-import domain.material.Options;
-import domain.material.Tree;
 import domain.order.Order;
 import domain.order.Order.Status;
 import domain.order.exceptions.OrderException;
 import domain.order.exceptions.OrderNotFound;
 import domain.partslist.Part;
 import domain.partslist.Partslist;
-import domain.svg.SVGSide;
-import domain.svg.SVGTop;
 import domain.user.User;
+import domain.user.User.Role;
 import domain.user.exceptions.InvalidPassword;
 import domain.user.exceptions.UserExists;
 import domain.user.exceptions.UserNotFound;
@@ -33,43 +35,45 @@ import infrastructure.DBCustomer;
 import infrastructure.DBMaterial;
 import infrastructure.DBOrder;
 import infrastructure.DBUser;
+import infrastructure.Database;
 import infrastructure.JavaXEmailService;
 import infrastructure.LocalSVG;
 import infrastructure.PDFService;
 import infrastructure.exceptions.DBException;
-import infrastructure.Database;
-import java.sql.ClientInfoStatus;
-import java.sql.Timestamp;
-import java.util.List;
-import org.apache.ibatis.jdbc.ScriptRunner;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import web.admin.Materials;
+import java.sql.Timestamp;
+import java.util.List;
+import jdk.jfr.Description;
+import org.apache.ibatis.jdbc.ScriptRunner;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.slf4j.Logger;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+@Tag("integration-test")
+@DisplayName("Integration test")
+@Description("Integration test of selected user stories")
+@TestMethodOrder(MethodOrderer.MethodName.class)
+class IntergrationTest {
 
-@Tag("intergration-test")
-public class IntergrationTest {
+  private static final Logger log = getLogger(IntergrationTest.class);
+  private static Api api;
 
-  User user = null;
-  User user1 = null;
+  static User user = null;
   Carport carport = null;
   Shed shed = null;
 
-  Api api;
-
   /**
-   * Before you run this script create a user 'cupcaketest' and grant access to the database:
-   *
+   * Before you run this integration test, create a user 'cupcaketest' and grant access to the
+   * database: You can use the following script:
    * <pre>
    * DROP USER IF EXISTS cupcaketest@localhost;
    * CREATE USER cupcaketest@localhost;
@@ -88,16 +92,17 @@ public class IntergrationTest {
       conn.setAutoCommit(false);
       ScriptRunner runner = new ScriptRunner(conn);
       runner.setStopOnError(true);
+      runner.setLogWriter(null);
       runner.runScript(new BufferedReader(new InputStreamReader(stream)));
       conn.commit();
     } catch (SQLException throwables) {
-      throwables.printStackTrace();
+      log.error(throwables.getMessage());
     }
-    System.out.println("Done running migration");
+    log.info("Migration script done");
   }
 
-  @BeforeEach
-  void setupAPI() {
+  @BeforeAll
+  static void setupAPI() {
     resetTestDatabase();
 
     String url = "jdbc:mysql://localhost:3306/fogtest?serverTimezone=CET";
@@ -117,80 +122,73 @@ public class IntergrationTest {
 
     api = new Api(dbUser, javaXEmailService, pDFService, localSVG, dbMaterial, dbOrder, dbCustomer);
 
-  }
-
-  @Test
-  void userStory1() {
-    String name = "test";
-    String email = "test@test.dk";
-    String password1 = "1234";
-
     // Create user
     try {
-      user = api.createUser(name, email, password1, User.Role.Employee);
-      assertEquals(email, user.getEmail());
+      api.createUser("test", "test@test.dk", "1234", Role.Employee);
     } catch (UserExists userExists) {
       userExists.printStackTrace();
     }
+  }
+
+  @Test
+  @DisplayName("Userstory 1")
+  void us1() {
+    String email = "test@test.dk";
+    String password = "1234";
 
     // Login user
+    log.info("Trying to login with correct credentials");
     try {
-      user = api.login(user.getEmail(), password1);
+      user = api.login(email, password);
       assertEquals(email, user.getEmail());
-    } catch (InvalidPassword invalidPassword) {
-      invalidPassword.printStackTrace();
-    } catch (UserNotFound e) {
-      e.getMessage();
+    } catch (InvalidPassword | UserNotFound e) {
+      log.warn(e.getMessage());
     }
 
     // Invalid login
+    log.info("Trying to login with wrong credentials");
     try {
-      user1 = api.login(user.getEmail(), "2233");
+      User user1 = api.login(user.getEmail(), "2233");
       assertNull(user1.getEmail());
-    } catch (InvalidPassword invalidPassword) {
-      String exceptionMessage = "" + invalidPassword.getMessage();
-    } catch (UserNotFound e) {
-      e.getMessage();
+    } catch (InvalidPassword | UserNotFound e) {
+      log.warn(e.getMessage());
     }
   }
 
   @Test
-  void userStory2() {
-    String name = "test";
-    String email = "test@test.dk";
-    String password1 = "1234";
-
-    // Create user
-    try {
-      user = api.createUser(name, email, password1, User.Role.Employee);
-      assertEquals(email, user.getEmail());
-    } catch (UserExists userExists) {
-      userExists.printStackTrace();
-    }
-
-    if (user.getRole().name().equals("Employee")) {
+  @DisplayName("Userstory 2")
+  @Description(
+      "Som sælger skal man kunne se alle ordre, så sælger nemt kan få et overblik over, hvad status er på alle ordrerne.")
+  void us2() {
+    if (user.getRole() == Role.Employee) {
       try {
+        log.info("Getting all orders from database");
         List<Order> allOrdersFromDB = api.getOrders();
         assertEquals(2, allOrdersFromDB.size());
-      } catch (OrderNotFound orderNotFound) {
-        orderNotFound.printStackTrace();
+        log.info("Found {} expected {}", allOrdersFromDB.size(), 2);
+      } catch (OrderNotFound e) {
+        log.warn(e.getMessage());
       }
     }
   }
 
-
   @Test
-  void userStory3_4_7() {
+  @DisplayName("Userstory 3, 4, 7")
+  @Description(
+      "Som sælger skal det være tydeligt når en ny forespørgsel er kommet, så sælgerne ikke overser nye forespørgsler.%n"
+          + "Som sælger skal man kunne ændre i prisen på et tilbud, så sælger måske alligevel kan få et salg igennem, når en kunde er tøvende.%n"
+          + "Som sælger skal det være muligt at redigere i salgsprisen, så sælgeren bedre kan matche kundens købspris og derved gennemføre et salg")
+  void us3_4_7() {
     double length = 600;
     double width = 300;
     double shedLength;
     double shedWidth = 0.0;
     boolean withShed = true;
     String shedSize = "whole";
-    Enum<Carport.Roof> roofType = Roof.Peak;
+    Enum<Roof> roofType = Roof.Peak;
 
     // Calculate Shed dimensions
-    if (roofType == Carport.Roof.Peak) {
+    if (roofType == Roof.Peak) {
       shedLength = 225.0;
       if (shedSize != null) {
         if (shedSize.equals("whole")) {
@@ -213,8 +211,8 @@ public class IntergrationTest {
     // Create shed
     if (withShed) {
       shed = new Shed(shedLength, shedWidth);
+      log.info("Adding shed: {}", shed);
     }
-
 
     try {
       // Get all Materiel's from DB
@@ -225,6 +223,7 @@ public class IntergrationTest {
 
       // Carport object
       carport = new Carport(length, width, roofType, shed);
+      log.info("Carport created: {}", carport);
 
       // Add to the local Drawing with compared Materiel from DB
       List<Part> carportPartslist =
@@ -232,12 +231,13 @@ public class IntergrationTest {
 
       // Create partslist
       Partslist partslist = new Partslist(carportPartslist);
+      log.info("Partlist generated");
 
       // Adds created partlist to the carport
       carport.setPartslist(partslist);
 
     } catch (DBException e) {
-      e.printStackTrace();
+      log.error(e.getMessage());
     }
 
     assertEquals(600, carport.getLength());
@@ -251,8 +251,7 @@ public class IntergrationTest {
             + "     preserveAspectRatio=\"xMinYMin\" ";
 
     String svgSide = api.getSVGSide(carport, false);
-
-    //System.out.println(svgSide.getSvgCode());
+    log.info("SVG for side generated");
 
     assertTrue(svgSide.startsWith(expectedResult));
 
@@ -265,65 +264,66 @@ public class IntergrationTest {
 
     String svgTop = api.getSVGTop(carport, false);
 
-    //System.out.println(svgTop.getSvgTop());
+    log.info("SVG for top generated");
 
     assertTrue(svgTop.startsWith(expectedResult1));
 
-    //Get carport price
+    // Get carport price
     assertEquals(13241.5975, carport.getPrice());
 
     Customer customer = new Customer(1, "testCustoemr", "", 0, "", 0, "test@testCustomer.dk");
 
+    log.info("Customer created: {}", customer);
+
     Timestamp time = new Timestamp(System.nanoTime());
-    Order order = new Order(
-        1,
-        width,
-        length,
-        time,
-        user,
-        customer,
-        Status.valueOf("New"),
-        carport,
-        30);
+    Order order =
+        new Order(1, width, length, time, user, customer, Status.valueOf("New"), carport, 30);
 
     try {
-      //Create order
+      // Create order
       order = api.createOrder(order, customer);
       assertEquals(600, order.getLength());
+      log.info("Order created: {}", order);
 
-      //Get orders
+      // Get orders
       List<Order> allOrders = api.getOrders();
       assertEquals(3, allOrders.size());
+      log.info("Found {} orders in database: {}", allOrders.size(), allOrders);
 
-      //Change status
+      // Change status
+      String oldStatus = order.getStatus().name();
       api.changeOrderStatus(order.getId(), "Awaiting");
       order = api.getOrderById(order.getId());
       assertEquals("Awaiting", order.getStatus().name());
+      log.info("Order status changed from {} to {}", oldStatus, order.getStatus().name());
 
-      //Change price
+      // Change price
       api.updatePrice(order.getId(), 16000);
       order = api.getOrderById(order.getId());
-      assertEquals(15999.82528, order.getCarport().getPrice() * (order.getMargin()/100 + 1));
+      assertEquals(15999.82528, order.getCarport().getPrice() * (order.getMargin() / 100 + 1));
+      log.info("Order price changed");
 
-      //Release
+      // Release
       api.releaseOrder(order.getId());
       order = api.getOrderById(order.getId());
-      assertEquals(false, order.hasSalesman());
+      assertFalse(order.hasSalesman());
+      log.info("Order released from salesman");
 
-    } catch (DBException e) {
-      e.printStackTrace();
-    } catch (OrderException e) {
-      e.printStackTrace();
-    } catch (OrderNotFound orderNotFound) {
-      orderNotFound.printStackTrace();
+    } catch (DBException | OrderException | OrderNotFound e) {
+      log.error(e.getMessage());
     }
   }
 
-
   @Test
-  void userStory5_10() {
+  @DisplayName("Userstory 5, 10")
+  @Description(
+      "Som sælger skal man kunne se styklisten for en ordre, så sælger kan dobbelt tjekke om der er nok materialer til at lave en stabil konstruktion.%n"
+          + "som admin skal man kunne rette i eksisterende materialer, så materialelisten er ”up to date” med det eksisterende lager. ")
+  void us5_10() {
     try {
       List<Material> getAllRawMaterielsFromDB = api.getAllRawMaterielsFromDB();
+      log.info("Found {} orders in database: {}", getAllRawMaterielsFromDB.size(),
+          getAllRawMaterielsFromDB);
 
       assertEquals(34, getAllRawMaterielsFromDB.size());
 
@@ -337,26 +337,10 @@ public class IntergrationTest {
       assertEquals(20.00, getAllRawMaterielsFromDB.get(0).getPrice());
       assertEquals("Pk", getAllRawMaterielsFromDB.get(0).getUnit().name());
 
+      log.info("Material updated in database");
+
     } catch (DBException e) {
-      e.printStackTrace();
+      log.error(e.getMessage());
     }
   }
-
-  @Test
-  void getAllCustomers() {
-
-    List<Customer> allCustomersFromDB = api.getCustomers();
-    assertEquals(2, allCustomersFromDB.size());
-
-  }
-
-  @Test
-  void getAllUsers() {
-
-    List<User> allUsersFromDB = api.getUsers();
-    assertEquals(2, allUsersFromDB.size());
-
-  }
-
-
 }
