@@ -32,15 +32,18 @@ public class Users extends BaseServlet {
       throws ServletException, IOException {
 
     try {
-      List<User> users = List.copyOf(api.getUsers());
-      PrintWriter out = resp.getWriter();
-      resp.setContentType("application/json");
-      resp.setCharacterEncoding("UTF-8");
-      req.setCharacterEncoding("UTF-8");
-      out.print(new Gson().toJson(users));
-      out.flush();
+      if (authorizeApi(req)) {
+        List<User> users = List.copyOf(api.getUsers());
+        PrintWriter out = resp.getWriter();
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        req.setCharacterEncoding("UTF-8");
+        out.print(new Gson().toJson(users));
+        out.flush();
+      }
     } catch (Exception e) {
       log.error(e.getMessage());
+      error(resp, 401);
     }
   }
 }

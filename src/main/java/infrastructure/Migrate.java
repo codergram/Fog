@@ -22,9 +22,8 @@ import org.slf4j.Logger;
 
 public class Migrate {
 
-  Database database = new Database();
-
   private static final Logger log = getLogger(Migrate.class);
+  Database database = new Database();
 
   public static void main(String[] args) throws IOException, SQLException {
     new Migrate().runMigrations();

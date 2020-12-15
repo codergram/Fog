@@ -10,26 +10,6 @@ package domain.material;
 
 public class Options extends Material {
 
-  public enum Type {
-    BottomScrews,
-    PerforatedTape,
-    Universal,
-    Screw,
-    FittingScrews,
-    BoardBolt,
-    SquareDiscs,
-    RoofBinder,
-    BarnDoorHandle,
-    Hinge,
-    AngleBracket,
-    Dobbelt,
-    BackStone,
-    TopLayer,
-    BackstoneFittings,
-    RoofBinders,
-    Rafters
-  }
-
   private final Enum<Type> type;
 
   public Options(
@@ -93,5 +73,25 @@ public class Options extends Material {
   @Override
   public String typeName() {
     return this.getClass().getSimpleName();
+  }
+
+  public enum Type {
+    BottomScrews,
+    PerforatedTape,
+    Universal,
+    Screw,
+    FittingScrews,
+    BoardBolt,
+    SquareDiscs,
+    RoofBinder,
+    BarnDoorHandle,
+    Hinge,
+    AngleBracket,
+    Dobbelt,
+    BackStone,
+    TopLayer,
+    BackstoneFittings,
+    RoofBinders,
+    Rafters
   }
 }

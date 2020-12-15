@@ -17,9 +17,9 @@ public class SVGSide {
   private final String roof;
   private final boolean withShed;
   private final StringBuilder sb;
+  private final boolean isCustomer;
   private String svgCode;
   private double shedLength;
-  private final boolean isCustomer;
 
   public SVGSide(Carport carport, boolean isCustomer) {
     this.length = carport.getLength();

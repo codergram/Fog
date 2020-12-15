@@ -33,18 +33,12 @@ public class User {
     PASSWORD_FACTORY = factory;
   }
 
-  public enum Role {
-    Employee,
-    Admin
-  }
-
-  private int id;
   private final String name;
   private final String email;
   private final Enum<Role> role;
   private final byte[] salt;
   private final byte[] secret;
-
+  private int id;
   public User(int id, String name, String email, Enum<Role> role, byte[] salt, byte[] secret) {
     this.id = id;
     this.name = name;
@@ -61,6 +55,35 @@ public class User {
     this.role = role;
     salt = null;
     secret = null;
+  }
+
+  public static Enum<Role> valueOfIgnoreCase(String search) {
+    for (Enum<Role> e : Role.values()) {
+      if (e.name().equalsIgnoreCase(search)) {
+        return e;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Password stuff
+   */
+  public static byte[] generateSalt() {
+    SecureRandom random = new SecureRandom();
+    byte[] salt = new byte[16];
+    random.nextBytes(salt);
+    return salt;
+  }
+
+  public static byte[] calculateSecret(byte[] salt, String password) {
+    KeySpec spec =
+        new PBEKeySpec(password.toCharArray(), salt, PASSWORD_ITERATIONS, PASSWORD_LENGTH);
+    try {
+      return PASSWORD_FACTORY.generateSecret(spec).getEncoded();
+    } catch (InvalidKeySpecException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   public boolean isEmployee() {
@@ -104,15 +127,6 @@ public class User {
     return name;
   }
 
-  public static Enum<Role> valueOfIgnoreCase(String search) {
-    for (Enum<Role> e : Role.values()) {
-      if (e.name().equalsIgnoreCase(search)) {
-        return e;
-      }
-    }
-    return null;
-  }
-
   @Override
   public String toString() {
     return "User{"
@@ -129,25 +143,12 @@ public class User {
         + '}';
   }
 
-  /** Password stuff */
-  public static byte[] generateSalt() {
-    SecureRandom random = new SecureRandom();
-    byte[] salt = new byte[16];
-    random.nextBytes(salt);
-    return salt;
-  }
-
-  public static byte[] calculateSecret(byte[] salt, String password) {
-    KeySpec spec =
-        new PBEKeySpec(password.toCharArray(), salt, PASSWORD_ITERATIONS, PASSWORD_LENGTH);
-    try {
-      return PASSWORD_FACTORY.generateSecret(spec).getEncoded();
-    } catch (InvalidKeySpecException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
   public boolean isPasswordCorrect(String password) {
     return Arrays.equals(this.secret, calculateSecret(salt, password));
+  }
+
+  public enum Role {
+    Employee,
+    Admin
   }
 }

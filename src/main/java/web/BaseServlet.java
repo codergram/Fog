@@ -11,6 +11,10 @@ package web;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import api.Api;
+import api.exceptions.ApiError;
+import domain.user.User;
+import domain.user.exceptions.InvalidPassword;
+import domain.user.exceptions.UserNotFound;
 import infrastructure.DBCustomer;
 import infrastructure.DBMaterial;
 import infrastructure.DBOrder;
@@ -20,6 +24,8 @@ import infrastructure.JavaXEmailService;
 import infrastructure.LocalSVG;
 import infrastructure.PDFService;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -30,8 +36,8 @@ import web.widget.Navbar;
 public class BaseServlet extends HttpServlet {
 
   protected static final Api api;
-  private static final Logger log = getLogger(BaseServlet.class);
   protected static final boolean apiAuth = false;
+  private static final Logger log = getLogger(BaseServlet.class);
 
   static {
     api = createFogApi();
@@ -76,5 +82,24 @@ public class BaseServlet extends HttpServlet {
   protected void error(HttpServletResponse resp, int status) {
     resp.setStatus(status);
     log.error("API error status {}", status);
+  }
+
+  protected boolean authorizeApi(HttpServletRequest req) throws ApiError {
+    try {
+      String authHeader = req.getHeader("Authorization").replace("Basic ", "");
+      String[] credential =
+          new String(Base64.getDecoder().decode(authHeader), StandardCharsets.UTF_8).split(":");
+      String apiUsername = credential[0];
+      String apiPassword = credential[1];
+
+      User tmpUser = api.login(apiUsername, apiPassword);
+
+      log.info("API Auth Key: {}", authHeader);
+      log.info("API user: {}", apiUsername);
+
+      return tmpUser != null && tmpUser.isAdmin();
+    } catch (InvalidPassword | UserNotFound invalidPassword) {
+      throw new ApiError("Not authorized!");
+    }
   }
 }

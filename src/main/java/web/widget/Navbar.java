@@ -15,11 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 
 public class Navbar {
   private final HttpServletRequest request;
-
-  public Navbar(HttpServletRequest request) {
-    this.request = request;
-  }
-
   private final List<Item> items =
       List.of(
           new Item("Hjem", "/", "home", false, false),
@@ -30,6 +25,10 @@ public class Navbar {
           new Item("Ansatte", "/Users", "address-card", true, true),
           new Item("Materialer", "/Materials", "tools", true, true),
           new Item("Log ud", "/Logout", "sign-out", true, false));
+
+  public Navbar(HttpServletRequest request) {
+    this.request = request;
+  }
 
   public List<Item> getItems() {
     List<Item> list = new ArrayList<>();

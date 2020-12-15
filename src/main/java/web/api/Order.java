@@ -29,20 +29,23 @@ public class Order extends BaseServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
     try {
-      String orderId = req.getPathInfo().substring(1);
+      if (authorizeApi(req)) {
+        String orderId = req.getPathInfo().substring(1);
 
-      domain.order.Order o = api.getOrderById(Integer.parseInt(orderId));
+        domain.order.Order o = api.getOrderById(Integer.parseInt(orderId));
 
-      if (o != null) {
-        PrintWriter out = resp.getWriter();
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
-        req.setCharacterEncoding("UTF-8");
-        out.print(new Gson().toJson(o));
-        out.flush();
+        if (o != null) {
+          PrintWriter out = resp.getWriter();
+          resp.setContentType("application/json");
+          resp.setCharacterEncoding("UTF-8");
+          req.setCharacterEncoding("UTF-8");
+          out.print(new Gson().toJson(o));
+          out.flush();
+        }
       }
     } catch (Exception e) {
       log.error(e.getMessage());
+      error(resp, 401);
     }
   }
 }
