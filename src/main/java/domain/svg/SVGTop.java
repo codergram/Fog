@@ -16,11 +16,11 @@ public class SVGTop {
   private final double width;
   private final String roof;
   private final boolean withShed;
+  private final boolean isCustomer;
   private double shedLength;
   private double shedWidth;
   private StringBuilder sb;
   private String svgCode;
-  private final boolean isCustomer;
 
   public SVGTop(Carport carport, boolean isCustomer) {
     this.length = carport.getLength();

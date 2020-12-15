@@ -32,15 +32,18 @@ public class Orders extends BaseServlet {
       throws ServletException, IOException {
 
     try {
-      List<Order> orders = List.copyOf(api.getOrders());
-      PrintWriter out = resp.getWriter();
-      resp.setContentType("application/json");
-      resp.setCharacterEncoding("UTF-8");
-      req.setCharacterEncoding("UTF-8");
-      out.print(new Gson().toJson(orders));
-      out.flush();
+      if (authorizeApi(req)) {
+        List<Order> orders = List.copyOf(api.getOrders());
+        PrintWriter out = resp.getWriter();
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        req.setCharacterEncoding("UTF-8");
+        out.print(new Gson().toJson(orders));
+        out.flush();
+      }
     } catch (Exception e) {
       log.error(e.getMessage());
+      error(resp, 401);
     }
   }
 }

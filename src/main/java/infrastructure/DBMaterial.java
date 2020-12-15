@@ -10,9 +10,9 @@ package infrastructure;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-import domain.material.MaterielRepository;
 import domain.material.Generic;
 import domain.material.Material;
+import domain.material.MaterielRepository;
 import domain.material.Options;
 import domain.material.Tree;
 import infrastructure.exceptions.DBException;
@@ -25,8 +25,9 @@ import java.util.List;
 import org.slf4j.Logger;
 
 public class DBMaterial implements MaterielRepository {
-  private final Database database;
+
   private static final Logger log = getLogger(DBMaterial.class);
+  private final Database database;
 
   public DBMaterial(Database database) {
     this.database = database;

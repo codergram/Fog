@@ -18,15 +18,6 @@ import java.util.UUID;
 
 public class Order {
 
-  public enum Status {
-    New,
-    Awaiting,
-    Accepted,
-    Completed,
-    Cancelled
-  }
-
-  private int id;
   private final double width;
   private final double length;
   private final Timestamp timestamp;
@@ -34,9 +25,9 @@ public class Order {
   private final Customer customer;
   private final Enum<Status> status;
   private final Carport carport;
+  private int id;
   private double margin;
   private UUID uuid;
-
   public Order(
       int id,
       double width,
@@ -107,6 +98,10 @@ public class Order {
     return id;
   }
 
+  public void setId(int id) {
+    this.id = id;
+  }
+
   public double getWidth() {
     return width;
   }
@@ -157,7 +152,11 @@ public class Order {
     return format.format(date);
   }
 
-  public void setId(int id) {
-    this.id = id;
+  public enum Status {
+    New,
+    Awaiting,
+    Accepted,
+    Completed,
+    Cancelled
   }
 }

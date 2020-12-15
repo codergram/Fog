@@ -13,11 +13,6 @@ import domain.partslist.Part;
 import domain.partslist.Partslist;
 
 public class Carport {
-  public enum Roof {
-    Flat,
-    Peak
-  }
-
   private final int id;
   private final double length;
   private final double width;
@@ -25,7 +20,6 @@ public class Carport {
   private final Shed shed;
   private double price;
   private Partslist partslist;
-
   public Carport(
       int id, double length, double width, Enum<Roof> roofType, Shed shed, Partslist partslist) {
     this.id = id;
@@ -129,14 +123,26 @@ public class Carport {
 
   @Override
   public String toString() {
-    return "Carport{" +
-        "id=" + id +
-        ", length=" + length +
-        ", width=" + width +
-        ", roofType=" + roofType +
-        ", shed=" + shed +
-        ", price=" + price +
-        ", partslist=" + partslist +
-        '}';
+    return "Carport{"
+        + "id="
+        + id
+        + ", length="
+        + length
+        + ", width="
+        + width
+        + ", roofType="
+        + roofType
+        + ", shed="
+        + shed
+        + ", price="
+        + price
+        + ", partslist="
+        + partslist
+        + '}';
+  }
+
+  public enum Roof {
+    Flat,
+    Peak
   }
 }

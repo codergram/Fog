@@ -10,18 +10,8 @@ package domain.material;
 
 public class Tree extends Material {
 
-  public enum Type {
-    Poles,
-    Boards,
-    Laths,
-    Rules,
-    Rafts,
-    Roofing
-  }
-
-  private double length;
   private final Enum<Type> type;
-
+  private double length;
   public Tree(
       int id,
       String name,
@@ -54,16 +44,16 @@ public class Tree extends Material {
     return length;
   }
 
+  public void setLength(double length) {
+    this.length = length;
+  }
+
   public Enum<Type> getType() {
     return type;
   }
 
   public String getLengthString() {
     return String.format("%.0f mm", length);
-  }
-
-  public void setLength(double length) {
-    this.length = length;
   }
 
   @Override
@@ -114,5 +104,14 @@ public class Tree extends Material {
   @Override
   public String typeName() {
     return this.getClass().getSimpleName();
+  }
+
+  public enum Type {
+    Poles,
+    Boards,
+    Laths,
+    Rules,
+    Rafts,
+    Roofing
   }
 }
