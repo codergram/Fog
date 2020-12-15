@@ -23,8 +23,8 @@ import java.util.List;
 import org.slf4j.Logger;
 
 public class DBCustomer implements CustomerRepository {
-  private final Database database;
   private static final Logger log = getLogger(DBCustomer.class);
+  private final Database database;
 
   public DBCustomer(Database database) {
     this.database = database;
