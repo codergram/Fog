@@ -8,6 +8,8 @@
 
 package infrastructure;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -19,6 +21,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import org.apache.ibatis.jdbc.ScriptRunner;
+import org.slf4j.Logger;
 
 public class Database {
   private final String url;
@@ -27,6 +30,7 @@ public class Database {
 
   // Database version
   private static final int version = 2;
+  private static final Logger log = getLogger(Database.class);
 
   public Database(String url, String user, String psw) {
     this.url =
@@ -48,38 +52,38 @@ public class Database {
     try {
       int currentVersion = getCurrentVersion();
       while (currentVersion < version) {
-        System.out.printf(
-            "Current DB version %d is smaller than expected %d%n", currentVersion, version);
+        log.warn("Current DB version {} is smaller than expected {}", currentVersion, version);
         runMigration(currentVersion + 1);
         int newVersion = getCurrentVersion();
         if (newVersion > currentVersion) {
           currentVersion = newVersion;
-          System.out.println("Updated database to version: " + newVersion);
+          log.info("Updated database to version {}", newVersion);
         } else {
-          throw new RuntimeException("Something went wrong, version not increased: " + newVersion);
+          log.error("Something went wrong, version not increased to {} ", newVersion);
         }
       }
     } catch (SQLException | IOException e) {
-      throw new RuntimeException(e);
+      log.error(e.getMessage());
     }
   }
 
   private void runMigration(int i) throws IOException, SQLException {
     String migrationFile = String.format("migrate/%d.sql", i);
-    System.out.println("Running migration: " + migrationFile);
+    log.info("Running migration: {}", migrationFile);
     InputStream stream = Database.class.getClassLoader().getResourceAsStream(migrationFile);
     if (stream == null) {
-      System.out.println("Migration file, does not exist: " + migrationFile);
+      log.error("Migration file does not exist: {}", migrationFile);
       throw new FileNotFoundException(migrationFile);
     }
     try (Connection conn = getConnection()) {
       conn.setAutoCommit(false);
       ScriptRunner runner = new ScriptRunner(conn);
+      runner.setLogWriter(null);
       runner.setStopOnError(true);
       runner.runScript(new BufferedReader(new InputStreamReader(stream)));
       conn.commit();
     }
-    System.out.println("Done running migration");
+    log.info("Migration script completed");
   }
 
   public int getCurrentVersion() {
@@ -93,7 +97,7 @@ public class Database {
         }
       }
     } catch (SQLException e) {
-      System.err.println(e.getMessage());
+      log.error(e.getMessage());
     }
     return -1;
   }
