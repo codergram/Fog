@@ -36,8 +36,8 @@ import java.util.UUID;
 import org.slf4j.Logger;
 
 public class DBOrder implements OrderRepository {
-  private final Database database;
   private static final Logger log = getLogger(DBOrder.class);
+  private final Database database;
 
   public DBOrder(Database database) {
     this.database = database;

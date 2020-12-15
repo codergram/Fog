@@ -9,60 +9,6 @@
 package domain.material;
 
 public abstract class Material {
-  public enum Unit {
-    Stk,
-    Pk,
-    Rulle,
-    Sæt
-  }
-
-  public enum Usage {
-    // Flat roof
-    UnderStarFronBack,
-    UnderStarSide,
-    OverStarFronBack,
-    OverStarSide,
-    Door,
-    ShedGables,
-    ShedSide,
-    Straps,
-    ShedStraps,
-    Roof,
-    CustomRoof,
-    Foundation,
-    ShedCladding,
-    WaterStarSide,
-    WaterStartEnd,
-    RoffingSmall,
-    RoffingBig,
-    FoffingSmall,
-    Windshield,
-    StarSide,
-    ShedStarSide,
-    GablesCladding,
-    WindshieldsBoard,
-    WindshieldsGavel,
-    Crossings,
-    RaftersRight,
-    RaftersLeft,
-    StarWaterBoard,
-    UniversalFittings,
-    Pole,
-    InnerCladding,
-    InnerCladding300,
-    InnerCladding350,
-    OuterCladding,
-    OuterCladding200,
-    OuterCladding400,
-    Shed,
-    RoofBattens,
-    TopLath,
-    Rafters,
-    BackStone,
-    RoofTiles,
-    Star,
-    TopLayer
-  }
 
   protected final int id;
   protected final String name;
@@ -116,8 +62,12 @@ public abstract class Material {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
 
     Material material = (Material) o;
 
@@ -127,5 +77,60 @@ public abstract class Material {
   @Override
   public int hashCode() {
     return name != null ? name.hashCode() : 0;
+  }
+
+  public enum Unit {
+    Stk,
+    Pk,
+    Rulle,
+    Sæt
+  }
+
+  public enum Usage {
+    // Flat roof
+    UnderStarFronBack,
+    UnderStarSide,
+    OverStarFronBack,
+    OverStarSide,
+    Door,
+    ShedGables,
+    ShedSide,
+    Straps,
+    ShedStraps,
+    Roof,
+    CustomRoof,
+    Foundation,
+    ShedCladding,
+    WaterStarSide,
+    WaterStartEnd,
+    RoffingSmall,
+    RoffingBig,
+    FoffingSmall,
+    Windshield,
+    StarSide,
+    ShedStarSide,
+    GablesCladding,
+    WindshieldsBoard,
+    WindshieldsGavel,
+    Crossings,
+    RaftersRight,
+    RaftersLeft,
+    StarWaterBoard,
+    UniversalFittings,
+    Pole,
+    InnerCladding,
+    InnerCladding300,
+    InnerCladding350,
+    OuterCladding,
+    OuterCladding200,
+    OuterCladding400,
+    Shed,
+    RoofBattens,
+    TopLath,
+    Rafters,
+    BackStone,
+    RoofTiles,
+    Star,
+    TopLayer
   }
 }

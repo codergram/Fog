@@ -24,13 +24,13 @@ import org.apache.ibatis.jdbc.ScriptRunner;
 import org.slf4j.Logger;
 
 public class Database {
-  private final String url;
-  private final String user;
-  private final String password;
 
   // Database version
   private static final int version = 2;
   private static final Logger log = getLogger(Database.class);
+  private final String url;
+  private final String user;
+  private final String password;
 
   public Database(String url, String user, String psw) {
     this.url =
@@ -46,6 +46,10 @@ public class Database {
 
   public Database() {
     this(null, null, null);
+  }
+
+  public static int getVersion() {
+    return version;
   }
 
   public void runMigrations() {
@@ -104,9 +108,5 @@ public class Database {
 
   public Connection getConnection() throws SQLException {
     return DriverManager.getConnection(url, user, password);
-  }
-
-  public static int getVersion() {
-    return version;
   }
 }
