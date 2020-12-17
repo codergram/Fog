@@ -13,10 +13,11 @@
 
 <c:set var="order" value="${requestScope.order}"/>
 
-<c:set var="req" value="${pageContext.request}" />
-<c:set var="baseURL" value="${fn:replace(req.requestURL, fn:substring(req.requestURI, 0, fn:length(req.requestURI)), req.contextPath)}" />
-<c:set var="customURL" value="${baseURL}/ViewOrder/${order.uuid}" />
-<c:set var="downloadURL" value="${baseURL}/GetPDF/${order.uuid}" />
+<c:set var="req" value="${pageContext.request}"/>
+<c:set var="url"
+       value="${req.requestURL.substring(0,req.requestURL.indexOf(req.serverName))}${requestScope.domainname}${req.contextPath}"/>
+<c:set var="customURL" value="${url}/ViewOrder/${order.uuid}"/>
+<c:set var="downloadURL" value="${url}/GetPDF/${order.uuid}"/>
 
 <br>
 <h2 class="mt-4 mb-4 text-center">Order ${order.id}</h2>
@@ -24,9 +25,10 @@
     <div class="input-group mb-6">
         <input type="hidden" name="action" value="sendLink">
         <input type="hidden" name="redirect" value="viewOrder">
-        <input type="hidden" name="ordrenummer" value="${order.id}" />
-        <input type="hidden" name="ordreurl" value="${customURL}" />
-        <input type="text" name="link" class="form-control text-center" aria-label="link" value="${customURL}" aria-describedby="button-link" readonly>
+        <input type="hidden" name="ordrenummer" value="${order.id}"/>
+        <input type="hidden" name="ordreurl" value="${customURL}"/>
+        <input type="text" name="link" class="form-control text-center" aria-label="link"
+               value="${customURL}" aria-describedby="button-link" readonly>
         <div class="input-group-append">
             <button class="btn btn-success" type="button" id="button-link" onclick="this.form.submit()">Send link til kunde</button>
         </div>

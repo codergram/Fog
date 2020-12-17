@@ -2,7 +2,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@page pageEncoding="UTF-8"%>
+<%@page pageEncoding="UTF-8" %>
 <%--
   ~ Copyright (c) 2020. Team CoderGram
   ~
@@ -11,18 +11,26 @@
   ~ @author Jacob Lange Nielsen (cph-jn352@cphbusiness.dk)
   --%>
 
-<c:set var="req" value="${pageContext.request}" />
-<c:set var="baseURL" value="${fn:replace(req.requestURL, fn:substring(req.requestURI, 0, fn:length(req.requestURI)), req.contextPath)}" />
-<c:set var="customURL" value="${baseURL}/ViewOrder/" />
+<c:set var="req" value="${pageContext.request}"/>
+<c:set var="url"
+       value="${req.requestURL.substring(0,req.requestURL.indexOf(req.localName))}${requestScope.domainname}${req.contextPath}"/>
+<c:set var="customURL" value="${url}/ViewOrder/"/>
+
 <div class="row">
     <div class="col-md-12">
         <h2 class="mt-6 mb-6 text-center">Tegning af din helt egen carport herunder</h2>
         <br>
         <div class="row">
             <p>
-                <div class="col-md-12 text-center">
-                    <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#sideDrawing" aria-expanded="false" aria-controls="sideDrawing">Se tegning fra siden</button>
-                    <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#topDrawing" aria-expanded="false" aria-controls="topDrawing">Se tegning fra toppen</button>
+            <div class="col-md-12 text-center">
+                <button class="btn btn-outline-primary" type="button" data-toggle="collapse"
+                        data-target="#sideDrawing" aria-expanded="false"
+                        aria-controls="sideDrawing">Se tegning fra siden
+                </button>
+                <button class="btn btn-outline-primary" type="button" data-toggle="collapse"
+                        data-target="#topDrawing" aria-expanded="false" aria-controls="topDrawing">
+                    Se tegning fra toppen
+                </button>
                     <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="sideDrawing topDrawing">Se begge</button>
                 </div>
             </p>
