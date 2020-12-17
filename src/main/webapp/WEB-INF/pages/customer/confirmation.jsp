@@ -13,7 +13,7 @@
 
 <c:set var="req" value="${pageContext.request}"/>
 <c:set var="url"
-       value="${req.requestURL.substring(0,req.requestURL.indexOf(req.localName))}${requestScope.domainname}${req.contextPath}"/>
+       value="${req.requestURL.substring(0,req.requestURL.indexOf(req.serverName))}${requestScope.domainname}${req.contextPath}"/>
 <c:set var="customURL" value="${url}/ViewOrder/"/>
 
 <div class="row">
