@@ -183,36 +183,41 @@
 </div>
 <br><br><br>
 <div class="row">
-    <table id="example" name="stykliste" class="table table-striped table-bordered" style="width:100%">
-        <thead>
-        <th>Materiale</th>
-        <th>Længde</th>
-        <th>Antal</th>
-        <th>Enhed</th>
-        <th>Beskrivelse</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${requestScope.carport.partslist.partList}" var="part" varStatus="vs">
-        <tr>
-            <td>
-               ${part.material.name}
-            </td>
-            <td>
-                <c:if test ="${part.material.getClass().name == 'Tree'}">
-                ${part.material.length}
-                </c:if>
-            </td>
-            <td>
-                ${part.amount}
-            </td>
-            <td>
-               ${part.material.unitString}
-            </td>
-            <td>
-                ${part.description}
-            </td>
-        </tr>
-        </c:forEach>
-    </table>
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <table id="example" name="stykliste" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+            <th>Materiale</th>
+            <th>Længde</th>
+            <th>Antal</th>
+            <th>Enhed</th>
+            <th>Beskrivelse</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${requestScope.carport.partslist.partList}" var="part" varStatus="vs">
+            <tr>
+                <td>
+                        ${part.material.name}
+                </td>
+                <td>
+                    <c:if test ="${part.material.getClass().name == 'Tree'}">
+                        ${part.material.length}
+                    </c:if>
+                </td>
+                <td>
+                        ${part.amount}
+                </td>
+                <td>
+                        ${part.material.unitString}
+                </td>
+                <td>
+                        ${part.description}
+                </td>
+            </tr>
+            </c:forEach>
+        </table>
+    </div>
+    <div class="col-md-1"></div>
+
 </div>
