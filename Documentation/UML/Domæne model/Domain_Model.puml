@@ -18,6 +18,7 @@ class Carport {
 
 object Skur {
     position
+    størrelse
 }
 
 class Kunde {
