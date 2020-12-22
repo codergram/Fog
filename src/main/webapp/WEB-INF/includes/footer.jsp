@@ -12,5 +12,5 @@
 </br>
 </br>
 <footer class="mb-10 mt-4" style="border-top: 1px solid #d9d9d9;">
-    <p>Production of: CodeGram</p>
+    <p>Production of: CoderGram</p>
 </footer>
