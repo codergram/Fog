@@ -66,10 +66,7 @@ public class BaseServlet extends HttpServlet {
     request.setAttribute("title", Api.genericSiteTitle + " - " + title);
     request.setAttribute("content", content);
     request.setAttribute("navbar", new Navbar(request));
-    request.setAttribute("domainname", "localhost:8080"); //For development
-
-    //For deployment
-    //request.setAttribute("domainname", "codergram.me");
+    request.setAttribute("domainname", Api.domain);
 
     request.getRequestDispatcher("/WEB-INF/includes/base.jsp").forward(request, response);
   }

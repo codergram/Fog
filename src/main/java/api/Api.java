@@ -41,7 +41,14 @@ import org.slf4j.Logger;
 public class Api {
 
   public static final String genericSiteTitle = "Fog Trælast";
-  /** Set the minimum margin allowed for sales */
+
+  /**
+   * DEV = localhost:8080 PROD = codergram.me
+   */
+  public static final String domain = "localhost:8080";
+  /**
+   * Set the minimum margin allowed for sales
+   */
   public static final double requiredMargin = 15.0;
 
   private static final Logger log = getLogger(Api.class);
