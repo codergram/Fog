@@ -176,7 +176,7 @@ class IntergrationTest {
   @DisplayName("Userstory 3, 4, 7")
   @Description(
       "Som sælger skal det være tydeligt når en ny forespørgsel er kommet, så sælgerne ikke overser nye forespørgsler.%n"
-          + "Som sælger skal man kunne ændre i prisen på et tilbud, så sælger måske alligevel kan få et salg igennem, når en kunde er tøvende.%n"
+          + "Som sælger skal man kunne ændre dækningsgraden på et tilbud, så sælger måske alligevel kan få et salg igennem, når en kunde er tøvende.%n"
           + "Som sælger skal det være muligt at redigere i salgsprisen, så sælgeren bedre kan matche kundens købspris og derved gennemføre et salg")
   void us3_4_7() {
     double length = 600;
