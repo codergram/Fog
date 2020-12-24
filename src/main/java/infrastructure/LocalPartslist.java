@@ -96,7 +96,7 @@ public class LocalPartslist implements PartslistServices {
       localPartlist.add(calculatePolesFoundation(carport));
       localPartlist.add(calculateRaftsStrapsPeak(carport));
       localPartlist.add(calculateBoardsWindshieldsBoard(carport));
-      localPartlist.add(calculateBoardsWindshieldsGavel(carport));
+      localPartlist.add(calculateBoardsWindshieldsGavel(carport)); //Denne
       localPartlist.add(calculateBoardsRoofBattens(carport));
       localPartlist.add(calculateLathsRoof(carport));
       localPartlist.add(calculateLathsTopLath(carport));
@@ -479,10 +479,8 @@ public class LocalPartslist implements PartslistServices {
   private Part calculateBoardsWindshieldsGavel(Carport carport) {
     Material material = null;
 
-    System.out.println("Shed: " + carport.getShed().toString());
-
     int amount = (int) Math.floor(carport.getLength() / 19);
-    double length = carport.getShed().getLength() + 15.0;
+    double length = carport.getWidth()/6 + 60.0;
     String des = "beklædning af gavle 1 på 2";
 
     for (Tree t : treeMaterials) {
