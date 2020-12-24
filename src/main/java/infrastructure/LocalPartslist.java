@@ -96,7 +96,7 @@ public class LocalPartslist implements PartslistServices {
       localPartlist.add(calculatePolesFoundation(carport));
       localPartlist.add(calculateRaftsStrapsPeak(carport));
       localPartlist.add(calculateBoardsWindshieldsBoard(carport));
-      localPartlist.add(calculateBoardsWindshieldsGavel(carport)); //Denne
+      localPartlist.add(calculateBoardsWindshieldsGavel(carport));
       localPartlist.add(calculateBoardsRoofBattens(carport));
       localPartlist.add(calculateLathsRoof(carport));
       localPartlist.add(calculateLathsTopLath(carport));
