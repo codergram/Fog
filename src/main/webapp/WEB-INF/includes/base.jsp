@@ -47,6 +47,7 @@
 <script type="text/javascript" class="init">
     $(document).ready(function () {
         $('#example').DataTable({
+          "order": [[ 0, "desc" ]],
             "columnDefs": [{
                 "targets": 'no-sort',
                 "orderable": false,
