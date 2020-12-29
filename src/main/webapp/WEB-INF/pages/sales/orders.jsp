@@ -15,7 +15,7 @@
 <br>
 <br>
 <br/> <br/>
-<table id="example" name="example" class="table table-striped table-bordered" style="width:100%">
+<table id="example1" name="example1" class="table table-striped table-bordered" style="width:100%">
     <thead>
     <th>Ordrenummer</th>
     <th>Dato</th>
