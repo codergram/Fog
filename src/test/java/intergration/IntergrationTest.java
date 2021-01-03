@@ -269,7 +269,7 @@ class IntergrationTest {
     assertTrue(svgTop.startsWith(expectedResult1));
 
     // Get carport price
-    assertEquals(13241.5975, carport.getPrice());
+    assertEquals(12800.3125, carport.getPrice());
 
     Customer customer = new Customer(1, "testCustoemr", "", 0, "", 0, "test@testCustomer.dk");
 
@@ -300,7 +300,8 @@ class IntergrationTest {
       // Change price
       api.updatePrice(order.getId(), 16000);
       order = api.getOrderById(order.getId());
-      assertEquals(15999.82528, order.getCarport().getPrice() * (order.getMargin() / 100 + 1));
+      assertEquals(16000.387499999999,
+          order.getCarport().getPrice() * (order.getMargin() / 100 + 1));
       log.info("Order price changed");
 
       // Release
