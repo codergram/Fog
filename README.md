@@ -21,9 +21,10 @@
 * [Github](https://github.com/Langeeee)
 * [LinkedIn](https://linkedin.com/in/jacob-lange-nielsen-28219b1a8)
 
-👤 **Sigurd Arik Twena Nielsen**
+👤 **Sigurd Arik Gaarde Nielsen**
 
 * [Github](https://github.com/ariktwena)
+* [LinkedIn](https://www.linkedin.com/in/arik-gaarde-nielsen-3a54255/)
 
 ## 🤝 Contributing
 
